@@ -1,0 +1,50 @@
+;; The counting model!
+
+(add-dm
+ (cf4 isa number id four next five)
+ (cf3 isa number id three next four)
+ (cf2 isa number id two next three)
+ (cf1 isa number id one next two)
+ (cf0 isa number id zero next one)
+ (count isa count-goal start two end four)
+)
+
+(p start-count
+  =goal>
+    isa count-goal
+    start =num
+    count nil
+==>
+  +retrieval>
+    isa number
+    id =num
+  =goal>
+    count =num)
+
+(p iterate
+  =goal>
+    isa count-goal
+    count =num
+    - end =num
+   =retrieval>
+    isa number
+    next =newnum
+==>
+   +retrieval>
+    isa number
+    id =newnum
+  =goal>
+    count =newnum
+)
+
+(p finish
+  =goal>
+    isa count-goal
+    count =num
+    end =num
+==>
+  =goal>
+    isa done
+)
+
+(goal-focus count)

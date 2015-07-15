@@ -1,0 +1,516 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B82868D11AD45B4E00964ACC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868D01AD45B4E00964ACC /* AppDelegate.swift */; };
+		B82868DB1AD45B4E00964ACC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B82868D91AD45B4E00964ACC /* LaunchScreen.xib */; };
+		B82868E71AD45B4E00964ACC /* Prisoner_s_DilemmaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868E61AD45B4E00964ACC /* Prisoner_s_DilemmaTests.swift */; };
+		B82869081AD45BC800964ACC /* test.actr in Resources */ = {isa = PBXBuildFile; fileRef = B82868F01AD45BC800964ACC /* test.actr */; };
+		B82869091AD45BC800964ACC /* count.actr in Resources */ = {isa = PBXBuildFile; fileRef = B82868F11AD45BC800964ACC /* count.actr */; };
+		B828690A1AD45BC800964ACC /* prisoner.actr in Resources */ = {isa = PBXBuildFile; fileRef = B82868F21AD45BC800964ACC /* prisoner.actr */; };
+		B828690B1AD45BC800964ACC /* prisoner2.actr in Resources */ = {isa = PBXBuildFile; fileRef = B82868F31AD45BC800964ACC /* prisoner2.actr */; };
+		B828690C1AD45BC800964ACC /* Chunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868F41AD45BC800964ACC /* Chunk.swift */; };
+		B828690D1AD45BC800964ACC /* Production.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868F51AD45BC800964ACC /* Production.swift */; };
+		B828690E1AD45BC800964ACC /* Procedural.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868F61AD45BC800964ACC /* Procedural.swift */; };
+		B828690F1AD45BC800964ACC /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868F71AD45BC800964ACC /* Parser.swift */; };
+		B82869101AD45BC800964ACC /* Declarative.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868F81AD45BC800964ACC /* Declarative.swift */; };
+		B82869111AD45BC800964ACC /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868F91AD45BC800964ACC /* Module.swift */; };
+		B82869121AD45BC800964ACC /* Support.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868FA1AD45BC800964ACC /* Support.swift */; };
+		B82869131AD45BC800964ACC /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868FB1AD45BC800964ACC /* Model.swift */; };
+		B82869141AD45BC800964ACC /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868FC1AD45BC800964ACC /* Tokenizer.swift */; };
+		B82869151AD45BC800964ACC /* Instantiation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868FD1AD45BC800964ACC /* Instantiation.swift */; };
+		B82869161AD45BC800964ACC /* SlotCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868FE1AD45BC800964ACC /* SlotCondition.swift */; };
+		B82869171AD45BC800964ACC /* BufferCondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868FF1AD45BC800964ACC /* BufferCondition.swift */; };
+		B82869181AD45BC800964ACC /* SlotAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82869001AD45BC800964ACC /* SlotAction.swift */; };
+		B82869191AD45BC800964ACC /* BufferAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82869011AD45BC800964ACC /* BufferAction.swift */; };
+		B828691A1AD45BC800964ACC /* ModelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82869021AD45BC800964ACC /* ModelViewController.swift */; };
+		B828691B1AD45BC800964ACC /* PDViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82869031AD45BC800964ACC /* PDViewController.swift */; };
+		B828691D1AD45BC800964ACC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82869051AD45BC800964ACC /* MainViewController.swift */; };
+		B828691E1AD45BC800964ACC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B82869061AD45BC800964ACC /* Main.storyboard */; };
+		B828691F1AD45BC800964ACC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B82869071AD45BC800964ACC /* Images.xcassets */; };
+		B8E38EBB1B56E29700F82A3D /* DMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82869041AD45BC800964ACC /* DMViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B82868E11AD45B4E00964ACC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B82868C31AD45B4E00964ACC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B82868CA1AD45B4E00964ACC;
+			remoteInfo = "Prisoner's Dilemma";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B82868CB1AD45B4E00964ACC /* Prisoner's Dilemma.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Prisoner's Dilemma.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B82868CF1AD45B4E00964ACC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B82868D01AD45B4E00964ACC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B82868DA1AD45B4E00964ACC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		B82868E01AD45B4E00964ACC /* Prisoner's DilemmaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Prisoner's DilemmaTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B82868E51AD45B4E00964ACC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B82868E61AD45B4E00964ACC /* Prisoner_s_DilemmaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prisoner_s_DilemmaTests.swift; sourceTree = "<group>"; };
+		B82868F01AD45BC800964ACC /* test.actr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.actr; sourceTree = "<group>"; };
+		B82868F11AD45BC800964ACC /* count.actr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = count.actr; sourceTree = "<group>"; };
+		B82868F21AD45BC800964ACC /* prisoner.actr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = prisoner.actr; sourceTree = "<group>"; };
+		B82868F31AD45BC800964ACC /* prisoner2.actr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = prisoner2.actr; sourceTree = "<group>"; };
+		B82868F41AD45BC800964ACC /* Chunk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chunk.swift; sourceTree = "<group>"; };
+		B82868F51AD45BC800964ACC /* Production.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Production.swift; sourceTree = "<group>"; };
+		B82868F61AD45BC800964ACC /* Procedural.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Procedural.swift; sourceTree = "<group>"; };
+		B82868F71AD45BC800964ACC /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		B82868F81AD45BC800964ACC /* Declarative.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Declarative.swift; sourceTree = "<group>"; };
+		B82868F91AD45BC800964ACC /* Module.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
+		B82868FA1AD45BC800964ACC /* Support.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Support.swift; sourceTree = "<group>"; };
+		B82868FB1AD45BC800964ACC /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		B82868FC1AD45BC800964ACC /* Tokenizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tokenizer.swift; sourceTree = "<group>"; };
+		B82868FD1AD45BC800964ACC /* Instantiation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instantiation.swift; sourceTree = "<group>"; };
+		B82868FE1AD45BC800964ACC /* SlotCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlotCondition.swift; sourceTree = "<group>"; };
+		B82868FF1AD45BC800964ACC /* BufferCondition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BufferCondition.swift; sourceTree = "<group>"; };
+		B82869001AD45BC800964ACC /* SlotAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlotAction.swift; sourceTree = "<group>"; };
+		B82869011AD45BC800964ACC /* BufferAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BufferAction.swift; sourceTree = "<group>"; };
+		B82869021AD45BC800964ACC /* ModelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelViewController.swift; sourceTree = "<group>"; };
+		B82869031AD45BC800964ACC /* PDViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PDViewController.swift; sourceTree = "<group>"; };
+		B82869041AD45BC800964ACC /* DMViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DMViewController.swift; sourceTree = "<group>"; };
+		B82869051AD45BC800964ACC /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		B82869061AD45BC800964ACC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B82869071AD45BC800964ACC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B82868C81AD45B4E00964ACC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B82868DD1AD45B4E00964ACC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B82868C21AD45B4E00964ACC = {
+			isa = PBXGroup;
+			children = (
+				B82868CD1AD45B4E00964ACC /* Prisoner's Dilemma */,
+				B82868E31AD45B4E00964ACC /* Prisoner's DilemmaTests */,
+				B82868CC1AD45B4E00964ACC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B82868CC1AD45B4E00964ACC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B82868CB1AD45B4E00964ACC /* Prisoner's Dilemma.app */,
+				B82868E01AD45B4E00964ACC /* Prisoner's DilemmaTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B82868CD1AD45B4E00964ACC /* Prisoner's Dilemma */ = {
+			isa = PBXGroup;
+			children = (
+				B8E38EBD1B56E3B500F82A3D /* Models */,
+				B8E38EBC1B56E39C00F82A3D /* Core ACT-R */,
+				B82869021AD45BC800964ACC /* ModelViewController.swift */,
+				B82869031AD45BC800964ACC /* PDViewController.swift */,
+				B82869041AD45BC800964ACC /* DMViewController.swift */,
+				B82869051AD45BC800964ACC /* MainViewController.swift */,
+				B82869061AD45BC800964ACC /* Main.storyboard */,
+				B82869071AD45BC800964ACC /* Images.xcassets */,
+				B82868D01AD45B4E00964ACC /* AppDelegate.swift */,
+				B82868D91AD45B4E00964ACC /* LaunchScreen.xib */,
+				B82868CE1AD45B4E00964ACC /* Supporting Files */,
+			);
+			path = "Prisoner's Dilemma";
+			sourceTree = "<group>";
+		};
+		B82868CE1AD45B4E00964ACC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B82868CF1AD45B4E00964ACC /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B82868E31AD45B4E00964ACC /* Prisoner's DilemmaTests */ = {
+			isa = PBXGroup;
+			children = (
+				B82868E61AD45B4E00964ACC /* Prisoner_s_DilemmaTests.swift */,
+				B82868E41AD45B4E00964ACC /* Supporting Files */,
+			);
+			path = "Prisoner's DilemmaTests";
+			sourceTree = "<group>";
+		};
+		B82868E41AD45B4E00964ACC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B82868E51AD45B4E00964ACC /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B8E38EBC1B56E39C00F82A3D /* Core ACT-R */ = {
+			isa = PBXGroup;
+			children = (
+				B82868F41AD45BC800964ACC /* Chunk.swift */,
+				B82868F51AD45BC800964ACC /* Production.swift */,
+				B82868F61AD45BC800964ACC /* Procedural.swift */,
+				B82868F71AD45BC800964ACC /* Parser.swift */,
+				B82868F81AD45BC800964ACC /* Declarative.swift */,
+				B82868F91AD45BC800964ACC /* Module.swift */,
+				B82868FA1AD45BC800964ACC /* Support.swift */,
+				B82868FB1AD45BC800964ACC /* Model.swift */,
+				B82868FC1AD45BC800964ACC /* Tokenizer.swift */,
+				B82868FD1AD45BC800964ACC /* Instantiation.swift */,
+				B82868FE1AD45BC800964ACC /* SlotCondition.swift */,
+				B82868FF1AD45BC800964ACC /* BufferCondition.swift */,
+				B82869001AD45BC800964ACC /* SlotAction.swift */,
+				B82869011AD45BC800964ACC /* BufferAction.swift */,
+			);
+			name = "Core ACT-R";
+			sourceTree = "<group>";
+		};
+		B8E38EBD1B56E3B500F82A3D /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B82868F01AD45BC800964ACC /* test.actr */,
+				B82868F11AD45BC800964ACC /* count.actr */,
+				B82868F21AD45BC800964ACC /* prisoner.actr */,
+				B82868F31AD45BC800964ACC /* prisoner2.actr */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B82868CA1AD45B4E00964ACC /* Prisoner's Dilemma */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B82868EA1AD45B4E00964ACC /* Build configuration list for PBXNativeTarget "Prisoner's Dilemma" */;
+			buildPhases = (
+				B82868C71AD45B4E00964ACC /* Sources */,
+				B82868C81AD45B4E00964ACC /* Frameworks */,
+				B82868C91AD45B4E00964ACC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Prisoner's Dilemma";
+			productName = "Prisoner's Dilemma";
+			productReference = B82868CB1AD45B4E00964ACC /* Prisoner's Dilemma.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B82868DF1AD45B4E00964ACC /* Prisoner's DilemmaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B82868ED1AD45B4E00964ACC /* Build configuration list for PBXNativeTarget "Prisoner's DilemmaTests" */;
+			buildPhases = (
+				B82868DC1AD45B4E00964ACC /* Sources */,
+				B82868DD1AD45B4E00964ACC /* Frameworks */,
+				B82868DE1AD45B4E00964ACC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B82868E21AD45B4E00964ACC /* PBXTargetDependency */,
+			);
+			name = "Prisoner's DilemmaTests";
+			productName = "Prisoner's DilemmaTests";
+			productReference = B82868E01AD45B4E00964ACC /* Prisoner's DilemmaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B82868C31AD45B4E00964ACC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0620;
+				ORGANIZATIONNAME = "Niels Taatgen";
+				TargetAttributes = {
+					B82868CA1AD45B4E00964ACC = {
+						CreatedOnToolsVersion = 6.2;
+					};
+					B82868DF1AD45B4E00964ACC = {
+						CreatedOnToolsVersion = 6.2;
+						TestTargetID = B82868CA1AD45B4E00964ACC;
+					};
+				};
+			};
+			buildConfigurationList = B82868C61AD45B4E00964ACC /* Build configuration list for PBXProject "Prisoner's Dilemma" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = B82868C21AD45B4E00964ACC;
+			productRefGroup = B82868CC1AD45B4E00964ACC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B82868CA1AD45B4E00964ACC /* Prisoner's Dilemma */,
+				B82868DF1AD45B4E00964ACC /* Prisoner's DilemmaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B82868C91AD45B4E00964ACC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B82869091AD45BC800964ACC /* count.actr in Resources */,
+				B828690B1AD45BC800964ACC /* prisoner2.actr in Resources */,
+				B828691F1AD45BC800964ACC /* Images.xcassets in Resources */,
+				B82868DB1AD45B4E00964ACC /* LaunchScreen.xib in Resources */,
+				B828691E1AD45BC800964ACC /* Main.storyboard in Resources */,
+				B82869081AD45BC800964ACC /* test.actr in Resources */,
+				B828690A1AD45BC800964ACC /* prisoner.actr in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B82868DE1AD45B4E00964ACC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B82868C71AD45B4E00964ACC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B82869131AD45BC800964ACC /* Model.swift in Sources */,
+				B82869181AD45BC800964ACC /* SlotAction.swift in Sources */,
+				B828691B1AD45BC800964ACC /* PDViewController.swift in Sources */,
+				B82869151AD45BC800964ACC /* Instantiation.swift in Sources */,
+				B82869171AD45BC800964ACC /* BufferCondition.swift in Sources */,
+				B828691D1AD45BC800964ACC /* MainViewController.swift in Sources */,
+				B828691A1AD45BC800964ACC /* ModelViewController.swift in Sources */,
+				B82869141AD45BC800964ACC /* Tokenizer.swift in Sources */,
+				B828690E1AD45BC800964ACC /* Procedural.swift in Sources */,
+				B82868D11AD45B4E00964ACC /* AppDelegate.swift in Sources */,
+				B82869101AD45BC800964ACC /* Declarative.swift in Sources */,
+				B828690F1AD45BC800964ACC /* Parser.swift in Sources */,
+				B82869161AD45BC800964ACC /* SlotCondition.swift in Sources */,
+				B82869111AD45BC800964ACC /* Module.swift in Sources */,
+				B8E38EBB1B56E29700F82A3D /* DMViewController.swift in Sources */,
+				B82869121AD45BC800964ACC /* Support.swift in Sources */,
+				B828690C1AD45BC800964ACC /* Chunk.swift in Sources */,
+				B828690D1AD45BC800964ACC /* Production.swift in Sources */,
+				B82869191AD45BC800964ACC /* BufferAction.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B82868DC1AD45B4E00964ACC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B82868E71AD45B4E00964ACC /* Prisoner_s_DilemmaTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B82868E21AD45B4E00964ACC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B82868CA1AD45B4E00964ACC /* Prisoner's Dilemma */;
+			targetProxy = B82868E11AD45B4E00964ACC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B82868D91AD45B4E00964ACC /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B82868DA1AD45B4E00964ACC /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B82868E81AD45B4E00964ACC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 2;
+			};
+			name = Debug;
+		};
+		B82868E91AD45B4E00964ACC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B82868EB1AD45B4E00964ACC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Prisoner's Dilemma/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		B82868EC1AD45B4E00964ACC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = "Prisoner's Dilemma/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		B82868EE1AD45B4E00964ACC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Prisoner's DilemmaTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Prisoner's Dilemma.app/Prisoner's Dilemma";
+			};
+			name = Debug;
+		};
+		B82868EF1AD45B4E00964ACC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Prisoner's DilemmaTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Prisoner's Dilemma.app/Prisoner's Dilemma";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B82868C61AD45B4E00964ACC /* Build configuration list for PBXProject "Prisoner's Dilemma" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B82868E81AD45B4E00964ACC /* Debug */,
+				B82868E91AD45B4E00964ACC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B82868EA1AD45B4E00964ACC /* Build configuration list for PBXNativeTarget "Prisoner's Dilemma" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B82868EB1AD45B4E00964ACC /* Debug */,
+				B82868EC1AD45B4E00964ACC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B82868ED1AD45B4E00964ACC /* Build configuration list for PBXNativeTarget "Prisoner's DilemmaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B82868EE1AD45B4E00964ACC /* Debug */,
+				B82868EF1AD45B4E00964ACC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B82868C31AD45B4E00964ACC /* Project object */;
+}

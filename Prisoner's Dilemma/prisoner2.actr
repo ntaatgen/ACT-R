@@ -1,0 +1,157 @@
+;;; Model of prisoner's dilemma
+;;;
+
+(add-dm
+    (goal isa decision state start)
+)
+
+(set-all-baselevels -100 10) ;; time offset and number of references
+
+(p start-defect
+    =goal>
+        isa decision
+        state start
+        model nil
+==>
+    =goal>
+        model defect
+)
+
+(p start-coop
+    =goal>
+        isa decision
+        state start
+        model nil
+        
+==>
+    =goal>
+        model coop
+)
+
+
+(p retrieve-sequence
+    =goal>
+        isa decision
+        model nil
+        player  nil
+        state go
+    =imaginal>
+        isa  sequence
+        model =model
+        player =player
+        next-move nil
+==>
+    =goal>
+        player retrieving
+    +retrieval>
+        isa  sequence
+        model =model
+        player =player
+        
+)
+
+(p select-move
+    =goal>
+        isa decision
+        player retrieving
+    =imaginal>
+        isa  sequence
+        model  =model
+        player  =player
+        next-move nil
+    =retrieval>
+        isa  sequence
+        model  =model
+        player  =player
+        next-move =move3
+==>
+    =goal>
+        model  =move3
+        player nil
+)
+
+
+(p move-retrieval-failure-A
+    =goal>
+        isa  decision
+        player retrieving
+    ?retrieval>
+        state  error
+==>
+    =goal>
+        model  defect
+        player nil
+)
+
+(p move-retrieval-failure-B
+    =goal>
+        isa  decision
+        state  retrieving
+    ?retrieval>
+        state  error
+==>
+    =goal>
+        model  coop
+        player nil
+)
+
+(p take-action
+    =goal>
+        isa decision
+        model =move
+        player nil
+==>
+    +action>
+        isa decision
+        model =move
+    =goal>
+        isa wait
+)
+
+
+(p feedback-start
+    =goal>
+        isa wait
+        state start
+    =action>
+        isa decision
+        model =model
+        player =player
+==>
+    +goal>
+        isa decision
+        state go
+    +imaginal>
+        isa sequence
+        model =model
+        player =player
+)
+
+
+(p feedback
+    =goal>
+        isa   wait
+    =action>
+        isa decision
+        model =model
+        player =player
+    =imaginal>
+        isa  sequence
+        model  =lastmodel
+        player  =lastplayer
+==>
+    +goal>
+        isa decision
+        state go
+    =imaginal>
+        next-move =player
+    +imaginal>
+        isa  sequence
+        model  =model
+        player  =player
+        
+)
+
+
+(goal-focus goal)
+

@@ -1,0 +1,48 @@
+(add-dm
+   (one isa number value 1)
+    (two isa number value 2)
+    (three isa number value 3)
+    (four isa number value 4)
+    (onePlusOne isa addition-fact addend1 one addend2 one sum two)
+    (onePlusTwo isa addition-fact addend1 one addend2 two sum three)
+    (count isa goal slot1 one slot2 two state start)
+)
+
+(p retrieve
+  =goal>
+    isa goal
+    slot1 =num1
+    slot2 =num2
+    state start
+==>
+  =goal>
+   state retrieving
+  +retrieval>
+   isa addition-fact
+   addend1 =num1
+   addend2 =num2
+)
+
+(p harvest
+  =goal>
+    isa goal
+    - state start
+    state retrieving
+  =retrieval>
+    isa addition-fact
+    sum =sum
+==>
+   =goal>
+      answer =sum)
+
+(p no-answer
+   =goal>
+      state retrieving
+      answer nil
+   ?retrieval>
+      state error
+==>
+    =goal>
+       answer none)
+
+(goal-focus count)

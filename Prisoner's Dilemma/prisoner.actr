@@ -1,0 +1,93 @@
+;;; Model of prisoner's dilemma
+;;;
+
+(add-dm
+   (coop-coop isa decision model coop player coop payoffA 1 payoffB 1)
+   (coop-defect isa decision model coop player defect payoffA -10 payoffB 10)
+   (defect-coop isa decision model defect player coop payoffA 10 payoffB -10)
+   (defect-defect isa decision model defect player defect payoffA -1 payoffB -1)
+   (goal isa goal state start)
+)
+
+(set-all-baselevels -100 10) ;; time offset and number of references
+
+(p retrieve-best-coop
+   =goal>
+     isa goal
+     state start
+     coop nil
+==>
+   =goal>
+     state retrieve-coop
+   +retrieval>
+     isa decision
+     model coop
+)
+
+(p store-coop-retrieve-defect
+   =goal>
+     isa goal
+     state retrieve-coop
+   =retrieval>
+     isa decision
+     payoffA =payoff
+==>
+   =goal>
+     coop  =payoff
+     state retrieve-defect
+   +retrieval>
+     isa decision
+     model defect
+)
+
+(p decide-coop
+   =goal>
+     isa goal
+     state retrieve-defect
+     coop =coop-payoff
+   =retrieval>
+     isa decision
+     > payoffA =coop-payoff
+==>
+   =goal>
+     state decide
+     decision coop
+   +action>
+     isa decision
+     model coop
+)
+
+(p decide-defect
+  =goal>
+    isa goal
+    state retrieve-defect
+    coop =coop-payoff
+  =retrieval>
+    isa decision
+  <= payoffA =coop-payoff
+==>
+  =goal>
+    state decide
+    decision defect
+  +action>
+    isa decision
+    model defect
+)
+
+(p restart-after-action
+  =goal>
+    isa goal
+    state decide
+  =action>
+    isa decision
+    payoffA =number
+==>
+  +goal>
+     isa goal
+     state start
+  -action>
+)
+
+
+(goal-focus goal)
+
