@@ -16,29 +16,29 @@ class MainViewController: UIViewController {
         let bundle = NSBundle.mainBundle()
         let path = bundle.pathForResource("prisoner2", ofType: "actr")!
         
-        let modelText = String(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: nil)!
-        println("Got model text")
+        let modelText = try! String(contentsOfFile: path, encoding: NSUTF8StringEncoding)
+        print("Got model text")
         //        println("\(modelText)")
         let parser = Parser(model: model, text: modelText)
         parser.parseModel()
         
         for (_,chunk) in model.dm.chunks {
-            println("\(chunk)")
+            print("\(chunk)")
         }
-        println()
+        print("")
         for (_,prod) in model.procedural.productions {
-            println("\(prod)")
+            print("\(prod)")
         }
 
         // Do any additional setup after loading the view.
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        println("PrepareForSegue called")
+        print("PrepareForSegue called")
         if let identifier = segue.identifier {
             switch identifier {
             case "viewModel":
-                println("Doing the segue")
+                print("Doing the segue")
                 if let vm = segue.destinationViewController as? ModelViewController {
                     vm.model = self.model
                 }

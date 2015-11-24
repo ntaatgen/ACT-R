@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Production: Printable {
+class Production: CustomStringConvertible {
     let name: String
     let model: Model
     var conditions: [BufferCondition] = []
@@ -46,7 +46,7 @@ class Production: Printable {
     }
     
     /**
-    :returns: If the production can be instantiated with the current buffers, otherwise nil
+    - returns: If the production can be instantiated with the current buffers, otherwise nil
     */
     func instantiate() -> Instantiation? {
         let utility = u + actrNoise(model.procedural.utilityNoise)
@@ -61,7 +61,7 @@ class Production: Printable {
     
     /**
     Function that executes all the production's actions
-    :param: inst The instantiation of the production
+    - parameter inst: The instantiation of the production
     */
     func fire(inst: Instantiation) {
         for bc in conditions {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BufferAction: Printable {
+class BufferAction: CustomStringConvertible {
     let model: Model
     let prefix: String
     let buffer: String
@@ -48,7 +48,7 @@ class BufferAction: Printable {
         switch prefix {
             case "+":
                 storeAndClear(inst)
-                let newChunk = model.generateNewChunk(s1: buffer)
+                let newChunk = model.generateNewChunk(buffer)
                 newChunk.isRequest = true
                 model.buffers[buffer] = newChunk
                 fallthrough
@@ -58,7 +58,7 @@ class BufferAction: Printable {
                     for slot in slotActions {
                         slot.fire(inst, bufferChunk: bufferChunk!)
                     }
-                } else { println("Buffer \(buffer) is empty") }
+                } else { print("Buffer \(buffer) is empty") }
             case "-":
                 storeAndClear(inst)
             default: break

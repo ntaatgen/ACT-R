@@ -26,7 +26,7 @@ class Model {
     var waitingForAction: Bool = false {
         didSet {
             if waitingForAction == true {
-            println("Posted Action notification")
+            print("Posted Action notification")
             NSNotificationCenter.defaultCenter().postNotificationName("Action", object: nil)
             }
         }
@@ -49,12 +49,12 @@ class Model {
     func run() {
         running = true
         while (true) {
-        let goalchunk = buffers["goal"]!
+//        let goalchunk = buffers["goal"]!
      //   addToTrace("Goal before production\n\(goalchunk)")
         var inst: Instantiation?
         for (_,p) in procedural.productions {
             if let result = p.instantiate() {
-                println("Matching \(result.p.name) with utility \(result.u)")
+                print("Matching \(result.p.name) with utility \(result.u)")
                 if inst == nil {
                     inst = result
                 } else if result.u > inst!.u {

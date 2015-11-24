@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SlotCondition: Printable {
+struct SlotCondition: CustomStringConvertible {
     let model: Model
     let slot: String
     let value: Value

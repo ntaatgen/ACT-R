@@ -28,7 +28,7 @@ func isVariable(v: Value) -> Bool {
 
 // Chunk values can be a symbol, a number or nil
 
-enum Value: Printable {
+enum Value: CustomStringConvertible {
     case Symbol(Chunk)
     case Number(Double)
     case Text(String)

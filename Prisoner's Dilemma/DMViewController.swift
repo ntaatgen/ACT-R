@@ -36,7 +36,7 @@ class DMViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
                 chunkList.append((chunk.name,chunkType,chunk.activation()))
             }
         }
-        chunkList = sorted(chunkList, compare)
+        chunkList = chunkList.sort(compare)
         // Do any additional setup after loading the view.
     }
 
@@ -59,7 +59,7 @@ class DMViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell : UITableViewCell = tableView.dequeueReusableCellWithIdentifier("chunk", forIndexPath: indexPath) as! UITableViewCell
+        let cell : UITableViewCell = tableView.dequeueReusableCellWithIdentifier("chunk", forIndexPath: indexPath) 
         let (label,type,act) = chunkList[indexPath.row]
         let activation = String(format:"%.2f", act)
         cell.textLabel?.text = label //  self.groupList[indexPath.row]

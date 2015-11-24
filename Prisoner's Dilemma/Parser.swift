@@ -22,23 +22,23 @@ init(model: Model, text: String) {
     func parseModel() {
         while (t.token != nil) {
             if t.token! != "(" {
-                println("( expected")
+                print("( expected")
                 return
             }
             t.nextToken()
             switch t.token! {
             case "add-dm":
-                    println("Add-dm")
+                    print("Add-dm")
                     t.nextToken()
                     var chunk: Chunk?
-                    do {
+                    repeat {
                         chunk = parseChunk(m.dm)
-                        println("Parsed \(chunk)")
+                        print("Parsed \(chunk)")
                         if chunk != nil {  m.dm.addToDM(chunk!)
                                 }
                     } while (chunk != nil && t.token != ")")
                     if t.token != ")" {
-                        println(") expected")
+                        print(") expected")
                         return
                     }
                 t.nextToken()
@@ -66,11 +66,11 @@ init(model: Model, text: String) {
                 }
                 t.nextToken()
                 if t.token != ")" {
-                    println(") expected")
+                    print(") expected")
                     return
                 }
                 t.nextToken()
-            default: println("Cannot yet handle \(t.token!)")
+            default: print("Cannot yet handle \(t.token!)")
                 return
             }
         }
@@ -78,7 +78,7 @@ init(model: Model, text: String) {
     
     private func parseChunk(dm: Declarative) -> Chunk? {
         if t.token != "(" {
-            println("( expected")
+            print("( expected")
             return nil
         }
         t.nextToken()
@@ -101,7 +101,7 @@ init(model: Model, text: String) {
                     chunk.setSlot(slot!,value: valuestring!)
                 } }
             else {
-                println("Wrong chunk syntax")
+                print("Wrong chunk syntax")
                 return nil
             }
         }
@@ -119,7 +119,7 @@ init(model: Model, text: String) {
             let bc = parseBufferCondition()
             if bc != nil { p.addCondition(bc!) }
         }
-        if t.token != "==>" { println("Parsing error in \(name)") }
+        if t.token != "==>" { print("Parsing error in \(name)") }
         t.nextToken()
         while (t.token != nil && t.token != ")") {
             let ac = parseBufferAction()
@@ -132,8 +132,8 @@ init(model: Model, text: String) {
     private func parseBufferCondition() -> BufferCondition? {
         let prefix = String(t.token![t.token!.startIndex])
         let token = t.token!
-        let start = advance(token.startIndex,1)
-        let end = advance(token.endIndex,-1)
+        let start = token.startIndex.advancedBy(1)
+        let end = token.endIndex.advancedBy(-1)
         let bufferName = token[Range(start: start, end: end)]
         let buffer = (prefix == "?" ? "?" : "") + bufferName
         t.nextToken()
@@ -166,8 +166,8 @@ init(model: Model, text: String) {
     private func parseBufferAction() -> BufferAction? {
         let prefix = String(t.token![t.token!.startIndex])
         let token = t.token!
-        let start = advance(token.startIndex,1)
-        let end = advance(token.endIndex,-1)
+        let start = token.startIndex.advancedBy(1)
+        let end = token.endIndex.advancedBy(-1)
         let buffer = token[Range(start: start, end: end)]
         t.nextToken()
         let ba = BufferAction(prefix: prefix, buffer: buffer, model: m)

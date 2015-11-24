@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Chunk: Module,Printable {
+class Chunk: Module,CustomStringConvertible {
 
     let name: String
     let model: Model
@@ -28,31 +28,35 @@ class Chunk: Module,Printable {
         super.init()
     }
     
+    /**
+      Printable version of the chunk
+    */
     var description: String {
         get {
-//            let actv = self.activation()
             var s = "\(name)\n"
             for slot in printOrder {
                 if let val = slotvals[slot] {
                     s += "  \(slot)  \(val)\n"
                 }
             }
-//            for (slot,val) in slotvals {
-//                s += "  \(slot)  \(val)\n"
-//            }
-//            if creationTime != nil {
-//                s += "Fan = \(fan)  Activation = \(actv)"
-//            }
+
             return s
         }
     }
     
+    /**
+     Make a copy of the chunk
+      - returns: a copy of the chunk
+    */
     func copy() -> Chunk {
-        let newChunk = model.generateNewChunk(s1: self.name)
+        let newChunk = model.generateNewChunk(self.name)
         newChunk.slotvals = self.slotvals
         return newChunk
     }
     
+    /**
+     Set the creation time of the chunk to the current model time. Typically called when the chunk is added to dm.
+    */
     func startTime() {
         creationTime = model.time
         if !model.dm.optimizedLearning {
@@ -86,7 +90,7 @@ class Chunk: Module,Printable {
             let y = model.dm.baseLevelDecay + log(model.time - creationTime!)
             return x - y
         } else {
-            return log(reduce(map(self.referenceList){ pow((self.model.time - $0),(-self.model.dm.baseLevelDecay))}, 0.0, + )) // Wew! almost lisp! This is the standard baselevel equation
+            return log(self.referenceList.map{ pow((self.model.time - $0),(-self.model.dm.baseLevelDecay))}.reduce(0.0, combine: + )) // Wew! almost lisp! This is the standard baselevel equation
         }
     }
     
@@ -94,7 +98,7 @@ class Chunk: Module,Printable {
         if creationTime == nil { return }
         if model.dm.optimizedLearning {
             references += 1
-            println("Added reference to \(self) references = \(references)")
+            print("Added reference to \(self) references = \(references)")
         }
         else {
             referenceList.append(model.time)

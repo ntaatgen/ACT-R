@@ -43,7 +43,7 @@ class ModelViewController: UIViewController {
         let bundle = NSBundle.mainBundle()
         let path = bundle.pathForResource("prisoner", ofType: "actr")!
         
-        let modelText = String(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: nil)!
+        let modelText = try! String(contentsOfFile: path, encoding: NSUTF8StringEncoding)
         self.modelText.text = modelText
         reset()
         
@@ -54,7 +54,7 @@ class ModelViewController: UIViewController {
         let bundle = NSBundle.mainBundle()
         let path = bundle.pathForResource("prisoner2", ofType: "actr")!
         
-        let modelText = String(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: nil)!
+        let modelText = try! String(contentsOfFile: path, encoding: NSUTF8StringEncoding)
         self.modelText.text = modelText
         reset()
 
@@ -65,7 +65,7 @@ class ModelViewController: UIViewController {
         let bundle = NSBundle.mainBundle()
         let path = bundle.pathForResource("count", ofType: "actr")!
         
-        let modelText = String(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: nil)!
+        let modelText = try! String(contentsOfFile: path, encoding: NSUTF8StringEncoding)
         self.modelText.text = modelText
         reset()
     }

@@ -29,11 +29,11 @@ class PDViewController: UIViewController {
             actionChunk.isRequest = false
             switch sender.currentTitle! {
                 case "Cooperate":
-                    println("Player did coop")
+                    print("Player did coop")
                 actionChunk.setSlot("player", value: "coop")
                 playercoop = true
                 case "Defect":
-                    println("Player did defect")
+                    print("Player did defect")
                 actionChunk.setSlot("player", value: "defect")
                 playercoop = false
             default: break
@@ -92,7 +92,7 @@ class PDViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        println("Setting listener for Action")
+        print("Setting listener for Action")
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "recieveAction", name: "Action", object: nil)
         if model != nil {
             if model!.waitingForAction { recieveAction() }
@@ -100,7 +100,7 @@ class PDViewController: UIViewController {
     }
 
     func recieveAction() {
-        println("added line")
+        print("added line")
         dialog.text = dialog.text! + "Please indicate your decision\n"
 
     }

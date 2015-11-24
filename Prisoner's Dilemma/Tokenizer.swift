@@ -29,7 +29,7 @@ class Tokenizer
           c = nil }
         else {
         c = input[input.startIndex]
-        input = input.substringFromIndex(advance(input.startIndex,1))
+        input = input.substringFromIndex(input.startIndex.advancedBy(1))
     //        println("Processing \(c)")
         }
     }

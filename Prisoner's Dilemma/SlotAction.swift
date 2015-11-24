@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SlotAction: Printable {
+struct SlotAction: CustomStringConvertible {
     let slot: String
     let value: Value
     var description: String {

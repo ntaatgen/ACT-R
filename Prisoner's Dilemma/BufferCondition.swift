@@ -8,7 +8,7 @@
 
 import Foundation
 
-class BufferCondition: Printable {
+class BufferCondition: CustomStringConvertible {
     let model: Model
     let prefix: String
     let buffer: String
@@ -51,7 +51,7 @@ class BufferCondition: Printable {
         } else if (prefix == "?") {
             switch buffer {
             case "?retrieval":
-                println("Testing \(self)")
+                print("Testing \(self)")
             for condition in slotConditions {
                 if !model.dm.retrievalState(condition.slot, value: condition.value.text()!) { return false }
                 }
