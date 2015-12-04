@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Chunk: Module,CustomStringConvertible {
+class Chunk: CustomStringConvertible {
 
     let name: String
     let model: Model
@@ -25,7 +25,6 @@ class Chunk: Module,CustomStringConvertible {
     init (s: String, m: Model) {
         name = s
         model = m
-        super.init()
     }
     
     /**

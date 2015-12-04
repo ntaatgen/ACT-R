@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Declarative: Module  {
+class Declarative  {
     
     var baseLevelDecay: Double = 0.5
     var optimizedLearning = false

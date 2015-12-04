@@ -11,7 +11,7 @@ import UIKit
 class ModelViewController: UIViewController {
 
     var keyboardShowing = false
-    var model: Model!
+    var model: Prisoner!
     @IBOutlet weak var modelText: UITextView!
     @IBOutlet weak var traceText: UITextView!
     
@@ -25,49 +25,29 @@ class ModelViewController: UIViewController {
     
     
     @IBAction func reset() {
-        model.time = 0
-        model.dm.chunks = [:]
-        model.procedural.productions = [:]
-        model.buffers = [:]
-        let parser = Parser(model: model, text: modelText.text!)
-        parser.parseModel()
-        model.modelScore = 0
-        model.playerScore = 0
-        model.clearTrace()
-        model.running = false
-        model.waitingForAction = false
+        model.modelText = self.modelText.text
+      model.reset()
     }
     
     
     @IBAction func loadSimple() {
-        let bundle = NSBundle.mainBundle()
-        let path = bundle.pathForResource("prisoner", ofType: "actr")!
-        
-        let modelText = try! String(contentsOfFile: path, encoding: NSUTF8StringEncoding)
-        self.modelText.text = modelText
-        reset()
+
+        model.loadModel("prisoner")
+        self.modelText.text = model.modelText
         
     }
     
     @IBAction func loadComplex() {
 
-        let bundle = NSBundle.mainBundle()
-        let path = bundle.pathForResource("prisoner2", ofType: "actr")!
-        
-        let modelText = try! String(contentsOfFile: path, encoding: NSUTF8StringEncoding)
-        self.modelText.text = modelText
-        reset()
+        model.loadModel("prisoner2")
+        self.modelText.text = model.modelText
 
     }
     
     
     @IBAction func loadCount() {
-        let bundle = NSBundle.mainBundle()
-        let path = bundle.pathForResource("count", ofType: "actr")!
-        
-        let modelText = try! String(contentsOfFile: path, encoding: NSUTF8StringEncoding)
-        self.modelText.text = modelText
-        reset()
+        model.loadModel("count")
+        self.modelText.text = model.modelText
     }
     
     

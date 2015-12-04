@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Parser: Module  {
+class Parser  {
     private let t: Tokenizer
     private let m: Model
 

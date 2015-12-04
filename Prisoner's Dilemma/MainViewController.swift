@@ -9,26 +9,12 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    var model = Model()
+    var model = Prisoner()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let bundle = NSBundle.mainBundle()
-        let path = bundle.pathForResource("prisoner2", ofType: "actr")!
-        
-        let modelText = try! String(contentsOfFile: path, encoding: NSUTF8StringEncoding)
-        print("Got model text")
-        //        println("\(modelText)")
-        let parser = Parser(model: model, text: modelText)
-        parser.parseModel()
-        
-        for (_,chunk) in model.dm.chunks {
-            print("\(chunk)")
-        }
-        print("")
-        for (_,prod) in model.procedural.productions {
-            print("\(prod)")
-        }
+        model.loadModel("prisoner2")
+
 
         // Do any additional setup after loading the view.
     }

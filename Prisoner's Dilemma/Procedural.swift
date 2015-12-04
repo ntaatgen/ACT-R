@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Procedural:Module {
+class Procedural {
     var utilityNoise = 0.2
     var defaultU = 10.0
     var productions: [String:Production] = [:]

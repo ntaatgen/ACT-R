@@ -9,7 +9,7 @@
 import UIKit
 
 class PDViewController: UIViewController {
-    var model: Model?
+    var model: Prisoner?
     var timer: NSTimer? = nil
     
     @IBOutlet weak var dialog: UILabel!

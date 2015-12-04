@@ -15,8 +15,6 @@ class Model {
     var goal: Chunk? = nil
     var buffers: [String:Chunk] = [:]
     var chunkIdCounter = 0
-    var playerScore:Double = 0
-    var modelScore:Double = 0
     var running = false
     var trace: String {
         didSet {
@@ -46,6 +44,30 @@ class Model {
         trace = ""
     }
     
+    func loadModel(fname: String) {
+        let bundle = NSBundle.mainBundle()
+        let path = bundle.pathForResource(fname, ofType: "actr")!
+        
+        modelText = try! String(contentsOfFile: path, encoding: NSUTF8StringEncoding)
+        print("Got model text")
+        //        println("\(modelText)")
+        self.reset()
+
+        
+        for (_,chunk) in dm.chunks {
+            print("\(chunk)")
+        }
+        print("")
+        for (_,prod) in procedural.productions {
+            print("\(prod)")
+        }
+    }
+    
+    
+   /**
+    Run the model until a production has a +action> or no productions match. If the model stops because of an action, waitingForAction is made true, which in turn posts
+     an "Action" notification
+    */
     func run() {
         running = true
         while (true) {
@@ -96,6 +118,27 @@ class Model {
 
     }
     
+    /**
+    Reset the model to its initial state
+    */
+    func reset() {
+        time = 0
+        dm.chunks = [:]
+        procedural.productions = [:]
+        buffers = [:]
+        let parser = Parser(model: self, text: modelText)
+        parser.parseModel()
+        clearTrace()
+        running = false
+        waitingForAction = false
+    }
+    
+    
+    /**
+    Generate a chunk with a unique ID starting with the given string
+    - parameter s1: The base name of the chunk
+    - returns: the new chunk
+    */
     func generateNewChunk(s1: String = "chunk") -> Chunk {
         let name = s1 + "\(chunkIdCounter++)"
         let chunk = Chunk(s: name, m: self)
