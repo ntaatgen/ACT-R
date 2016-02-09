@@ -9,18 +9,30 @@
 import Foundation
 
 class Chunk: CustomStringConvertible {
-
+    /// Name of the chunk
     let name: String
+    /// The model that the chunk is part of
     let model: Model
+    /// When was the chunk added to DM? If nil it means the chunk is not part of DM (yet)
     var creationTime: Double? = nil
-    var references: Int = 1 // Number of references. Assume a single reference on creation
-    var slotvals = [String:Value]() // Dictionary with slot-value pairs, initially empty
+    /// Number of references. Assume a single reference on creation
+    var references: Int = 1
+    /// Dictionary with slot value pairs
+    var slotvals = [String:Value]()
+    /// List of timestamps when the chunk was referenced. Only used when optimized learning is off
     var referenceList = [Double]()
-    var fan: Int = 0 // in how many other chunks does dit chunk appear?
-    var noiseValue: Double = 0 // What was the last noise value
-    var noiseTime: Double = -1 // When was noise last calculated?
-    var fixedActivation: Double? = nil // Sometimes we want to fix baselevelactivation
+    /// Current fan of the chunk: in how many other chunks does this chunk appear?
+    var fan: Int = 0
+    /// We only calculate noise once for a certain moment in time, so we need to remember it
+    /// The last noise value
+    var noiseValue: Double = 0
+    /// At what time was the last noise value calculated?
+    var noiseTime: Double = -1
+    /// When non-nil, use this value as activation instead of calculating it
+    var fixedActivation: Double? = nil
+    /// Used for buffer chunks: is this a request (+buffer>)?
     var isRequest: Bool = false
+    /// The order in which the slots have been declarared, necessary for proper printing
     var printOrder: [String] = [] // Order in which slots have to be printed
     init (s: String, m: Model) {
         name = s
@@ -63,6 +75,12 @@ class Chunk: CustomStringConvertible {
         }
     }
     
+/**
+Set the baselevel of a chunk 
+ 
+ - Parameter timeDiff: How long ago was the chunk created
+ - Parameter references: How many references in the time period
+ */
     func setBaseLevel(timeDiff: Double, references: Int) {
         creationTime = model.time + timeDiff
         if model.dm.optimizedLearning {
@@ -79,7 +97,10 @@ class Chunk: CustomStringConvertible {
 //    baseLevel = Math.log(useCount/(1-model.declarative.baseLevelDecayRate))
 //    - model.declarative.baseLevelDecayRate*Math.log(time-creationTime);
 
-    
+    /**
+    Calculate the base level activation of a chunk
+    - returns: The activation
+    */
     func baseLevelActivation () -> Double {
         if creationTime == nil { return 0 }
         if fixedActivation != nil {
@@ -93,6 +114,9 @@ class Chunk: CustomStringConvertible {
         }
     }
     
+    /**
+    Add a reference to the chunk, increasing its activation
+    */
     func addReference() {
         if creationTime == nil { return }
         if model.dm.optimizedLearning {
@@ -104,16 +128,30 @@ class Chunk: CustomStringConvertible {
         }
     }
     
+    /**
+    Set a slot to a particular value
+    - parameter slot: the name of the slot
+    - parameter value: the value the goes into the slot
+    */
     func setSlot(slot: String, value: Chunk) {
         if slotvals[slot] == nil { printOrder.append(slot) }
         slotvals[slot] = Value.Symbol(value)
     }
-    
+    /**
+     Set a slot to a particular value
+     - parameter slot: the name of the slot
+     - parameter value: the value the goes into the slot
+     */
     func setSlot(slot: String, value: Double) {
         if slotvals[slot] == nil { printOrder.append(slot) }
         slotvals[slot] = Value.Number(value)
     }
 
+    /**
+     Set a slot to a particular value
+     - parameter slot: the name of the slot
+     - parameter value: the value the goes into the slot
+     */
     func setSlot(slot: String, value: String) {
         if slotvals[slot] == nil { printOrder.append(slot) }
         let possibleNumVal = NSNumberFormatter().numberFromString(value)?.doubleValue
@@ -127,21 +165,31 @@ class Chunk: CustomStringConvertible {
         }
     }
     
+    /**
+     Set a slot to a particular value
+     - parameter slot: the name of the slot
+     - parameter value: the value the goes into the slot
+     */
     func setSlot(slot: String, value: Value) {
         if slotvals[slot] == nil { printOrder.append(slot) }
            slotvals[slot] = value
     }
     
+    /**
+    What value is there in a slot
+    - parameter slot: the slot
+    - returns: the value in the slot, if any, otherwise nil
+    */
     func slotValue(slot: String) -> Value? {
         return slotvals[slot]
     }
     
-//    double getSji (Chunk cj, Chunk ci)
-//    {
-//    if (cj.appearsInSlotsOf(ci)==0 && cj.name!=ci.name) return 0;
-//    else return model.declarative.maximumAssociativeStrength - Math.log(cj.fan);
-//    }
-    
+
+    /**
+    Checks whether a certain chunk appears in one of the slots of the current chunk
+    - parameter chunk: the chunk to be checked
+    - returns: whether the chunk has been found in one of the slots
+    */
     func appearsInSlotOf(chunk: Chunk) -> Bool {
         for (_,value) in chunk.slotvals {
             switch value {
@@ -153,7 +201,11 @@ class Chunk: CustomStringConvertible {
         return false
     }
 
-    
+    /**
+    Calculate the Sji from this chunk to the given chunk
+    - parameter chunk: the chunk that receives the spread
+    - returns: the Sji value
+    */
     func sji(chunk: Chunk) -> Double {
         if self.appearsInSlotOf(chunk) {
             return model.dm.maximumAssociativeStrength - log(Double(self.fan))
@@ -161,6 +213,10 @@ class Chunk: CustomStringConvertible {
         return 0.0
     }
     
+    /**
+    Calculate the spreading activation the current chunk receives from chunks in the goal
+    - returns: the amount of spreading activation
+    */
     func spreadingActivation() -> Double {
         if creationTime == nil {return 0}
         if let goal=model.buffers["goal"] {
@@ -179,6 +235,10 @@ class Chunk: CustomStringConvertible {
         return 0
     }
     
+    /**
+    Calculate the noise. Only draw a new value if time has progressed
+    - returns: the noise value
+    */
     func calculateNoise() -> Double {
         if model.time != noiseTime {
             noiseValue = (model.dm.activationNoise == nil ? 0.0 : actrNoise(model.dm.activationNoise!))
@@ -187,6 +247,10 @@ class Chunk: CustomStringConvertible {
             return noiseValue
     }
     
+    /**
+    Return the total activation of the chunk
+    - returns: the activation value
+    */
     func activation() -> Double {
         if creationTime == nil {return 0}
         return  self.baseLevelActivation()

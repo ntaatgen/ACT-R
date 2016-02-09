@@ -24,35 +24,34 @@ class PDViewController: UIViewController {
         var playercoop: Bool = false
         var modelreward: Double
         var playerreward: Double
-        if (model != nil && model!.waitingForAction) && model!.buffers["action"] != nil {
-            let actionChunk = model!.buffers["action"]!
-            actionChunk.isRequest = false
+        // Only do something if there is a model and that model is waiting for the player to take an action
+        if (model != nil && model!.waitingForAction) && model!.actionChunk() {
             switch sender.currentTitle! {
                 case "Cooperate":
                     print("Player did coop")
-                actionChunk.setSlot("player", value: "coop")
+                model!.modifyLastAction("player", value: "coop")
                 playercoop = true
                 case "Defect":
                     print("Player did defect")
-                actionChunk.setSlot("player", value: "defect")
+                model!.modifyLastAction("player", value: "defect")
                 playercoop = false
             default: break
             }
             var newImage: UIImage = UIImage(named: "Decision.jpg")!
-            switch (playercoop, actionChunk.slotValue("model")!) {
-            case (true,.Text("coop")):
+            switch (playercoop, model!.lastAction("model")!) {
+            case (true,"coop"):
                  modelreward = 1.0
                  playerreward = 1.0
                 newImage = UIImage(named: "Cooperate.jpg")!
-            case (true,.Text("defect")):
+            case (true,"defect"):
                  modelreward = 10.0
                  playerreward = -10.0
                  newImage = UIImage(named: "Defect.jpg")!
-            case (false,.Text("coop")):
+            case (false,"coop"):
                  modelreward = -10.0
                  playerreward = 10.0
                  newImage = UIImage(named: "Cooperate.jpg")!
-            case (false,.Text("defect")):
+            case (false,"defect"):
                  modelreward = -1.0
                  playerreward = -1.0
                  newImage = UIImage(named: "Defect.jpg")!
@@ -67,12 +66,11 @@ class PDViewController: UIViewController {
             dialog.text = "You get \(playerreward) and I get \(modelreward)\n"
             dialog.text = dialog.text! + "Your score is \(model!.playerScore) and mine is \(model!.modelScore)\n"
             
-            actionChunk.setSlot("payoffA", value: modelreward)
-            actionChunk.setSlot("payoffB", value: playerreward)
-            model!.waitingForAction = false
+            model!.modifyLastAction("payoffA", value: String(modelreward))
+            model!.modifyLastAction("payoffB", value: String(playerreward))
+//            model!.waitingForAction = false
 
             model?.time += 2.0
-            // model!.dm.addToDM(actionChunk)
             model?.run()
         }
     }
@@ -93,13 +91,13 @@ class PDViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Setting listener for Action")
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "recieveAction", name: "Action", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "receiveAction", name: "Action", object: nil)
         if model != nil {
-            if model!.waitingForAction { recieveAction() }
+            if model!.waitingForAction { receiveAction() }
         }
     }
 
-    func recieveAction() {
+    func receiveAction() {
         print("added line")
         dialog.text = dialog.text! + "Please indicate your decision\n"
 

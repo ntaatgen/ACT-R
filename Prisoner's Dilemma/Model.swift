@@ -31,6 +31,40 @@ class Model {
     }
     var modelText: String = ""
 
+    /**
+    Inspect a slot value of the last action
+     - parameter slot: The name of the slot
+     - returns: the value of the slot as String or nil if it doesn't exist
+    */
+    func lastAction(slot: String) -> String? {
+        if let action = buffers["action"] {
+            if let value = action.slotvals[slot] {
+                return value.description
+            }
+        }
+        return nil
+    }
+    
+    
+    /**
+    Set a slot value of the chunk in the action buffer
+    - parameter slot: the name of the slot
+    - parameter value: the value to be put into the slot
+    */
+    func modifyLastAction(slot:String, value:String) {
+        if let action = buffers["action"] {
+            action.setSlot(slot, value: value)
+        }
+    }
+    
+    /**
+    Is there a chunk in the action buffer?
+    - returns: Whether there is one
+    */
+    func actionChunk() -> Bool {
+        return buffers["action"] != nil
+    }
+    
     init() {
         trace = ""
     }
@@ -70,6 +104,10 @@ class Model {
     */
     func run() {
         running = true
+        waitingForAction = false
+        if let action = buffers["action"] {
+            action.isRequest = false
+        }
         while (true) {
 //        let goalchunk = buffers["goal"]!
      //   addToTrace("Goal before production\n\(goalchunk)")
