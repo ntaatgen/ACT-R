@@ -12,7 +12,6 @@ class Model {
     var time: Double = 0
     var dm = Declarative()
     var procedural = Procedural()
-    var goal: Chunk? = nil
     var buffers: [String:Chunk] = [:]
     var chunkIdCounter = 0
     var running = false
