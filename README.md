@@ -35,13 +35,24 @@ buffers: a dictionary that maps a buffer name onto a Chunk object. For example, 
 
 running: boolean that indicates whether or not the model is currently running
 
-<h3> The Chunk class </h3>
-The Chunk class is used to represent chunk objects, which are either  in declarative memory, or not. Chunks in buffers are normally not in declarative memory, and do not (yet) have a time stamp. The main class variables of a Chunk are:
+<h3>The Chunk class</h3>
+The Chunk class is used to represent chunk objects, which are either  in declarative memory, or not. Chunks in buffers are normally not in declarative memory, and do not (yet) have a time stamp. You can create a chunk with Chunk(s: <chunk-name>, m: <model-class>)
 
-name: the name of the chunk
+The main class variables of a Chunk are:
 
-model: which model does the chunk belong to
+name: the name of the chunk (set when you create the chunk)
 
-creationTime: when was the chunk added to dm. Nil when it is not in dm.
+model: which model does the chunk belong to (set when you create the chunk)
+
+creationTime: when was the chunk added to dm. Nil when it is not in dm (yet).
 
 slotvals: a dictionary with slot-value bindings. Slots are just Strings, but values of of enumeration type Value, which is defined in Support.swift
+
+references: How many references had the chunk had? Used to calculate base-level activation when optimized learning is on
+
+referenceList: List of timestamps when the chunk was references. Used when optimized learning is off
+
+fixedActivation: if this has a non-nil value, it means that the chunk has a fixed activation. This is useful in cases where some of the knowledge in the model should not decay, in particular knowledge that you assume the model already has for a long time
+
+
+
