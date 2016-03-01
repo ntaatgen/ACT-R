@@ -34,7 +34,7 @@ class BufferAction: CustomStringConvertible {
     
     func storeAndClear (inst: Instantiation) {
         let bufferChunk = model.buffers[buffer]
-        if bufferChunk != nil && !(!model.dm.retrievaltoDM && buffer == "retrieval") {
+        if bufferChunk != nil && !(!model.dm.retrievaltoDM && (buffer == "retrieval" || buffer == "partial")) {
             let newChunk = model.dm.addToDMOrStrengthen(bufferChunk!)
             if newChunk !== bufferChunk! {
                 inst.replace(bufferChunk!.name, s2: newChunk)

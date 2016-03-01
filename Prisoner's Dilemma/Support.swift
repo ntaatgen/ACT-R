@@ -87,3 +87,7 @@ enum Value: CustomStringConvertible {
         }
     }
 }
+
+func == (left: Value, right: Value) -> Bool {
+    return left.description == right.description
+}

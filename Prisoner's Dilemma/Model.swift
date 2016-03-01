@@ -96,6 +96,17 @@ class Model {
         }
     }
     
+    /**
+    When you want to use partial matching, override this function when you subclass Model
+    */
+    func mismatchFunction(x: Value, y: Value) -> Double? {
+        if x == y {
+            return 0
+        } else {
+            return -1
+        }
+    }
+    
     
    /**
     Run the model until a production has a +action> or no productions match. If the model stops because of an action, waitingForAction is made true, which in turn posts
@@ -130,21 +141,34 @@ class Model {
 //        for (buffer,chunk) in buffers {
 //            println("Buffer \(buffer) has chunk\n\(chunk)")
 //        }
-        if let retrievalQuery = buffers["retrieval"] {
-            if retrievalQuery.isRequest {
-                retrievalQuery.isRequest = false
-                let (latency, retrieveResult) = dm.retrieve(retrievalQuery)
-                time += latency
-                if retrieveResult != nil {
-                    addToTrace("Retrieving \(retrieveResult!.name)")
-                    buffers["retrieval"] = retrieveResult!
-                } else {
-                    addToTrace("Retrieval failure")
-                    buffers["retrieval"] = nil
+            if let retrievalQuery = buffers["retrieval"] {
+                if retrievalQuery.isRequest {
+                    retrievalQuery.isRequest = false
+                    let (latency, retrieveResult) = dm.retrieve(retrievalQuery)
+                    time += latency
+                    if retrieveResult != nil {
+                        addToTrace("Retrieving \(retrieveResult!.name)")
+                        buffers["retrieval"] = retrieveResult!
+                    } else {
+                        addToTrace("Retrieval failure")
+                        buffers["retrieval"] = nil
+                    }
+                }
+            } else if let retrievalQuery = buffers["partial"] {
+                if retrievalQuery.isRequest {
+                    retrievalQuery.isRequest = false
+                    let (latency, retrieveResult) = dm.partialRetrieve(retrievalQuery, mismatchFunction: mismatchFunction)
+                    time += latency
+                    if retrieveResult != nil {
+                        addToTrace("Partial retrieving \(retrieveResult!.name)")
+                        buffers["partial"] = retrieveResult!
+                    } else {
+                        addToTrace("Partial retrieval failure")
+                        buffers["partial"] = nil
+                    }
                 }
             }
-        }
-           if let actionQuery = buffers["action"] {
+            if let actionQuery = buffers["action"] {
                 if actionQuery.isRequest {
                     waitingForAction = true
                     return
