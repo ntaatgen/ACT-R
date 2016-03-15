@@ -139,5 +139,51 @@ class Declarative  {
         }
     }
 
+    func blendedRetrieve(chunk: Chunk, mismatchFunction: (x: Value, y: Value) -> Double? ) -> (Double, Chunk?) {
+        let bestMatch = chunk.copy()
+        var currentReturn: [String:Double] = [:]
+        var totalpChunk = 0.0
+        chunkloop: for (_,ch1) in chunks {
+            var mismatch = 0.0
+            for (slot,value) in chunk.slotvals {
+                if let val1 = ch1.slotvals[slot] {
+                    if !val1.isEqual(value) {
+                        let slotmismatch = mismatchFunction(x: val1, y: value)
+                        if slotmismatch != nil {
+                            mismatch += slotmismatch! * misMatchPenalty
+                        } else
+                        {
+                            continue chunkloop
+                        }
+                    }
+                } else { continue chunkloop }
+            }
+            //            println("Candidate: \(ch1) with activation \(ch1.activation() + mismatch)")
+            let activation = ch1.baseLevelActivation() + ch1.spreadingActivation()
+            let pChunk = exp((-activation) / activationNoise!)
+            totalpChunk += pChunk
+            for (slot, value) in ch1.slotvals {
+                switch value {
+                case .Number(let num):
+                    if let val1 = currentReturn[slot] {
+                        currentReturn[slot] = val1 + num * pChunk
+                    } else {
+                        currentReturn[slot] = num * pChunk
+                    }
+                default: break
+                }
+            }
+        }
+        for (slot, value) in currentReturn {
+            bestMatch.slotvals[slot] = .Number(value / totalpChunk)
+        }
+        if totalpChunk > 0.0 {
+            return (latency(retrievalThreshold) , bestMatch)
+        } else {
+            retrieveError = true
+            return (latency(retrievalThreshold), nil)
+        }
+    }
+    
     
 }
