@@ -139,26 +139,19 @@ class Declarative  {
         }
     }
 
-    func blendedRetrieve(chunk: Chunk, mismatchFunction: (x: Value, y: Value) -> Double? ) -> (Double, Chunk?) {
+    func blendedRetrieve(chunk: Chunk) -> (Double, Chunk?) {
         let bestMatch = chunk.copy()
         var currentReturn: [String:Double] = [:]
         var totalpChunk = 0.0
         chunkloop: for (_,ch1) in chunks {
-            var mismatch = 0.0
+//            var mismatch = 0.0
             for (slot,value) in chunk.slotvals {
-                if let val1 = ch1.slotvals[slot] {
-                    if !val1.isEqual(value) {
-                        let slotmismatch = mismatchFunction(x: val1, y: value)
-                        if slotmismatch != nil {
-                            mismatch += slotmismatch! * misMatchPenalty
-                        } else
-                        {
-                            continue chunkloop
-                        }
-                    }
-                } else { continue chunkloop }
+                    if let val1 = ch1.slotvals[slot] {
+                        if !val1.isEqual(value) {
+                            continue chunkloop }
+                    } else { continue chunkloop }
             }
-            //            println("Candidate: \(ch1) with activation \(ch1.activation() + mismatch)")
+            // The chunk does match. Now blend the remaining slots
             let activation = ch1.baseLevelActivation() + ch1.spreadingActivation()
             let pChunk = exp((-activation) / activationNoise!)
             totalpChunk += pChunk
