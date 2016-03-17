@@ -62,6 +62,7 @@ class Chunk: CustomStringConvertible {
     func copy() -> Chunk {
         let newChunk = model.generateNewChunk(self.name)
         newChunk.slotvals = self.slotvals
+        newChunk.printOrder = self.printOrder
         return newChunk
     }
     

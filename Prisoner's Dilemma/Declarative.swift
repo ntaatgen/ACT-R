@@ -141,10 +141,11 @@ class Declarative  {
 
     func blendedRetrieve(chunk: Chunk) -> (Double, Chunk?) {
         let bestMatch = chunk.copy()
+
+
         var currentReturn: [String:Double] = [:]
         var totalpChunk = 0.0
         chunkloop: for (_,ch1) in chunks {
-//            var mismatch = 0.0
             for (slot,value) in chunk.slotvals {
                     if let val1 = ch1.slotvals[slot] {
                         if !val1.isEqual(value) {
@@ -153,7 +154,7 @@ class Declarative  {
             }
             // The chunk does match. Now blend the remaining slots
             let activation = ch1.baseLevelActivation() + ch1.spreadingActivation()
-            let pChunk = exp((-activation) / activationNoise!)
+            let pChunk = exp(activation / activationNoise!)
             totalpChunk += pChunk
             for (slot, value) in ch1.slotvals {
                 switch value {
@@ -168,7 +169,7 @@ class Declarative  {
             }
         }
         for (slot, value) in currentReturn {
-            bestMatch.slotvals[slot] = .Number(value / totalpChunk)
+            bestMatch.setSlot(slot, value: value / totalpChunk)
         }
         if totalpChunk > 0.0 {
             return (latency(retrievalThreshold) , bestMatch)
