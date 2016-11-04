@@ -30,9 +30,9 @@ class BufferAction: CustomStringConvertible {
         self.model = model
     }
     
-    func addAction(sa: SlotAction) { slotActions.append(sa) }
+    func addAction(_ sa: SlotAction) { slotActions.append(sa) }
     
-    func storeAndClear (inst: Instantiation) {
+    func storeAndClear (_ inst: Instantiation) {
         let bufferChunk = model.buffers[buffer]
         if bufferChunk != nil && !(!model.dm.retrievaltoDM && (buffer == "retrieval" || buffer == "partial")) {
             let newChunk = model.dm.addToDMOrStrengthen(bufferChunk!)
@@ -43,7 +43,7 @@ class BufferAction: CustomStringConvertible {
         }
     }
     
-    func fire(inst: Instantiation) {
+    func fire(_ inst: Instantiation) {
         // directAction possibility
         switch prefix {
             case "+":

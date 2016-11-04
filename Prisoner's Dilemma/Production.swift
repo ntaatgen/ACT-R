@@ -37,11 +37,11 @@ class Production: CustomStringConvertible {
         self.u = model.procedural.defaultU
     }
     
-    func addCondition(cd: BufferCondition) {
+    func addCondition(_ cd: BufferCondition) {
         conditions.append(cd)
     }
     
-    func addAction(ac: BufferAction) {
+    func addAction(_ ac: BufferAction) {
         actions.append(ac)
     }
     
@@ -63,7 +63,7 @@ class Production: CustomStringConvertible {
     Function that executes all the production's actions
     - parameter inst: The instantiation of the production
     */
-    func fire(inst: Instantiation) {
+    func fire(_ inst: Instantiation) {
         for bc in conditions {
             if bc.prefix == "=" && bc.buffer != "goal" && bc.buffer != "imaginal" {
                 var found = false

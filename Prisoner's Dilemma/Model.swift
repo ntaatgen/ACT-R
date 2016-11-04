@@ -17,14 +17,14 @@ class Model {
     var running = false
     var trace: String {
         didSet {
-            NSNotificationCenter.defaultCenter().postNotificationName("TraceChanged", object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "TraceChanged"), object: nil)
         }
     }
     var waitingForAction: Bool = false {
         didSet {
             if waitingForAction == true {
             print("Posted Action notification")
-            NSNotificationCenter.defaultCenter().postNotificationName("Action", object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "Action"), object: nil)
             }
         }
     }
@@ -35,7 +35,7 @@ class Model {
      - parameter slot: The name of the slot
      - returns: the value of the slot as String or nil if it doesn't exist
     */
-    func lastAction(slot: String) -> String? {
+    func lastAction(_ slot: String) -> String? {
         if let action = buffers["action"] {
             if let value = action.slotvals[slot] {
                 return value.description
@@ -50,7 +50,7 @@ class Model {
     - parameter slot: the name of the slot
     - parameter value: the value to be put into the slot
     */
-    func modifyLastAction(slot:String, value:String) {
+    func modifyLastAction(_ slot:String, value:String) {
         if let action = buffers["action"] {
             action.setSlot(slot, value: value)
         }
@@ -68,7 +68,7 @@ class Model {
         trace = ""
     }
     
-    func addToTrace(s: String) {
+    func addToTrace(_ s: String) {
         let timeString = String(format:"%.2f", time)
         trace += "\(timeString)  " + s + "\n"
     }
@@ -77,11 +77,11 @@ class Model {
         trace = ""
     }
     
-    func loadModel(fname: String) {
-        let bundle = NSBundle.mainBundle()
-        let path = bundle.pathForResource(fname, ofType: "actr")!
+    func loadModel(_ fname: String) {
+        let bundle = Bundle.main
+        let path = bundle.path(forResource: fname, ofType: "actr")!
         
-        modelText = try! String(contentsOfFile: path, encoding: NSUTF8StringEncoding)
+        modelText = try! String(contentsOfFile: path, encoding: String.Encoding.utf8)
         print("Got model text")
         //        println("\(modelText)")
         self.reset()
@@ -99,7 +99,7 @@ class Model {
     /**
     When you want to use partial matching, override this function when you subclass Model
     */
-    func mismatchFunction(x: Value, y: Value) -> Double? {
+    func mismatchFunction(_ x: Value, y: Value) -> Double? {
         if x == y {
             return 0
         } else {
@@ -200,19 +200,20 @@ class Model {
     - parameter s1: The base name of the chunk
     - returns: the new chunk
     */
-    func generateNewChunk(s1: String = "chunk") -> Chunk {
-        let name = s1 + "\(chunkIdCounter++)"
+    func generateNewChunk(_ s1: String = "chunk") -> Chunk {
+        let name = s1 + "\(chunkIdCounter)"
+        chunkIdCounter += 1
         let chunk = Chunk(s: name, m: self)
         return chunk
     }
     
-    func stringToValue(s: String) -> Value {
-        let possibleNumVal = NSNumberFormatter().numberFromString(s)?.doubleValue
+    func stringToValue(_ s: String) -> Value {
+        let possibleNumVal = NumberFormatter().number(from: s)?.doubleValue
         if possibleNumVal != nil {
             return Value.Number(possibleNumVal!)
         }
         if let chunk = self.dm.chunks[s] {
-            return Value.Symbol(chunk)
+            return Value.symbol(chunk)
         } else if s == "nil" {
             return Value.Empty
         } else {

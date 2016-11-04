@@ -57,10 +57,10 @@ class ModelViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateTrace", name: "TraceChanged", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ModelViewController.updateTrace), name: NSNotification.Name(rawValue: "TraceChanged"), object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardShow:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ModelViewController.keyboardShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ModelViewController.keyboardHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
         updateTrace()
         modelText.text = model.modelText
         
@@ -71,27 +71,27 @@ class ModelViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return !self.keyboardShowing
     }
     
-    func keyboardShow(n:NSNotification) {
+    func keyboardShow(_ n:Notification) {
         self.keyboardShowing = true
         
         let d = n.userInfo!
-        var r = (d[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        r = self.modelText.convertRect(r, fromView:nil)
+        var r = (d[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        r = self.modelText.convert(r, from:nil)
         self.modelText.contentInset.bottom = r.size.height
         self.modelText.scrollIndicatorInsets.bottom = r.size.height
     }
     
-    func keyboardHide(n:NSNotification) {
+    func keyboardHide(_ n:Notification) {
         self.keyboardShowing = false
-        self.modelText.contentInset = UIEdgeInsetsZero
-        self.modelText.scrollIndicatorInsets = UIEdgeInsetsZero
+        self.modelText.contentInset = UIEdgeInsets.zero
+        self.modelText.scrollIndicatorInsets = UIEdgeInsets.zero
     }
     
-    func doDone(sender:AnyObject) {
+    func doDone(_ sender:AnyObject) {
         self.view.endEditing(false)
     }
 

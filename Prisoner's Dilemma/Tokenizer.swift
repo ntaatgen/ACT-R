@@ -10,7 +10,7 @@ import Foundation
 
 class Tokenizer
 {
-    private var input:String
+    fileprivate var input:String
     
     var token:String?
     var c: Character?
@@ -23,18 +23,18 @@ class Tokenizer
         nextToken()
     }
     
-    private func nextChar() {
+    fileprivate func nextChar() {
      //   println("\(input.isEmpty)")
         if input.isEmpty {
           c = nil }
         else {
         c = input[input.startIndex]
-        input = input.substringFromIndex(input.startIndex.advancedBy(1))
+        input = input.substring(from: input.characters.index(input.startIndex, offsetBy: 1))
     //        println("Processing \(c)")
         }
     }
     
-    class func isWhitespace(c: Character) -> Bool {
+    class func isWhitespace(_ c: Character) -> Bool {
         return (c==" " || c=="\n" || c=="\r")
     }
     

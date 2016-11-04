@@ -17,7 +17,7 @@ class DMViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
 
     @IBOutlet weak var text: UILabel!
     
-    func compare (x: (String, String, Double), y: (String, String, Double)) -> Bool {
+    func compare (_ x: (String, String, Double), y: (String, String, Double)) -> Bool {
         let (_,s1,a1) = x
         let (_,s2,a2) = y
         if s2 != s1 { return s2 > s1 }
@@ -26,7 +26,7 @@ class DMViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.chunkTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "groupcell")
+        self.chunkTable.register(UITableViewCell.self, forCellReuseIdentifier: "groupcell")
         chunkTable.delegate = self
         chunkTable.dataSource = self
         if model != nil {
@@ -36,7 +36,7 @@ class DMViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
                 chunkList.append((chunk.name,chunkType,chunk.activation()))
             }
         }
-        chunkList = chunkList.sort(compare)
+        chunkList = chunkList.sorted(by: compare)
         // Do any additional setup after loading the view.
     }
 
@@ -46,20 +46,20 @@ class DMViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
     }
     
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         return chunkList.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cell : UITableViewCell = tableView.dequeueReusableCellWithIdentifier("chunk", forIndexPath: indexPath) 
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell{
+        let cell : UITableViewCell = tableView.dequeueReusableCell(withIdentifier: "chunk", for: indexPath) 
         let (label,type,act) = chunkList[indexPath.row]
         let activation = String(format:"%.2f", act)
         cell.textLabel?.text = label //  self.groupList[indexPath.row]
@@ -67,7 +67,7 @@ class DMViewController: UIViewController, UITableViewDelegate, UITableViewDataSo
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let (chunkName,_,_) = chunkList[indexPath.row]
         let chunk = model!.dm.chunks[chunkName]
         if chunk != nil {

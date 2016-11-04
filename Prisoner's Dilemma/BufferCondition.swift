@@ -32,9 +32,9 @@ class BufferCondition: CustomStringConvertible {
         self.model = model
     }
     
-    func addCondition(sc: SlotCondition) { slotConditions.append(sc) }
+    func addCondition(_ sc: SlotCondition) { slotConditions.append(sc) }
     
-    func test(inst: Instantiation) -> Bool {
+    func test(_ inst: Instantiation) -> Bool {
         // It may be necessary to put something in here for specials
         if (prefix == "=") {
             let bufferChunk = model.buffers[buffer]

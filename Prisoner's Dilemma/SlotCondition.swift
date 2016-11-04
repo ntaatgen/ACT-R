@@ -28,7 +28,7 @@ init(op: String?, slot: String, value: Value, model: Model) {
     self.op = op
     }
     
-    func opTest(op: String?, val1: Double, val2: Double) -> Bool {
+    func opTest(_ op: String?, val1: Double, val2: Double) -> Bool {
         if op == nil {
             return val1 == val2
         }
@@ -42,10 +42,10 @@ init(op: String?, slot: String, value: Value, model: Model) {
         }
     }
     
-    func opTest(op: String?, val1: String, val2: String) -> Bool {
+    func opTest(_ op: String?, val1: String, val2: String) -> Bool {
       //  println("Testing \(op) on \(val1) and \(val2)")
-        let numval1 = NSNumberFormatter().numberFromString(val1)?.doubleValue
-        let numval2 = NSNumberFormatter().numberFromString(val2)?.doubleValue
+        let numval1 = NumberFormatter().number(from: val1)?.doubleValue
+        let numval2 = NumberFormatter().number(from: val2)?.doubleValue
         if numval1 != nil && numval2 != nil {
             return opTest(op, val1: numval1!, val2: numval2!)
         }
@@ -57,7 +57,7 @@ init(op: String?, slot: String, value: Value, model: Model) {
         }
     }
     
-    func test(bufferChunk: Chunk, inst: Instantiation) -> Bool {
+    func test(_ bufferChunk: Chunk, inst: Instantiation) -> Bool {
         var testValue = self.value
         var bufferSlotValue = bufferChunk.slotvals[slot]
 //        println("The value in the buffer is \(bufferSlotValue)")
@@ -90,18 +90,18 @@ init(op: String?, slot: String, value: Value, model: Model) {
             {
                 return !bufferSlotValue!.empty()
             }
-            case .Symbol(let chunk):
+            case .symbol(let chunk):
 
                 switch bufferSlotValue! {
                 case .Empty: return op != nil && op! == "-"
-                case .Symbol(let chunk2): return opTest(op, val1: chunk.name, val2: chunk2.name )
+                case .symbol(let chunk2): return opTest(op, val1: chunk.name, val2: chunk2.name )
                 case .Text(let testString): return opTest(op, val1: chunk.name, val2: testString)
                 case .Number(_): return op != nil
                 }
             case .Text(let testString):
                 switch bufferSlotValue! {
                 case .Empty: return op != nil && op! == "-"
-                case .Symbol(let chunk2): return opTest(op, val1: chunk2.name, val2: testString)
+                case .symbol(let chunk2): return opTest(op, val1: chunk2.name, val2: testString)
                 case .Text(let testString2): // println("Comparing two texts with \(op), \(testString2) and \(testString)")
                     return opTest(op, val1: testString2, val2: testString)
                 case .Number(let num2): return opTest(op, val1: "\(num2)", val2: testString)
@@ -109,7 +109,7 @@ init(op: String?, slot: String, value: Value, model: Model) {
             case .Number(let numVal):
                 switch bufferSlotValue! {
                 case .Empty: return op != nil && op! == "-"
-                case .Symbol(let chunk2): return opTest(op, val1: chunk2.name, val2: "\(numVal)")
+                case .symbol(let chunk2): return opTest(op, val1: chunk2.name, val2: "\(numVal)")
                 case .Text(let testString2): return opTest(op, val1: testString2, val2: "\(numVal)")
                 case .Number(let num2): return opTest(op, val1: num2, val2: numVal)
             }

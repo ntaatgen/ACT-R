@@ -9,8 +9,8 @@
 import Foundation
 
 class Parser  {
-    private let t: Tokenizer
-    private let m: Model
+    fileprivate let t: Tokenizer
+    fileprivate let m: Model
 
 
 init(model: Model, text: String) {
@@ -56,9 +56,9 @@ init(model: Model, text: String) {
                 t.nextToken()
             case "set-all-baselevels":
                 t.nextToken()
-                if let timeDiff = NSNumberFormatter().numberFromString(t.token!)?.doubleValue {
+                if let timeDiff = NumberFormatter().number(from: t.token!)?.doubleValue {
                     t.nextToken()
-                    if let number = NSNumberFormatter().numberFromString(t.token!)?.intValue {
+                    if let number = NumberFormatter().number(from: t.token!)?.int32Value {
                         for (_,chunk) in m.dm.chunks {
                             chunk.setBaseLevel(timeDiff, references: Int(number))
                     }
@@ -76,7 +76,7 @@ init(model: Model, text: String) {
         }
     }
     
-    private func parseChunk(dm: Declarative) -> Chunk? {
+    fileprivate func parseChunk(_ dm: Declarative) -> Chunk? {
         if t.token != "(" {
             print("( expected")
             return nil
@@ -91,7 +91,7 @@ init(model: Model, text: String) {
             let valuestring = t.token
             t.nextToken()
             if (slot != nil && valuestring != nil) {
-                if let number = NSNumberFormatter().numberFromString(valuestring!)?.doubleValue   {
+                if let number = NumberFormatter().number(from: valuestring!)?.doubleValue   {
                     if slot != ":activation" {
                         chunk.setSlot(slot!, value: number)
                     } else {
@@ -111,7 +111,7 @@ init(model: Model, text: String) {
         return chunk
     }
     
-    private func parseProduction() -> Production? {
+    fileprivate func parseProduction() -> Production? {
         let name = t.token!
         t.nextToken()
         let p = Production(name: name, model: m)
@@ -129,12 +129,12 @@ init(model: Model, text: String) {
         return p
     }
     
-    private func parseBufferCondition() -> BufferCondition? {
+    fileprivate func parseBufferCondition() -> BufferCondition? {
         let prefix = String(t.token![t.token!.startIndex])
         let token = t.token!
-        let start = token.startIndex.advancedBy(1)
-        let end = token.endIndex.advancedBy(-1)
-        let bufferName = token[Range(start: start, end: end)]
+        let start = token.characters.index(token.startIndex, offsetBy: 1)
+        let end = token.characters.index(token.endIndex, offsetBy: -1)
+        let bufferName = token[(start ..< end)]
         let buffer = (prefix == "?" ? "?" : "") + bufferName
         t.nextToken()
         let bc = BufferCondition(prefix: prefix, buffer: buffer, model: m)
@@ -146,7 +146,7 @@ init(model: Model, text: String) {
     }
 
 
-    private func parseSlotCondition() -> SlotCondition? {
+    fileprivate func parseSlotCondition() -> SlotCondition? {
         var op: String? = nil
         if (t.token == "-" || t.token == "<" || t.token == ">" || t.token == "<=" || t.token == ">=") {
             op = t.token
@@ -163,12 +163,12 @@ init(model: Model, text: String) {
     }
     
     
-    private func parseBufferAction() -> BufferAction? {
+    fileprivate func parseBufferAction() -> BufferAction? {
         let prefix = String(t.token![t.token!.startIndex])
         let token = t.token!
-        let start = token.startIndex.advancedBy(1)
-        let end = token.endIndex.advancedBy(-1)
-        let buffer = token[Range(start: start, end: end)]
+        let start = token.characters.index(token.startIndex, offsetBy: 1)
+        let end = token.characters.index(token.endIndex, offsetBy: -1)
+        let buffer = token[(start ..< end)]
         t.nextToken()
         let ba = BufferAction(prefix: prefix, buffer: buffer, model: m)
         if prefix == "-" { return ba }
@@ -182,10 +182,8 @@ init(model: Model, text: String) {
     
 
     
-    private func parseSlotAction() -> SlotAction? {
-        var op: String? = nil
+    fileprivate func parseSlotAction() -> SlotAction? {
         if (t.token == "-" || t.token == "<" || t.token == ">" || t.token == "<=" || t.token == ">=") {
-            op = t.token
             t.nextToken()
         }
         let slot = t.token

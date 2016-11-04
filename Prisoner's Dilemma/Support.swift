@@ -10,16 +10,16 @@ import Foundation
 
 // Global stuff
 
-func actrNoise(noise: Double) -> Double {
+func actrNoise(_ noise: Double) -> Double {
     let rand = Double(Int(arc4random_uniform(100000-2)+1))/100000.0
     return noise * log((1 - rand) / rand )
 }
 
-func isVariable(s: String) -> Bool {
+func isVariable(_ s: String) -> Bool {
     return s.hasPrefix("=")
 }
 
-func isVariable(v: Value) -> Bool {
+func isVariable(_ v: Value) -> Bool {
     if let s = v.text() {
         return s.hasPrefix("=") }
     else { return false }
@@ -29,7 +29,7 @@ func isVariable(v: Value) -> Bool {
 // Chunk values can be a symbol, a number or nil
 
 enum Value: CustomStringConvertible {
-    case Symbol(Chunk)
+    case symbol(Chunk)
     case Number(Double)
     case Text(String)
     case Empty
@@ -61,27 +61,27 @@ enum Value: CustomStringConvertible {
     
     func chunk() -> Chunk? {
         switch self {
-        case .Symbol(let chunk):
+        case .symbol(let chunk):
             return chunk
         default:
             return nil
         }
     }
     
-    func isEqual(v: Value) ->  Bool {
+    func isEqual(_ v: Value) ->  Bool {
         return v.description == self.description
     }
     
     var description: String {
         get {
             switch self {
-            case Symbol(let value):
+            case .symbol(let value):
                 return "\(value.name)"
-            case Number(let value):
+            case .Number(let value):
                 return "\(value)"
-            case Text(let value):
+            case .Text(let value):
                 return "\(value)"
-            case Empty:
+            case .Empty:
                 return "nil"
             }
         }

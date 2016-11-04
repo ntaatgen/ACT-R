@@ -19,21 +19,21 @@ class MainViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         print("PrepareForSegue called")
         if let identifier = segue.identifier {
             switch identifier {
             case "viewModel":
                 print("Doing the segue")
-                if let vm = segue.destinationViewController as? ModelViewController {
+                if let vm = segue.destination as? ModelViewController {
                     vm.model = self.model
                 }
             case "viewPD":
-                if let vm = segue.destinationViewController as? PDViewController {
+                if let vm = segue.destination as? PDViewController {
                     vm.model = self.model
                 }
             case "viewDM":
-                if let vm = segue.destinationViewController as? DMViewController {
+                if let vm = segue.destination as? DMViewController {
                     vm.model = self.model
                 }
             default : break

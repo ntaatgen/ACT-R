@@ -10,13 +10,13 @@ import UIKit
 
 class PDViewController: UIViewController {
     var model: Prisoner?
-    var timer: NSTimer? = nil
+    var timer: Timer? = nil
     
     @IBOutlet weak var dialog: UILabel!
     
     @IBOutlet weak var modelImage: UIImageView!
     
-    @IBAction func decide(sender: UIButton) {
+    @IBAction func decide(_ sender: UIButton) {
         if timer != nil {
             timer!.invalidate()
             timer = nil
@@ -58,9 +58,9 @@ class PDViewController: UIViewController {
             default:  modelreward = 0.0
              playerreward = 0.0
             }
-            UIView.transitionWithView(modelImage, duration: 0.75, options: UIViewAnimationOptions.TransitionFlipFromLeft, animations: { self.modelImage.image = newImage }, completion: nil)
+            UIView.transition(with: modelImage, duration: 0.75, options: UIViewAnimationOptions.transitionFlipFromLeft, animations: { self.modelImage.image = newImage }, completion: nil)
             //modelImage.image
-            timer = NSTimer.scheduledTimerWithTimeInterval(2.0, target: self, selector: "flipCardBack:", userInfo: nil, repeats: false)
+            timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(PDViewController.flipCardBack(_:)), userInfo: nil, repeats: false)
             model!.playerScore += playerreward
             model!.modelScore += modelreward
             dialog.text = "You get \(playerreward) and I get \(modelreward)\n"
@@ -75,8 +75,8 @@ class PDViewController: UIViewController {
         }
     }
     
-    func flipCardBack(x: NSTimer) {
-        UIView.transitionWithView(modelImage, duration: 0.75, options: UIViewAnimationOptions.TransitionFlipFromRight, animations: { self.modelImage.image = UIImage(named: "Decision.jpg")! }, completion: nil)
+    func flipCardBack(_ x: Timer) {
+        UIView.transition(with: modelImage, duration: 0.75, options: UIViewAnimationOptions.transitionFlipFromRight, animations: { self.modelImage.image = UIImage(named: "Decision.jpg")! }, completion: nil)
         timer = nil
     }
     
@@ -91,7 +91,7 @@ class PDViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Setting listener for Action")
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "receiveAction", name: "Action", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PDViewController.receiveAction), name: NSNotification.Name(rawValue: "Action"), object: nil)
         if model != nil {
             if model!.waitingForAction { receiveAction() }
         }

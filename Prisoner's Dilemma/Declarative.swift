@@ -24,7 +24,7 @@ class Declarative  {
     var retrieveError = false
     var retrievaltoDM = false
     
-    func duplicateChunk(chunk: Chunk) -> Chunk? {
+    func duplicateChunk(_ chunk: Chunk) -> Chunk? {
         /* Return duplicate chunk if there is one, else nil */
         for (_,c1) in chunks {
             if c1 == chunk { return c1 }
@@ -32,7 +32,7 @@ class Declarative  {
         return nil
     }
     
-    func retrievalState(slot: String, value: String) -> Bool {
+    func retrievalState(_ slot: String, value: String) -> Bool {
         switch (slot,value) {
         case ("state","busy"): return retrieveBusy
         case ("state","error"): return retrieveError
@@ -40,7 +40,7 @@ class Declarative  {
         }
     }
     
-    func addToDMOrStrengthen(chunk: Chunk) -> Chunk {
+    func addToDMOrStrengthen(_ chunk: Chunk) -> Chunk {
         if let dupChunk = duplicateChunk(chunk) {
             dupChunk.addReference()
                         return dupChunk
@@ -49,8 +49,8 @@ class Declarative  {
             chunks[chunk.name] = chunk
             for (_,val) in chunk.slotvals {
                 switch val {
-                case .Symbol(let refChunk):
-                    refChunk.fan++
+                case .symbol(let refChunk):
+                    refChunk.fan += 1
                 default: break
                 }
             }
@@ -58,7 +58,7 @@ class Declarative  {
         }
     }
     
-    func addToDM(chunk: Chunk) {
+    func addToDM(_ chunk: Chunk) {
         if let dupChunk = duplicateChunk(chunk) {
             dupChunk.addReference()
 //            return dupChunk
@@ -67,8 +67,8 @@ class Declarative  {
             chunks[chunk.name] = chunk
             for (_,val) in chunk.slotvals {
                 switch val {
-                case .Symbol(let refChunk):
-                    refChunk.fan++
+                case .symbol(let refChunk):
+                    refChunk.fan += 1
                 default: break
                 }
             }
@@ -76,11 +76,11 @@ class Declarative  {
         }
     }
     
-    func latency(activation: Double) -> Double {
+    func latency(_ activation: Double) -> Double {
         return latencyFactor * exp(-activation)
     }
     
-    func retrieve(chunk: Chunk) -> (Double, Chunk?) {
+    func retrieve(_ chunk: Chunk) -> (Double, Chunk?) {
         retrieveError = false
         var bestMatch: Chunk? = nil
         var bestActivation: Double = retrievalThreshold
@@ -107,7 +107,7 @@ class Declarative  {
     
 
     
-    func partialRetrieve(chunk: Chunk, mismatchFunction: (x: Value, y: Value) -> Double? ) -> (Double, Chunk?) {
+    func partialRetrieve(_ chunk: Chunk, mismatchFunction: (_ x: Value, _ y: Value) -> Double? ) -> (Double, Chunk?) {
         var bestMatch: Chunk? = nil
         var bestActivation: Double = retrievalThreshold
         chunkloop: for (_,ch1) in chunks {
@@ -115,7 +115,7 @@ class Declarative  {
             for (slot,value) in chunk.slotvals {
                 if let val1 = ch1.slotvals[slot] {
                     if !val1.isEqual(value) {
-                        let slotmismatch = mismatchFunction(x: val1, y: value)
+                        let slotmismatch = mismatchFunction(val1, value)
                         if slotmismatch != nil {
                             mismatch += slotmismatch! * misMatchPenalty
                         } else
@@ -139,7 +139,7 @@ class Declarative  {
         }
     }
 
-    func blendedRetrieve(chunk: Chunk) -> (Double, Chunk?) {
+    func blendedRetrieve(_ chunk: Chunk) -> (Double, Chunk?) {
         let bestMatch = chunk.copy()
 
 

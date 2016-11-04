@@ -82,7 +82,7 @@ Set the baselevel of a chunk
  - Parameter timeDiff: How long ago was the chunk created
  - Parameter references: How many references in the time period
  */
-    func setBaseLevel(timeDiff: Double, references: Int) {
+    func setBaseLevel(_ timeDiff: Double, references: Int) {
         creationTime = model.time + timeDiff
         if model.dm.optimizedLearning {
             self.references = references
@@ -111,7 +111,7 @@ Set the baselevel of a chunk
             let y = model.dm.baseLevelDecay + log(model.time - creationTime!)
             return x - y
         } else {
-            return log(self.referenceList.map{ pow((self.model.time - $0),(-self.model.dm.baseLevelDecay))}.reduce(0.0, combine: + )) // Wew! almost lisp! This is the standard baselevel equation
+            return log(self.referenceList.map{ pow((self.model.time - $0),(-self.model.dm.baseLevelDecay))}.reduce(0.0, + )) // Wew! almost lisp! This is the standard baselevel equation
         }
     }
     
@@ -134,16 +134,16 @@ Set the baselevel of a chunk
     - parameter slot: the name of the slot
     - parameter value: the value the goes into the slot
     */
-    func setSlot(slot: String, value: Chunk) {
+    func setSlot(_ slot: String, value: Chunk) {
         if slotvals[slot] == nil { printOrder.append(slot) }
-        slotvals[slot] = Value.Symbol(value)
+        slotvals[slot] = Value.symbol(value)
     }
     /**
      Set a slot to a particular value
      - parameter slot: the name of the slot
      - parameter value: the value the goes into the slot
      */
-    func setSlot(slot: String, value: Double) {
+    func setSlot(_ slot: String, value: Double) {
         if slotvals[slot] == nil { printOrder.append(slot) }
         slotvals[slot] = Value.Number(value)
     }
@@ -153,14 +153,14 @@ Set the baselevel of a chunk
      - parameter slot: the name of the slot
      - parameter value: the value the goes into the slot
      */
-    func setSlot(slot: String, value: String) {
+    func setSlot(_ slot: String, value: String) {
         if slotvals[slot] == nil { printOrder.append(slot) }
-        let possibleNumVal = NSNumberFormatter().numberFromString(value)?.doubleValue
+        let possibleNumVal = NumberFormatter().number(from: value)?.doubleValue
         if possibleNumVal != nil {
             slotvals[slot] = Value.Number(possibleNumVal!)
         }
         if let chunk = model.dm.chunks[value] {
-            slotvals[slot] = Value.Symbol(chunk)
+            slotvals[slot] = Value.symbol(chunk)
         } else {
             slotvals[slot] = Value.Text(value)
         }
@@ -171,7 +171,7 @@ Set the baselevel of a chunk
      - parameter slot: the name of the slot
      - parameter value: the value the goes into the slot
      */
-    func setSlot(slot: String, value: Value) {
+    func setSlot(_ slot: String, value: Value) {
         if slotvals[slot] == nil { printOrder.append(slot) }
            slotvals[slot] = value
     }
@@ -181,7 +181,7 @@ Set the baselevel of a chunk
     - parameter slot: the slot
     - returns: the value in the slot, if any, otherwise nil
     */
-    func slotValue(slot: String) -> Value? {
+    func slotValue(_ slot: String) -> Value? {
         return slotvals[slot]
     }
     
@@ -191,10 +191,10 @@ Set the baselevel of a chunk
     - parameter chunk: the chunk to be checked
     - returns: whether the chunk has been found in one of the slots
     */
-    func appearsInSlotOf(chunk: Chunk) -> Bool {
+    func appearsInSlotOf(_ chunk: Chunk) -> Bool {
         for (_,value) in chunk.slotvals {
             switch value {
-            case .Symbol(let valChunk):
+            case .symbol(let valChunk):
                 if valChunk.name==self.name { return true }
             default: break
             }
@@ -207,7 +207,7 @@ Set the baselevel of a chunk
     - parameter chunk: the chunk that receives the spread
     - returns: the Sji value
     */
-    func sji(chunk: Chunk) -> Double {
+    func sji(_ chunk: Chunk) -> Double {
         if self.appearsInSlotOf(chunk) {
             return model.dm.maximumAssociativeStrength - log(Double(self.fan))
         }
@@ -225,9 +225,9 @@ Set the baselevel of a chunk
             var totalSji: Double = 0
             for (_,value) in goal.slotvals {
                 switch value {
-                case .Symbol(let valchunk):
+                case .symbol(let valchunk):
                     totalSji += valchunk.sji(self)
-                    totalSlots++
+                    totalSlots += 1
                 default: break
                 }
                 return (totalSlots==0 ? 0 : totalSji * (model.dm.goalActivation / Double(totalSlots)))
@@ -269,7 +269,7 @@ func == (left: Chunk, right: Chunk) -> Bool {
             case (.Number(let val1),.Number(let val2)): if val1 != val2 { return false }
             case (.Empty, .Empty): break
             case (.Text(let s1), .Text(let s2)): if s1 != s2 { return false }
-            case (.Symbol(let c1), .Symbol(let c2)): if c1 !== c2 { return false }
+            case (.symbol(let c1), .symbol(let c2)): if c1 !== c2 { return false }
             default: return false
             }
         } else { return false }

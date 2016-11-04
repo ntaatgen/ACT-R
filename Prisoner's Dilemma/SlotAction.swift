@@ -21,7 +21,7 @@ struct SlotAction: CustomStringConvertible {
         self.value = value
     }
     
-    func fire(inst: Instantiation, bufferChunk: Chunk) {
+    func fire(_ inst: Instantiation, bufferChunk: Chunk) {
         if isVariable(value) {
             bufferChunk.setSlot(slot, value: inst.mapping[value.text()!]!) // assumption: no syntax errors in production
         } else {
