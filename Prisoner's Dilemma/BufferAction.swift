@@ -30,14 +30,14 @@ class BufferAction: CustomStringConvertible {
         self.model = model
     }
     
-    func addAction(_ sa: SlotAction) { slotActions.append(sa) }
+    func addAction(slotAction sa: SlotAction) { slotActions.append(sa) }
     
     func storeAndClear (_ inst: Instantiation) {
         let bufferChunk = model.buffers[buffer]
         if bufferChunk != nil && !(!model.dm.retrievaltoDM && (buffer == "retrieval" || buffer == "partial")) {
-            let newChunk = model.dm.addToDMOrStrengthen(bufferChunk!)
+            let newChunk = model.dm.addToDMOrStrengthen(chunk: bufferChunk!)
             if newChunk !== bufferChunk! {
-                inst.replace(bufferChunk!.name, s2: newChunk)
+                inst.replace(s1: bufferChunk!.name, s2: newChunk)
             }
             model.buffers[buffer] = nil  // clear the buffer
         }
@@ -48,7 +48,7 @@ class BufferAction: CustomStringConvertible {
         switch prefix {
             case "+":
                 storeAndClear(inst)
-                let newChunk = model.generateNewChunk(buffer)
+                let newChunk = model.generateNewChunk(string: buffer)
                 newChunk.isRequest = true
                 model.buffers[buffer] = newChunk
                 fallthrough
@@ -56,7 +56,7 @@ class BufferAction: CustomStringConvertible {
                 let bufferChunk = model.buffers[buffer]
                 if bufferChunk != nil {
                     for slot in slotActions {
-                        slot.fire(inst, bufferChunk: bufferChunk!)
+                        slot.fire(instantiation: inst, bufferChunk: bufferChunk!)
                     }
                 } else { print("Buffer \(buffer) is empty") }
             case "-":

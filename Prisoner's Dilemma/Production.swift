@@ -49,10 +49,10 @@ class Production: CustomStringConvertible {
     - returns: If the production can be instantiated with the current buffers, otherwise nil
     */
     func instantiate() -> Instantiation? {
-        let utility = u + actrNoise(model.procedural.utilityNoise)
+        let utility = u + actrNoise(noise: model.procedural.utilityNoise)
         let inst = Instantiation(prod: self, time: model.time, u: utility)
         for bc in conditions {
-            if !bc.test(inst) {
+            if !bc.test(instantiation: inst) {
                 return nil
             }
         }
@@ -63,7 +63,7 @@ class Production: CustomStringConvertible {
     Function that executes all the production's actions
     - parameter inst: The instantiation of the production
     */
-    func fire(_ inst: Instantiation) {
+    func fire(instantiation inst: Instantiation) {
         for bc in conditions {
             if bc.prefix == "=" && bc.buffer != "goal" && bc.buffer != "imaginal" {
                 var found = false

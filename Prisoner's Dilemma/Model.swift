@@ -50,9 +50,9 @@ class Model {
     - parameter slot: the name of the slot
     - parameter value: the value to be put into the slot
     */
-    func modifyLastAction(_ slot:String, value:String) {
+    func modifyLastAction(slot:String, value:String) {
         if let action = buffers["action"] {
-            action.setSlot(slot, value: value)
+            action.setSlot(slot: slot, value: value)
         }
     }
     
@@ -68,7 +68,7 @@ class Model {
         trace = ""
     }
     
-    func addToTrace(_ s: String) {
+    func addToTrace(string s: String) {
         let timeString = String(format:"%.2f", time)
         trace += "\(timeString)  " + s + "\n"
     }
@@ -77,7 +77,7 @@ class Model {
         trace = ""
     }
     
-    func loadModel(_ fname: String) {
+    func loadModel(fileName fname: String) {
         let bundle = Bundle.main
         let path = bundle.path(forResource: fname, ofType: "actr")!
         
@@ -99,7 +99,7 @@ class Model {
     /**
     When you want to use partial matching, override this function when you subclass Model
     */
-    func mismatchFunction(_ x: Value, y: Value) -> Double? {
+    func mismatchFunction(x: Value, y: Value) -> Double? {
         if x == y {
             return 0
         } else {
@@ -134,8 +134,8 @@ class Model {
         }
         if inst == nil { return } // no matching productions
         time += 0.05
-        addToTrace("production \(inst!.p.name) fires")
-        inst!.p.fire(inst!)
+        addToTrace(string: "production \(inst!.p.name) fires")
+        inst!.p.fire(instantiation: inst!)
         //model.addToTrace("Goal after production\n\(goalchunk)")
         
 //        for (buffer,chunk) in buffers {
@@ -144,26 +144,26 @@ class Model {
             if let retrievalQuery = buffers["retrieval"] {
                 if retrievalQuery.isRequest {
                     retrievalQuery.isRequest = false
-                    let (latency, retrieveResult) = dm.retrieve(retrievalQuery)
+                    let (latency, retrieveResult) = dm.retrieve(chunk: retrievalQuery)
                     time += latency
                     if retrieveResult != nil {
-                        addToTrace("Retrieving \(retrieveResult!.name)")
+                        addToTrace(string: "Retrieving \(retrieveResult!.name)")
                         buffers["retrieval"] = retrieveResult!
                     } else {
-                        addToTrace("Retrieval failure")
+                        addToTrace(string: "Retrieval failure")
                         buffers["retrieval"] = nil
                     }
                 }
             } else if let retrievalQuery = buffers["partial"] {
                 if retrievalQuery.isRequest {
                     retrievalQuery.isRequest = false
-                    let (latency, retrieveResult) = dm.partialRetrieve(retrievalQuery, mismatchFunction: mismatchFunction)
+                    let (latency, retrieveResult) = dm.partialRetrieve(chunk: retrievalQuery, mismatchFunction: mismatchFunction)
                     time += latency
                     if retrieveResult != nil {
-                        addToTrace("Partial retrieving \(retrieveResult!.name)")
+                        addToTrace(string: "Partial retrieving \(retrieveResult!.name)")
                         buffers["partial"] = retrieveResult!
                     } else {
-                        addToTrace("Partial retrieval failure")
+                        addToTrace(string: "Partial retrieval failure")
                         buffers["partial"] = nil
                     }
                 }
@@ -200,7 +200,7 @@ class Model {
     - parameter s1: The base name of the chunk
     - returns: the new chunk
     */
-    func generateNewChunk(_ s1: String = "chunk") -> Chunk {
+    func generateNewChunk(string s1: String = "chunk") -> Chunk {
         let name = s1 + "\(chunkIdCounter)"
         chunkIdCounter += 1
         let chunk = Chunk(s: name, m: self)

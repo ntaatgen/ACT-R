@@ -24,7 +24,7 @@ class Declarative  {
     var retrieveError = false
     var retrievaltoDM = false
     
-    func duplicateChunk(_ chunk: Chunk) -> Chunk? {
+    func duplicate(chunk: Chunk) -> Chunk? {
         /* Return duplicate chunk if there is one, else nil */
         for (_,c1) in chunks {
             if c1 == chunk { return c1 }
@@ -32,7 +32,7 @@ class Declarative  {
         return nil
     }
     
-    func retrievalState(_ slot: String, value: String) -> Bool {
+    func retrievalState(slot: String, value: String) -> Bool {
         switch (slot,value) {
         case ("state","busy"): return retrieveBusy
         case ("state","error"): return retrieveError
@@ -40,8 +40,8 @@ class Declarative  {
         }
     }
     
-    func addToDMOrStrengthen(_ chunk: Chunk) -> Chunk {
-        if let dupChunk = duplicateChunk(chunk) {
+    func addToDMOrStrengthen(chunk: Chunk) -> Chunk {
+        if let dupChunk = duplicate(chunk: chunk) {
             dupChunk.addReference()
                         return dupChunk
         } else {
@@ -59,7 +59,7 @@ class Declarative  {
     }
     
     func addToDM(_ chunk: Chunk) {
-        if let dupChunk = duplicateChunk(chunk) {
+        if let dupChunk = duplicate(chunk: chunk) {
             dupChunk.addReference()
 //            return dupChunk
         } else {
@@ -76,18 +76,18 @@ class Declarative  {
         }
     }
     
-    func latency(_ activation: Double) -> Double {
+    func latency(activation: Double) -> Double {
         return latencyFactor * exp(-activation)
     }
     
-    func retrieve(_ chunk: Chunk) -> (Double, Chunk?) {
+    func retrieve(chunk: Chunk) -> (Double, Chunk?) {
         retrieveError = false
         var bestMatch: Chunk? = nil
         var bestActivation: Double = retrievalThreshold
         chunkloop: for (_,ch1) in chunks {
             for (slot,value) in chunk.slotvals {
                 if let val1 = ch1.slotvals[slot] {
-                    if !val1.isEqual(value) {
+                    if !val1.isEqual(value: value) {
                         continue chunkloop }
                 } else { continue chunkloop }
             }
@@ -97,24 +97,24 @@ class Declarative  {
             }
         }
         if bestActivation > retrievalThreshold {
-            return (latency(bestActivation) , bestMatch)
+            return (latency(activation: bestActivation) , bestMatch)
         } else {
             retrieveError = true
-            return (latency(retrievalThreshold), nil)
+            return (latency(activation: retrievalThreshold), nil)
         }
         
     }
     
 
     
-    func partialRetrieve(_ chunk: Chunk, mismatchFunction: (_ x: Value, _ y: Value) -> Double? ) -> (Double, Chunk?) {
+    func partialRetrieve(chunk: Chunk, mismatchFunction: (_ x: Value, _ y: Value) -> Double? ) -> (Double, Chunk?) {
         var bestMatch: Chunk? = nil
         var bestActivation: Double = retrievalThreshold
         chunkloop: for (_,ch1) in chunks {
             var mismatch = 0.0
             for (slot,value) in chunk.slotvals {
                 if let val1 = ch1.slotvals[slot] {
-                    if !val1.isEqual(value) {
+                    if !val1.isEqual(value: value) {
                         let slotmismatch = mismatchFunction(val1, value)
                         if slotmismatch != nil {
                             mismatch += slotmismatch! * misMatchPenalty
@@ -132,14 +132,14 @@ class Declarative  {
             }
         }
         if bestActivation > retrievalThreshold {
-            return (latency(bestActivation) , bestMatch)
+            return (latency(activation: bestActivation) , bestMatch)
         } else {
             retrieveError = true
-            return (latency(retrievalThreshold), nil)
+            return (latency(activation: retrievalThreshold), nil)
         }
     }
 
-    func blendedRetrieve(_ chunk: Chunk) -> (Double, Chunk?) {
+    func blendedRetrieve(chunk: Chunk) -> (Double, Chunk?) {
         let bestMatch = chunk.copy()
 
 
@@ -148,7 +148,7 @@ class Declarative  {
         chunkloop: for (_,ch1) in chunks {
             for (slot,value) in chunk.slotvals {
                     if let val1 = ch1.slotvals[slot] {
-                        if !val1.isEqual(value) {
+                        if !val1.isEqual(value: value) {
                             continue chunkloop }
                     } else { continue chunkloop }
             }
@@ -169,13 +169,13 @@ class Declarative  {
             }
         }
         for (slot, value) in currentReturn {
-            bestMatch.setSlot(slot, value: value / totalpChunk)
+            bestMatch.setSlot(slot: slot, value: value / totalpChunk)
         }
         if totalpChunk > 0.0 {
-            return (latency(retrievalThreshold) , bestMatch)
+            return (latency(activation: retrievalThreshold) , bestMatch)
         } else {
             retrieveError = true
-            return (latency(retrievalThreshold), nil)
+            return (latency(activation: retrievalThreshold), nil)
         }
     }
     

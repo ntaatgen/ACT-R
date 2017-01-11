@@ -13,7 +13,7 @@ class MainViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        model.loadModel("prisoner2")
+        model.loadModel(fileName: "prisoner2")
 
 
         // Do any additional setup after loading the view.

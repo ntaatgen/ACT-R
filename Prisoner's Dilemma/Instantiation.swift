@@ -20,7 +20,7 @@ class Instantiation {
         self.time = time
     }
     
-    func replace(_ s1: String, s2: Chunk) {
+    func replace(s1: String, s2: Chunk) {
         for (s,v) in mapping {
             switch v {
             case .Text(let str): if str == s1 { mapping[s] = .symbol(s2) }

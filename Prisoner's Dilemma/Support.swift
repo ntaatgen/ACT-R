@@ -10,16 +10,16 @@ import Foundation
 
 // Global stuff
 
-func actrNoise(_ noise: Double) -> Double {
+func actrNoise(noise: Double) -> Double {
     let rand = Double(Int(arc4random_uniform(100000-2)+1))/100000.0
     return noise * log((1 - rand) / rand )
 }
 
-func isVariable(_ s: String) -> Bool {
+func isVariable(string s: String) -> Bool {
     return s.hasPrefix("=")
 }
 
-func isVariable(_ v: Value) -> Bool {
+func isVariable(value v: Value) -> Bool {
     if let s = v.text() {
         return s.hasPrefix("=") }
     else { return false }
@@ -68,7 +68,7 @@ enum Value: CustomStringConvertible {
         }
     }
     
-    func isEqual(_ v: Value) ->  Bool {
+    func isEqual(value v: Value) ->  Bool {
         return v.description == self.description
     }
     

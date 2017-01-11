@@ -13,7 +13,7 @@ class Procedural {
     var defaultU = 10.0
     var productions: [String:Production] = [:]
     
-    func addProduction(_ p: Production) {
+    func addProduction(production p: Production) {
         productions[p.name] = p
     }
 }

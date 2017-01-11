@@ -29,11 +29,11 @@ class PDViewController: UIViewController {
             switch sender.currentTitle! {
                 case "Cooperate":
                     print("Player did coop")
-                model!.modifyLastAction("player", value: "coop")
+                model!.modifyLastAction(slot: "player", value: "coop")
                 playercoop = true
                 case "Defect":
                     print("Player did defect")
-                model!.modifyLastAction("player", value: "defect")
+                model!.modifyLastAction(slot: "player", value: "defect")
                 playercoop = false
             default: break
             }
@@ -66,8 +66,8 @@ class PDViewController: UIViewController {
             dialog.text = "You get \(playerreward) and I get \(modelreward)\n"
             dialog.text = dialog.text! + "Your score is \(model!.playerScore) and mine is \(model!.modelScore)\n"
             
-            model!.modifyLastAction("payoffA", value: String(modelreward))
-            model!.modifyLastAction("payoffB", value: String(playerreward))
+            model!.modifyLastAction(slot: "payoffA", value: String(modelreward))
+            model!.modifyLastAction(slot: "payoffB", value: String(playerreward))
 //            model!.waitingForAction = false
 
             model?.time += 2.0

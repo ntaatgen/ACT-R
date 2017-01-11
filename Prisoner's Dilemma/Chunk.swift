@@ -60,7 +60,7 @@ class Chunk: CustomStringConvertible {
       - returns: a copy of the chunk
     */
     func copy() -> Chunk {
-        let newChunk = model.generateNewChunk(self.name)
+        let newChunk = model.generateNewChunk(string: self.name)
         newChunk.slotvals = self.slotvals
         newChunk.printOrder = self.printOrder
         return newChunk
@@ -82,7 +82,7 @@ Set the baselevel of a chunk
  - Parameter timeDiff: How long ago was the chunk created
  - Parameter references: How many references in the time period
  */
-    func setBaseLevel(_ timeDiff: Double, references: Int) {
+    func setBaseLevel(timeDiff: Double, references: Int) {
         creationTime = model.time + timeDiff
         if model.dm.optimizedLearning {
             self.references = references
@@ -134,7 +134,7 @@ Set the baselevel of a chunk
     - parameter slot: the name of the slot
     - parameter value: the value the goes into the slot
     */
-    func setSlot(_ slot: String, value: Chunk) {
+    func setSlot(slot: String, value: Chunk) {
         if slotvals[slot] == nil { printOrder.append(slot) }
         slotvals[slot] = Value.symbol(value)
     }
@@ -143,7 +143,7 @@ Set the baselevel of a chunk
      - parameter slot: the name of the slot
      - parameter value: the value the goes into the slot
      */
-    func setSlot(_ slot: String, value: Double) {
+    func setSlot(slot: String, value: Double) {
         if slotvals[slot] == nil { printOrder.append(slot) }
         slotvals[slot] = Value.Number(value)
     }
@@ -153,7 +153,7 @@ Set the baselevel of a chunk
      - parameter slot: the name of the slot
      - parameter value: the value the goes into the slot
      */
-    func setSlot(_ slot: String, value: String) {
+    func setSlot(slot: String, value: String) {
         if slotvals[slot] == nil { printOrder.append(slot) }
         let possibleNumVal = NumberFormatter().number(from: value)?.doubleValue
         if possibleNumVal != nil {
@@ -171,7 +171,7 @@ Set the baselevel of a chunk
      - parameter slot: the name of the slot
      - parameter value: the value the goes into the slot
      */
-    func setSlot(_ slot: String, value: Value) {
+    func setSlot(slot: String, value: Value) {
         if slotvals[slot] == nil { printOrder.append(slot) }
            slotvals[slot] = value
     }
@@ -181,7 +181,7 @@ Set the baselevel of a chunk
     - parameter slot: the slot
     - returns: the value in the slot, if any, otherwise nil
     */
-    func slotValue(_ slot: String) -> Value? {
+    func slotValue(slot: String) -> Value? {
         return slotvals[slot]
     }
     
@@ -191,7 +191,7 @@ Set the baselevel of a chunk
     - parameter chunk: the chunk to be checked
     - returns: whether the chunk has been found in one of the slots
     */
-    func appearsInSlotOf(_ chunk: Chunk) -> Bool {
+    func appearsInSlotOf(chunk: Chunk) -> Bool {
         for (_,value) in chunk.slotvals {
             switch value {
             case .symbol(let valChunk):
@@ -207,8 +207,8 @@ Set the baselevel of a chunk
     - parameter chunk: the chunk that receives the spread
     - returns: the Sji value
     */
-    func sji(_ chunk: Chunk) -> Double {
-        if self.appearsInSlotOf(chunk) {
+    func sji(chunk: Chunk) -> Double {
+        if self.appearsInSlotOf(chunk: chunk) {
             return model.dm.maximumAssociativeStrength - log(Double(self.fan))
         }
         return 0.0
@@ -226,7 +226,7 @@ Set the baselevel of a chunk
             for (_,value) in goal.slotvals {
                 switch value {
                 case .symbol(let valchunk):
-                    totalSji += valchunk.sji(self)
+                    totalSji += valchunk.sji(chunk: self)
                     totalSlots += 1
                 default: break
                 }
@@ -242,7 +242,7 @@ Set the baselevel of a chunk
     */
     func calculateNoise() -> Double {
         if model.time != noiseTime {
-            noiseValue = (model.dm.activationNoise == nil ? 0.0 : actrNoise(model.dm.activationNoise!))
+            noiseValue = (model.dm.activationNoise == nil ? 0.0 : actrNoise(noise: model.dm.activationNoise!))
             noiseTime = model.time
         }
             return noiseValue

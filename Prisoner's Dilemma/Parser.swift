@@ -32,7 +32,7 @@ init(model: Model, text: String) {
                     t.nextToken()
                     var chunk: Chunk?
                     repeat {
-                        chunk = parseChunk(m.dm)
+                        chunk = parseChunk(dm: m.dm)
                         print("Parsed \(chunk)")
                         if chunk != nil {  m.dm.addToDM(chunk!)
                                 }
@@ -45,7 +45,7 @@ init(model: Model, text: String) {
             case "p":
                     t.nextToken()
                     let prod = parseProduction()
-                    if prod != nil { m.procedural.addProduction(prod!) }
+                    if prod != nil { m.procedural.addProduction(production: prod!) }
             case "goal-focus":
                 t.nextToken()
                 if let chunk = m.dm.chunks[t.token!] {
@@ -60,7 +60,7 @@ init(model: Model, text: String) {
                     t.nextToken()
                     if let number = NumberFormatter().number(from: t.token!)?.int32Value {
                         for (_,chunk) in m.dm.chunks {
-                            chunk.setBaseLevel(timeDiff, references: Int(number))
+                            chunk.setBaseLevel(timeDiff: timeDiff, references: Int(number))
                     }
                     }
                 }
@@ -76,7 +76,7 @@ init(model: Model, text: String) {
         }
     }
     
-    fileprivate func parseChunk(_ dm: Declarative) -> Chunk? {
+    fileprivate func parseChunk(dm: Declarative) -> Chunk? {
         if t.token != "(" {
             print("( expected")
             return nil
@@ -93,12 +93,12 @@ init(model: Model, text: String) {
             if (slot != nil && valuestring != nil) {
                 if let number = NumberFormatter().number(from: valuestring!)?.doubleValue   {
                     if slot != ":activation" {
-                        chunk.setSlot(slot!, value: number)
+                        chunk.setSlot(slot: slot!, value: number)
                     } else {
                         chunk.fixedActivation = number
                     }
                 } else {
-                    chunk.setSlot(slot!,value: valuestring!)
+                    chunk.setSlot(slot: slot!,value: valuestring!)
                 } }
             else {
                 print("Wrong chunk syntax")
@@ -175,7 +175,7 @@ init(model: Model, text: String) {
         /// Possible direct action
         while (t.token != nil && !t.token!.hasPrefix("+") && t.token! != ")" && !(t.token!.hasPrefix("-") && t.token!.hasSuffix(">")) && !(t.token!.hasPrefix("=") && t.token!.hasSuffix(">"))) {
             let ac = parseSlotAction()
-            if ac != nil { ba.addAction(ac!) }
+            if ac != nil { ba.addAction(slotAction: ac!) }
         }
         return ba
     }

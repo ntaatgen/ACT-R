@@ -34,14 +34,14 @@ class BufferCondition: CustomStringConvertible {
     
     func addCondition(_ sc: SlotCondition) { slotConditions.append(sc) }
     
-    func test(_ inst: Instantiation) -> Bool {
+    func test(instantiation inst: Instantiation) -> Bool {
         // It may be necessary to put something in here for specials
         if (prefix == "=") {
             let bufferChunk = model.buffers[buffer]
        //     println("Testing condition \(self) on buffer \(bufferChunk)")
             if bufferChunk == nil { return false }
             for condition in slotConditions {
-                if !condition.test(bufferChunk!, inst: inst) {  return false }
+                if !condition.test(bufferChunk: bufferChunk!, inst: inst) {  return false }
                 if prefix == "=" {
                     inst.mapping["=" + buffer] = .Text(bufferChunk!.name)
                 }
@@ -53,7 +53,7 @@ class BufferCondition: CustomStringConvertible {
             case "?retrieval":
                 print("Testing \(self)")
             for condition in slotConditions {
-                if !model.dm.retrievalState(condition.slot, value: condition.value.text()!) { return false }
+                if !model.dm.retrievalState(slot: condition.slot, value: condition.value.text()!) { return false }
                 }
                 return true
             default: return false

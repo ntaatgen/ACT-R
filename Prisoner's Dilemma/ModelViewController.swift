@@ -32,21 +32,21 @@ class ModelViewController: UIViewController {
     
     @IBAction func loadSimple() {
 
-        model.loadModel("prisoner")
+        model.loadModel(fileName: "prisoner")
         self.modelText.text = model.modelText
         
     }
     
     @IBAction func loadComplex() {
 
-        model.loadModel("prisoner2")
+        model.loadModel(fileName: "prisoner2")
         self.modelText.text = model.modelText
 
     }
     
     
     @IBAction func loadCount() {
-        model.loadModel("count")
+        model.loadModel(fileName: "count")
         self.modelText.text = model.modelText
     }
     
