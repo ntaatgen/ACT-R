@@ -27,13 +27,17 @@ lastAction(slot: slotname): returns an optional String with the value in the slo
 
 modifyLastAction(slot: slotname, value: String): modify the chunk in the action slot. This is a relative primitive way to communicate the results of the action back to the model. 
 
-dm: an instance of the Declarative class that holds the contents of declarative memory of the model.
+dm: an instance of the Declarative class that holds the contents of declarative memory of the model. dm.chunks is a Dictionary with all the chunks in memory, keyed by the chunk's name (so dm.chunks["additionfact1"] will give you the Chunk with name additionfact1, or nil if it does not exists).
 
 procedural: an instance of the Procedural class that hold procedural memory
 
 buffers: a dictionary that maps a buffer name onto a Chunk object. For example, buffers["goal"] has the current goal chunk, or nil when there is none
 
 running: boolean that indicates whether or not the model is currently running
+
+trace: a String that contains the current trace of the model. You can copy this to a text window in your App if you want to see the trace
+
+modelText: a String that contains the text of the current model.
 
 <h3>The Chunk class</h3>
 The Chunk class is used to represent chunk objects, which are either  in declarative memory, or not. Chunks in buffers are normally not in declarative memory, and do not (yet) have a time stamp. You can create a chunk with Chunk(s: <chunk-name>, m: <model-class>)
