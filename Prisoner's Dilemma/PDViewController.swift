@@ -38,7 +38,7 @@ class PDViewController: UIViewController {
             default: break
             }
             var newImage: UIImage = UIImage(named: "Decision.jpg")!
-            switch (playercoop, model!.lastAction("model")!) {
+            switch (playercoop, model!.lastAction(slot: "model")!) {
             case (true,"coop"):
                  modelreward = 1.0
                  playerreward = 1.0

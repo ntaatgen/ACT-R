@@ -35,7 +35,7 @@ class Model {
      - parameter slot: The name of the slot
      - returns: the value of the slot as String or nil if it doesn't exist
     */
-    func lastAction(_ slot: String) -> String? {
+    func lastAction(slot: String) -> String? {
         if let action = buffers["action"] {
             if let value = action.slotvals[slot] {
                 return value.description
