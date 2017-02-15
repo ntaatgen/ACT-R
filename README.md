@@ -23,9 +23,9 @@ waitingForAction: a boolean that is true if the model has stopped because of a +
 
 time: a Double that represents the current ACT-R time. You can modify it if you want, although moving it back is not recommended.
 
-lastAction(slotname): returns an optional String with the value in the slotname of the action the model posted. Useful to determine what the action of the model is.
+lastAction(slot: slotname): returns an optional String with the value in the slotname of the action the model posted. Useful to determine what the action of the model is.
 
-modifyAction(slotname, value: String): modify the chunk in the action slot. This is a relative primitive way to communicate the results of the action back to the model. 
+modifyLastAction(slot: slotname, value: String): modify the chunk in the action slot. This is a relative primitive way to communicate the results of the action back to the model. 
 
 dm: an instance of the Declarative class that holds the contents of declarative memory of the model.
 
