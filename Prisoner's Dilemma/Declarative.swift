@@ -9,21 +9,34 @@
 import Foundation
 
 class Declarative  {
-
+    /// Baselevel decay parameter, d in the equations, or bll in ACT-R
     var baseLevelDecay: Double = 0.5
+    /// Is optimized learning on or off (ol in ACT-R)
     var optimizedLearning = false
+    /// Maximum associate strength parameter (mas in ACT-R). If this parameter is too low you can get negative Sji's!
     var maximumAssociativeStrength: Double = 3
-    var goalActivation: Double = 1 // W parameter
+    /// Parameter that controls spreading activation from the goal (W in ACT-R)
+    var goalActivation: Double = 1
+    /// Retrieval threshold parameter (rt in ACT-R)
     var retrievalThreshold: Double = -2
+    /// Activation noise parameter (ans in ACT-R). Can be nil to switch off noise.
     var activationNoise: Double? = 0.25
+    /// A dictionary with all the chunks in DM, indexed by chunk name
     var chunks = [String:Chunk]()
+    /// The mismatch penalty, to be used in partial matching (mp in ACT-R)
     var misMatchPenalty: Double = 5
+    /// The latency factor parameter (lf in ACT-R)
     var latencyFactor = 0.2
     
     var retrieveBusy = false
     var retrieveError = false
     var retrievaltoDM = false
     
+    /**
+        Is er there a duplicate of a chunk in dm?
+        - parameter chunk: The chunk to be checked
+        - returns: nil if there is no duplicate, or the duplicate chunk
+    */
     func duplicate(chunk: Chunk) -> Chunk? {
         /* Return duplicate chunk if there is one, else nil */
         for (_,c1) in chunks {
@@ -32,6 +45,12 @@ class Declarative  {
         return nil
     }
     
+    /**
+        What is the state of the declarative module?
+        - parameter slot: the name of the state slot, currently only "state"
+        - parameter value: the value of the slot to be checked, currently "busy" or "error"
+        - returns: a boolean whether the test is true or false
+    */
     func retrievalState(slot: String, value: String) -> Bool {
         switch (slot,value) {
         case ("state","busy"): return retrieveBusy
@@ -40,6 +59,11 @@ class Declarative  {
         }
     }
     
+    /**
+        Add a new chunk to DM, or strengthen it if is already there
+        - parameter chunk: The chunk to be added
+        - returns: Either the chunk itself, or the duplicate in DM if it exists.
+    */
     func addToDMOrStrengthen(chunk: Chunk) -> Chunk {
         if let dupChunk = duplicate(chunk: chunk) {
             dupChunk.addReference()
@@ -58,6 +82,10 @@ class Declarative  {
         }
     }
     
+    /**
+     Add a new chunk to DM, or strengthen it if is already there
+     - parameter chunk: The chunk to be added
+     */
     func addToDM(_ chunk: Chunk) {
         if let dupChunk = duplicate(chunk: chunk) {
             dupChunk.addReference()
@@ -76,10 +104,20 @@ class Declarative  {
         }
     }
     
+    /**
+        Given an activation, calculate the retrieval latency
+        - parameter activation: The activation value
+        - returns: the latency in seconds
+    */
     func latency(activation: Double) -> Double {
         return latencyFactor * exp(-activation)
     }
     
+    /**
+        Retrieve a chunk from DM
+        - parameter chunk: A chunk containing the pattern to be matched by the retrieval
+        - returns: A Tuple consisting of the retrieval time and the retrieved Chunk (or the maximum retrieval time and nil if the retrieval fails
+     */
     func retrieve(chunk: Chunk) -> (Double, Chunk?) {
         retrieveError = false
         var bestMatch: Chunk? = nil
@@ -106,7 +144,12 @@ class Declarative  {
     }
     
 
-    
+    /**
+     Retrieve a chunk from DM using partial matching
+     - parameter chunk: A chunk containing the pattern to be matched by the retrieval
+     - mismatchFunction: A mismatch function that takes two Values, and returns a mismatch value (or nil if the two values cannot be properly compared). The function should return a value between -1 and 0 (or nil).
+     - returns: A Tuple consisting of the retrieval time and the retrieved Chunk (or the maximum retrieval time and nil if the retrieval fails
+     */
     func partialRetrieve(chunk: Chunk, mismatchFunction: (_ x: Value, _ y: Value) -> Double? ) -> (Double, Chunk?) {
         var bestMatch: Chunk? = nil
         var bestActivation: Double = retrievalThreshold
@@ -138,7 +181,11 @@ class Declarative  {
             return (latency(activation: retrievalThreshold), nil)
         }
     }
-
+    /**
+     Retrieve a chunk from DM using blending
+     - parameter chunk: A chunk containing the pattern to be matched by the retrieval
+     - returns: A Tuple consisting of the retrieval time and the retrieved Chunk (or the maximum retrieval time and nil if the retrieval fails
+     */
     func blendedRetrieve(chunk: Chunk) -> (Double, Chunk?) {
         let bestMatch = chunk.copy()
 
