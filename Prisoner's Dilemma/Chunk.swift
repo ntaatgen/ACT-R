@@ -230,8 +230,8 @@ Set the baselevel of a chunk
                     totalSlots += 1
                 default: break
                 }
-                return (totalSlots==0 ? 0 : totalSji * (model.dm.goalActivation / Double(totalSlots)))
             }
+            return (totalSlots==0 ? 0 : totalSji * (model.dm.goalActivation / Double(totalSlots)))
         }
         return 0
     }
