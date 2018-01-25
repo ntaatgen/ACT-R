@@ -33,9 +33,10 @@ init(model: Model, text: String) {
                     var chunk: Chunk?
                     repeat {
                         chunk = parseChunk(dm: m.dm)
-                        print("Parsed \(chunk)")
-                        if chunk != nil {  m.dm.addToDM(chunk!)
-                                }
+                        if chunk != nil {
+                            print("Parsed \(chunk!)")
+                            m.dm.addToDM(chunk!)
+                        }
                     } while (chunk != nil && t.token != ")")
                     if t.token != ")" {
                         print(") expected")
@@ -132,9 +133,7 @@ init(model: Model, text: String) {
     fileprivate func parseBufferCondition() -> BufferCondition? {
         let prefix = String(t.token![t.token!.startIndex])
         let token = t.token!
-        let start = token.characters.index(token.startIndex, offsetBy: 1)
-        let end = token.characters.index(token.endIndex, offsetBy: -1)
-        let bufferName = token[(start ..< end)]
+        let bufferName =  token.substring(from: 1, to: token.count - 1) //  token[(start ..< end)]
         let buffer = (prefix == "?" ? "?" : "") + bufferName
         t.nextToken()
         let bc = BufferCondition(prefix: prefix, buffer: buffer, model: m)
@@ -166,9 +165,7 @@ init(model: Model, text: String) {
     fileprivate func parseBufferAction() -> BufferAction? {
         let prefix = String(t.token![t.token!.startIndex])
         let token = t.token!
-        let start = token.characters.index(token.startIndex, offsetBy: 1)
-        let end = token.characters.index(token.endIndex, offsetBy: -1)
-        let buffer = token[(start ..< end)]
+        let buffer =  token.substring(from: 1, to: token.count - 1) //  token[(start ..< end)]
         t.nextToken()
         let ba = BufferAction(prefix: prefix, buffer: buffer, model: m)
         if prefix == "-" { return ba }

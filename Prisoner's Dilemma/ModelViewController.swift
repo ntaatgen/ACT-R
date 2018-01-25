@@ -51,7 +51,7 @@ class ModelViewController: UIViewController {
     }
     
     
-    func updateTrace() {
+    @objc func updateTrace() {
         traceText.text! = model.trace
     }
     
@@ -75,7 +75,7 @@ class ModelViewController: UIViewController {
         return !self.keyboardShowing
     }
     
-    func keyboardShow(_ n:Notification) {
+    @objc func keyboardShow(_ n:Notification) {
         self.keyboardShowing = true
         
         let d = n.userInfo!
@@ -85,7 +85,7 @@ class ModelViewController: UIViewController {
         self.modelText.scrollIndicatorInsets.bottom = r.size.height
     }
     
-    func keyboardHide(_ n:Notification) {
+    @objc func keyboardHide(_ n:Notification) {
         self.keyboardShowing = false
         self.modelText.contentInset = UIEdgeInsets.zero
         self.modelText.scrollIndicatorInsets = UIEdgeInsets.zero

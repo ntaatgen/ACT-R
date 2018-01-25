@@ -29,7 +29,8 @@ class Tokenizer
           c = nil }
         else {
         c = input[input.startIndex]
-        input = input.substring(from: input.characters.index(input.startIndex, offsetBy: 1))
+//            input = String(input[input.index(input.startIndex, offsetBy: 1)])
+            input = input.substring(from: 1)
     //        println("Processing \(c)")
         }
     }

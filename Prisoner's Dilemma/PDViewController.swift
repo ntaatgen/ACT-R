@@ -75,7 +75,7 @@ class PDViewController: UIViewController {
         }
     }
     
-    func flipCardBack(_ x: Timer) {
+    @objc func flipCardBack(_ x: Timer) {
         UIView.transition(with: modelImage, duration: 0.75, options: UIViewAnimationOptions.transitionFlipFromRight, animations: { self.modelImage.image = UIImage(named: "Decision.jpg")! }, completion: nil)
         timer = nil
     }
@@ -97,7 +97,7 @@ class PDViewController: UIViewController {
         }
     }
 
-    func receiveAction() {
+    @objc func receiveAction() {
         print("added line")
         dialog.text = dialog.text! + "Please indicate your decision\n"
 

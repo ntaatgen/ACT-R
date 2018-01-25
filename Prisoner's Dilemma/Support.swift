@@ -91,3 +91,23 @@ enum Value: CustomStringConvertible {
 func == (left: Value, right: Value) -> Bool {
     return left.description == right.description
 }
+
+
+extension String {
+    func substring(from: Int, to: Int) -> String {
+        let start = index(startIndex, offsetBy: from)
+        let end = index(start, offsetBy: to - from)
+        return String(self[start ..< end])
+    }
+    
+    func substring(from: Int) -> String {
+        let start = index(startIndex, offsetBy: from)
+        return String(self[start...])
+    }
+    
+    func substring(to: Int) -> String {
+        let end = index(startIndex, offsetBy: to)
+        return String(self[ ..<end])
+    }
+    
+}
