@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="f8Q-IL-q7a">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="f8Q-IL-q7a">
     <device id="ipad9_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="HelveticaNeue.ttc">
+            <string>HelveticaNeue-Bold</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="wYL-We-VPF">
@@ -19,7 +25,7 @@
                         <viewControllerLayoutGuide type="bottom" id="dQJ-xO-qQa"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Gjn-oE-eVa">
-                        <rect key="frame" x="0.0" y="0.0" width="703" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="703.5" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Prisoner" translatesAutoresizingMaskIntoConstraints="NO" id="O1c-ie-5KJ">
@@ -54,7 +60,7 @@
                         <viewControllerLayoutGuide type="bottom" id="6mj-a7-CUO"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="B89-os-eiW">
-                        <rect key="frame" x="0.0" y="0.0" width="703" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="703.5" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="500" misplaced="YES" text="Prisoner's Dilemma You " lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qiL-j6-tlJ">
@@ -308,7 +314,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="703" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="703.5" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P5x-wZ-W6n">
@@ -397,6 +403,20 @@
                                     <action selector="loadCount" destination="BYZ-38-t0r" eventType="touchUpInside" id="ovd-Cl-I7k"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F44-MI-0q3">
+                                <rect key="frame" x="270" y="483" width="60" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="60" id="Ig0-Iz-ytM"/>
+                                </constraints>
+                                <state key="normal" title="Time">
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="loadComplex" destination="BYZ-38-t0r" eventType="touchUpInside" id="LXQ-bu-068"/>
+                                    <action selector="loadCount" destination="BYZ-38-t0r" eventType="touchUpInside" id="dzG-Ss-drU"/>
+                                    <action selector="loadTime:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IMx-Bo-ZiO"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -420,15 +440,19 @@
                             <constraint firstItem="vhK-95-v97" firstAttribute="leading" secondItem="P5x-wZ-W6n" secondAttribute="trailing" constant="8" id="Rc3-JF-KZf"/>
                             <constraint firstItem="P5x-wZ-W6n" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Rwb-a1-R2K"/>
                             <constraint firstItem="BFc-8i-c7Z" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="142" id="Vvq-gt-kjH"/>
+                            <constraint firstItem="rjp-JD-mdY" firstAttribute="leading" secondItem="F44-MI-0q3" secondAttribute="trailing" constant="8" id="af4-Vf-PcI"/>
                             <constraint firstItem="rjp-JD-mdY" firstAttribute="bottom" secondItem="P5x-wZ-W6n" secondAttribute="bottom" id="b0E-a5-PH8"/>
                             <constraint firstItem="BEp-jR-Yec" firstAttribute="top" secondItem="vhK-95-v97" secondAttribute="bottom" constant="8" id="cod-bV-DgZ"/>
                             <constraint firstItem="BEp-jR-Yec" firstAttribute="height" secondItem="tOM-7X-YYM" secondAttribute="height" id="e1R-Uu-83m"/>
                             <constraint firstAttribute="centerY" secondItem="BFc-8i-c7Z" secondAttribute="centerY" id="eoc-S7-jqv"/>
                             <constraint firstItem="rjp-JD-mdY" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="gRC-fF-IPR"/>
+                            <constraint firstItem="F44-MI-0q3" firstAttribute="width" secondItem="xhW-Nh-QpW" secondAttribute="width" id="iHZ-e5-K4G"/>
                             <constraint firstItem="rjp-JD-mdY" firstAttribute="leading" secondItem="BEp-jR-Yec" secondAttribute="trailing" constant="8" id="jG7-vB-Hrp"/>
                             <constraint firstItem="BEp-jR-Yec" firstAttribute="leading" secondItem="P5x-wZ-W6n" secondAttribute="trailing" constant="8" id="kcW-3B-URM"/>
+                            <constraint firstItem="F44-MI-0q3" firstAttribute="firstBaseline" secondItem="xhW-Nh-QpW" secondAttribute="baseline" constant="38" id="oT8-Bi-fG0"/>
                             <constraint firstItem="tOM-7X-YYM" firstAttribute="leading" secondItem="BFc-8i-c7Z" secondAttribute="leading" id="pED-Tn-1Lz"/>
                             <constraint firstItem="tOM-7X-YYM" firstAttribute="top" secondItem="BFc-8i-c7Z" secondAttribute="bottom" constant="8" symbolic="YES" id="sCe-RT-1GS"/>
+                            <constraint firstItem="F44-MI-0q3" firstAttribute="height" secondItem="xhW-Nh-QpW" secondAttribute="height" id="y3J-rd-LTg"/>
                             <constraint firstItem="rjp-JD-mdY" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" symbolic="YES" id="z8N-Db-3uM"/>
                         </constraints>
                         <variation key="default">
@@ -458,14 +482,14 @@
                         <viewControllerLayoutGuide type="bottom" id="pOw-dh-4h8"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="LKE-m5-G9i">
-                        <rect key="frame" x="0.0" y="0.0" width="703" height="768"/>
+                        <rect key="frame" x="0.0" y="0.0" width="703.5" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="4nG-kS-KgG">
                                 <rect key="frame" x="16" y="20" width="280" height="572"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="chunk" textLabel="cvj-ef-opB" detailTextLabel="HvD-Zm-mXJ" style="IBUITableViewCellStyleSubtitle" id="atP-4g-DFI">
+                                    <tableViewCell contentMode="scaleToFill" misplaced="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="chunk" textLabel="cvj-ef-opB" detailTextLabel="HvD-Zm-mXJ" style="IBUITableViewCellStyleSubtitle" id="atP-4g-DFI">
                                         <rect key="frame" x="0.0" y="22" width="280" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="atP-4g-DFI" id="4ue-5F-NLo">
@@ -525,7 +549,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nev-pW-fhn" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="RYi-qx-drQ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

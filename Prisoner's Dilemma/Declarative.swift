@@ -188,8 +188,6 @@ class Declarative  {
      */
     func blendedRetrieve(chunk: Chunk) -> (Double, Chunk?) {
         let bestMatch = chunk.copy()
-
-
         var currentReturn: [String:Double] = [:]
         var totalpChunk = 0.0
         chunkloop: for (_,ch1) in chunks {
@@ -226,5 +224,6 @@ class Declarative  {
         }
     }
     
+    // TODO: Also combine partial matching with blending
     
 }

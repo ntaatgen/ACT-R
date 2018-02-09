@@ -10,7 +10,7 @@
 		B82868D11AD45B4E00964ACC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868D01AD45B4E00964ACC /* AppDelegate.swift */; };
 		B82868DB1AD45B4E00964ACC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B82868D91AD45B4E00964ACC /* LaunchScreen.xib */; };
 		B82868E71AD45B4E00964ACC /* Prisoner_s_DilemmaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82868E61AD45B4E00964ACC /* Prisoner_s_DilemmaTests.swift */; };
-		B82869081AD45BC800964ACC /* test.actr in Resources */ = {isa = PBXBuildFile; fileRef = B82868F01AD45BC800964ACC /* test.actr */; };
+		B82869081AD45BC800964ACC /* time.actr in Resources */ = {isa = PBXBuildFile; fileRef = B82868F01AD45BC800964ACC /* time.actr */; };
 		B82869091AD45BC800964ACC /* count.actr in Resources */ = {isa = PBXBuildFile; fileRef = B82868F11AD45BC800964ACC /* count.actr */; };
 		B828690A1AD45BC800964ACC /* prisoner.actr in Resources */ = {isa = PBXBuildFile; fileRef = B82868F21AD45BC800964ACC /* prisoner.actr */; };
 		B828690B1AD45BC800964ACC /* prisoner2.actr in Resources */ = {isa = PBXBuildFile; fileRef = B82868F31AD45BC800964ACC /* prisoner2.actr */; };
@@ -33,6 +33,7 @@
 		B828691E1AD45BC800964ACC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B82869061AD45BC800964ACC /* Main.storyboard */; };
 		B828691F1AD45BC800964ACC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B82869071AD45BC800964ACC /* Images.xcassets */; };
 		B8377D5C1C11E72D007BDA3E /* Prisoner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8377D5B1C11E72D007BDA3E /* Prisoner.swift */; };
+		B85DFBE22023518F009DCFE4 /* Temporal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85DFBDF20235073009DCFE4 /* Temporal.swift */; };
 		B8E38EBB1B56E29700F82A3D /* DMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82869041AD45BC800964ACC /* DMViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -54,7 +55,7 @@
 		B82868E01AD45B4E00964ACC /* Prisoner's DilemmaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Prisoner's DilemmaTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B82868E51AD45B4E00964ACC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B82868E61AD45B4E00964ACC /* Prisoner_s_DilemmaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prisoner_s_DilemmaTests.swift; sourceTree = "<group>"; };
-		B82868F01AD45BC800964ACC /* test.actr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.actr; sourceTree = "<group>"; };
+		B82868F01AD45BC800964ACC /* time.actr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = time.actr; sourceTree = "<group>"; };
 		B82868F11AD45BC800964ACC /* count.actr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = count.actr; sourceTree = "<group>"; };
 		B82868F21AD45BC800964ACC /* prisoner.actr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = prisoner.actr; sourceTree = "<group>"; };
 		B82868F31AD45BC800964ACC /* prisoner2.actr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = prisoner2.actr; sourceTree = "<group>"; };
@@ -78,6 +79,7 @@
 		B82869061AD45BC800964ACC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B82869071AD45BC800964ACC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B8377D5B1C11E72D007BDA3E /* Prisoner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prisoner.swift; sourceTree = "<group>"; };
+		B85DFBDF20235073009DCFE4 /* Temporal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temporal.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,7 @@
 				B82868F61AD45BC800964ACC /* Procedural.swift */,
 				B82868F71AD45BC800964ACC /* Parser.swift */,
 				B82868F81AD45BC800964ACC /* Declarative.swift */,
+				B85DFBDF20235073009DCFE4 /* Temporal.swift */,
 				B82868FA1AD45BC800964ACC /* Support.swift */,
 				B82868FB1AD45BC800964ACC /* Model.swift */,
 				B82868FC1AD45BC800964ACC /* Tokenizer.swift */,
@@ -183,7 +186,7 @@
 		B8E38EBD1B56E3B500F82A3D /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B82868F01AD45BC800964ACC /* test.actr */,
+				B82868F01AD45BC800964ACC /* time.actr */,
 				B82868F11AD45BC800964ACC /* count.actr */,
 				B82868F21AD45BC800964ACC /* prisoner.actr */,
 				B82868F31AD45BC800964ACC /* prisoner2.actr */,
@@ -282,7 +285,7 @@
 				B828691F1AD45BC800964ACC /* Images.xcassets in Resources */,
 				B82868DB1AD45B4E00964ACC /* LaunchScreen.xib in Resources */,
 				B828691E1AD45BC800964ACC /* Main.storyboard in Resources */,
-				B82869081AD45BC800964ACC /* test.actr in Resources */,
+				B82869081AD45BC800964ACC /* time.actr in Resources */,
 				B828690A1AD45BC800964ACC /* prisoner.actr in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,6 +313,7 @@
 				B828691D1AD45BC800964ACC /* MainViewController.swift in Sources */,
 				B828691A1AD45BC800964ACC /* ModelViewController.swift in Sources */,
 				B82869141AD45BC800964ACC /* Tokenizer.swift in Sources */,
+				B85DFBE22023518F009DCFE4 /* Temporal.swift in Sources */,
 				B828690E1AD45BC800964ACC /* Procedural.swift in Sources */,
 				B82868D11AD45B4E00964ACC /* AppDelegate.swift in Sources */,
 				B82869101AD45BC800964ACC /* Declarative.swift in Sources */,

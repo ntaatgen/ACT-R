@@ -50,6 +50,10 @@ class ModelViewController: UIViewController {
         self.modelText.text = model.modelText
     }
     
+    @IBAction func loadTime(_ sender: UIButton) {
+        model.loadModel(fileName: "time")
+        self.modelText.text = model.modelText
+    }
     
     @objc func updateTrace() {
         traceText.text! = model.trace

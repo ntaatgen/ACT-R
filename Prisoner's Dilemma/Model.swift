@@ -12,6 +12,7 @@ class Model {
     var time: Double = 0
     var dm = Declarative()
     var procedural = Procedural()
+    lazy var temporal = Temporal(model: self)
     var buffers: [String:Chunk] = [:]
     var chunkIdCounter = 0
     var running = false
@@ -112,35 +113,39 @@ class Model {
     Run the model until a production has a +action> or no productions match. If the model stops because of an action, waitingForAction is made true, which in turn posts
      an "Action" notification
     */
-    func run() {
+    func run(maxTime: Double) {
+        let startTime = time
         running = true
         waitingForAction = false
         if let action = buffers["action"] {
             action.isRequest = false
         }
         while (true) {
-//        let goalchunk = buffers["goal"]!
-     //   addToTrace("Goal before production\n\(goalchunk)")
-        var inst: Instantiation?
-        for (_,p) in procedural.productions {
-            if let result = p.instantiate() {
-                print("Matching \(result.p.name) with utility \(result.u)")
-                if inst == nil {
-                    inst = result
-                } else if result.u > inst!.u {
-                    inst = result
+            //        let goalchunk = buffers["goal"]!
+            //   addToTrace("Goal before production\n\(goalchunk)")
+            temporal.updateTimer()
+            var inst: Instantiation?
+            for (_,p) in procedural.productions {
+                if let result = p.instantiate() {
+                    print("Matching \(result.p.name) with utility \(result.u)")
+                    if inst == nil {
+                        inst = result
+                    } else if result.u > inst!.u {
+                        inst = result
+                    }
                 }
             }
-        }
-        if inst == nil { return } // no matching productions
-        time += 0.05
-        addToTrace(string: "production \(inst!.p.name) fires")
-        inst!.p.fire(instantiation: inst!)
-        //model.addToTrace("Goal after production\n\(goalchunk)")
-        
-//        for (buffer,chunk) in buffers {
-//            println("Buffer \(buffer) has chunk\n\(chunk)")
-//        }
+            if inst == nil && buffers["temporal"] == nil { return } // no matching productions and no running clock
+            time += 0.05
+            if time > startTime + maxTime { return }
+            if inst == nil { continue }
+            addToTrace(string: "production \(inst!.p.name) fires")
+            inst!.p.fire(instantiation: inst!)
+            //model.addToTrace("Goal after production\n\(goalchunk)")
+            
+            //        for (buffer,chunk) in buffers {
+            //            println("Buffer \(buffer) has chunk\n\(chunk)")
+            //        }
             if let retrievalQuery = buffers["retrieval"] {
                 if retrievalQuery.isRequest {
                     retrievalQuery.isRequest = false
@@ -174,9 +179,19 @@ class Model {
                     return
                 }
             }
+            if let temporalQuery = buffers["temporal"] {
+                if temporalQuery.isRequest {
+                    temporal.action()
+                    temporalQuery.isRequest = false
+                }
+            }
             
         }
-
+        
+    }
+    
+    func run() {
+        run(maxTime: 10000)
     }
     
     /**
