@@ -106,12 +106,14 @@ Set the baselevel of a chunk
         if creationTime == nil { return 0 }
         if fixedActivation != nil {
             return fixedActivation!
+        } else if model.dm.baseLevelDecay == nil {
+            return 0.0
         } else if model.dm.optimizedLearning {
-            let x: Double = log((Double(references)/(1 - model.dm.baseLevelDecay)))
-            let y = model.dm.baseLevelDecay + log(model.time - creationTime!)
+            let x: Double = log((Double(references)/(1 - model.dm.baseLevelDecay!)))
+            let y = model.dm.baseLevelDecay! + log(model.time - creationTime!)
             return x - y
         } else {
-            return log(self.referenceList.map{ pow((self.model.time - $0),(-self.model.dm.baseLevelDecay))}.reduce(0.0, + )) // Wew! almost lisp! This is the standard baselevel equation
+            return log(self.referenceList.map{ pow((self.model.time - $0),(-self.model.dm.baseLevelDecay!))}.reduce(0.0, + )) // Wew! almost lisp! This is the standard baselevel equation
         }
     }
     

@@ -51,7 +51,7 @@ class BufferCondition: CustomStringConvertible {
         } else if (prefix == "?") {
             switch buffer {
             case "?retrieval":
-                print("Testing \(self)")
+//                print("Testing \(self)")
             for condition in slotConditions {
                 if !model.dm.retrievalState(slot: condition.slot, value: condition.value.text()!) { return false }
                 }

@@ -18,7 +18,6 @@ class Tokenizer
     init (s: String) {
         input = s
         c = " "
-   //     println("Initializing Tokenizer")
         while (c != nil && (Tokenizer.isWhitespace(c!))) { nextChar() }
         nextToken()
     }
@@ -29,14 +28,13 @@ class Tokenizer
           c = nil }
         else {
         c = input[input.startIndex]
-//            input = String(input[input.index(input.startIndex, offsetBy: 1)])
             input = input.substring(from: 1)
-    //        println("Processing \(c)")
+            print(c!, terminator: "")
         }
     }
     
     class func isWhitespace(_ c: Character) -> Bool {
-        return (c==" " || c=="\n" || c=="\r")
+        return (c==" " || c=="\n" || c=="\r" || c=="\t")
     }
     
     func nextToken()  {
@@ -69,6 +67,5 @@ class Tokenizer
             }
         }
         while (c != nil && (Tokenizer.isWhitespace(c!))) { nextChar() }
-        
     }
 }

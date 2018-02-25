@@ -10,7 +10,7 @@ import Foundation
 
 class Declarative  {
     /// Baselevel decay parameter, d in the equations, or bll in ACT-R
-    var baseLevelDecay: Double = 0.5
+    var baseLevelDecay: Double? = 0.5
     /// Is optimized learning on or off (ol in ACT-R)
     var optimizedLearning = false
     /// Maximum associate strength parameter (mas in ACT-R). If this parameter is too low you can get negative Sji's!
@@ -151,7 +151,8 @@ class Declarative  {
      - returns: A Tuple consisting of the retrieval time and the retrieved Chunk (or the maximum retrieval time and nil if the retrieval fails
      */
     func partialRetrieve(chunk: Chunk, mismatchFunction: (_ x: Value, _ y: Value) -> Double? ) -> (Double, Chunk?) {
-        var bestMatch: Chunk? = nil
+        retrieveError = false
+       var bestMatch: Chunk? = nil
         var bestActivation: Double = retrievalThreshold
         chunkloop: for (_,ch1) in chunks {
             var mismatch = 0.0
@@ -187,7 +188,8 @@ class Declarative  {
      - returns: A Tuple consisting of the retrieval time and the retrieved Chunk (or the maximum retrieval time and nil if the retrieval fails
      */
     func blendedRetrieve(chunk: Chunk) -> (Double, Chunk?) {
-        let bestMatch = chunk.copy()
+        retrieveError = false
+       let bestMatch = chunk.copy()
         var currentReturn: [String:Double] = [:]
         var totalpChunk = 0.0
         chunkloop: for (_,ch1) in chunks {

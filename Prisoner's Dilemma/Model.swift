@@ -16,6 +16,7 @@ class Model {
     var buffers: [String:Chunk] = [:]
     var chunkIdCounter = 0
     var running = false
+    var isValid = false
     var trace: String {
         didSet {
             NotificationCenter.default.post(name: Notification.Name(rawValue: "TraceChanged"), object: nil)
@@ -121,13 +122,12 @@ class Model {
             action.isRequest = false
         }
         while (true) {
-            //        let goalchunk = buffers["goal"]!
-            //   addToTrace("Goal before production\n\(goalchunk)")
+
             temporal.updateTimer()
             var inst: Instantiation?
             for (_,p) in procedural.productions {
                 if let result = p.instantiate() {
-                    print("Matching \(result.p.name) with utility \(result.u)")
+//                    print("Matching \(result.p.name) with utility \(result.u)")
                     if inst == nil {
                         inst = result
                     } else if result.u > inst!.u {
@@ -138,8 +138,11 @@ class Model {
             if inst == nil && buffers["temporal"] == nil { return } // no matching productions and no running clock
             time += 0.05
             if time > startTime + maxTime { return }
-            if inst == nil { continue }
+            if inst == nil {
+                print("waiting for temporal to do something")
+                continue }
             addToTrace(string: "production \(inst!.p.name) fires")
+            print("production \(inst!.p.name) fires")
             inst!.p.fire(instantiation: inst!)
             //model.addToTrace("Goal after production\n\(goalchunk)")
             
@@ -154,8 +157,10 @@ class Model {
                     if retrieveResult != nil {
                         addToTrace(string: "Retrieving \(retrieveResult!.name)")
                         buffers["retrieval"] = retrieveResult!
+                        print("Retrieving \(retrieveResult!.name)")
                     } else {
                         addToTrace(string: "Retrieval failure")
+                        print("Retrieval failure")
                         buffers["retrieval"] = nil
                     }
                 }
@@ -191,7 +196,9 @@ class Model {
     }
     
     func run() {
-        run(maxTime: 10000)
+        if isValid {
+            run(maxTime: 10000)
+        }
     }
     
     /**
@@ -203,7 +210,29 @@ class Model {
         procedural.productions = [:]
         buffers = [:]
         let parser = Parser(model: self, text: modelText)
-        parser.parseModel()
+        do {
+            try parser.parseModel()
+        } catch Parser.ParserError.expected(what: let expected) {
+            print("\nExpected \(expected)")
+        } catch Parser.ParserError.unexpectedEOF {
+            print("\nUnexpected end-of-file")
+        } catch Parser.ParserError.notAChunk(name: let s) {
+            print("\n\(s) is not a chunk (yet).")
+        } catch Parser.ParserError.notANumber(s: let s) {
+            print("\n\(s) is not a number.")
+        } catch Parser.ParserError.productionDoesNotExist(production: let s) {
+            print("\n\(s) is not a production.")
+        } catch Parser.ParserError.unExpected(what: let w, but: let s) {
+            print("\nFound \(w) while expecting \(s)")
+        } catch Parser.ParserError.unknownActionBufferPrefix(character: let s) {
+            print("\n\(s) is not a known possible prefix for a buffer action (has to be +, = or -)")
+        } catch Parser.ParserError.unknownBufferName(name: let s) {
+            print("\n\(s) is not a valid buffer name")
+        } catch Parser.ParserError.unknownConditionBufferPrefix(character: let s) {
+            print("\n\(s) is not a known possible prefix for a buffer condition (has to be = or ?)")
+        } catch {
+            print("\nUnknown error")
+        }
         clearTrace()
         running = false
         waitingForAction = false
