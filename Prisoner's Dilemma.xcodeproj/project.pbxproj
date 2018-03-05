@@ -34,6 +34,7 @@
 		B828691F1AD45BC800964ACC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B82869071AD45BC800964ACC /* Images.xcassets */; };
 		B8377D5C1C11E72D007BDA3E /* Prisoner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8377D5B1C11E72D007BDA3E /* Prisoner.swift */; };
 		B85DFBE22023518F009DCFE4 /* Temporal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85DFBDF20235073009DCFE4 /* Temporal.swift */; };
+		B88F7BB7204D73EF003A0BDB /* Vision.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88F7BB6204D73EF003A0BDB /* Vision.swift */; };
 		B8E38EBB1B56E29700F82A3D /* DMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82869041AD45BC800964ACC /* DMViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +81,7 @@
 		B82869071AD45BC800964ACC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B8377D5B1C11E72D007BDA3E /* Prisoner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prisoner.swift; sourceTree = "<group>"; };
 		B85DFBDF20235073009DCFE4 /* Temporal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temporal.swift; sourceTree = "<group>"; };
+		B88F7BB6204D73EF003A0BDB /* Vision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vision.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				B82868F41AD45BC800964ACC /* Chunk.swift */,
+				B88F7BB6204D73EF003A0BDB /* Vision.swift */,
 				B82868F51AD45BC800964ACC /* Production.swift */,
 				B82868F61AD45BC800964ACC /* Procedural.swift */,
 				B82868F71AD45BC800964ACC /* Parser.swift */,
@@ -319,6 +322,7 @@
 				B82869101AD45BC800964ACC /* Declarative.swift in Sources */,
 				B828690F1AD45BC800964ACC /* Parser.swift in Sources */,
 				B82869161AD45BC800964ACC /* SlotCondition.swift in Sources */,
+				B88F7BB7204D73EF003A0BDB /* Vision.swift in Sources */,
 				B8E38EBB1B56E29700F82A3D /* DMViewController.swift in Sources */,
 				B82869121AD45BC800964ACC /* Support.swift in Sources */,
 				B828690C1AD45BC800964ACC /* Chunk.swift in Sources */,
