@@ -8,68 +8,285 @@
 
 import Foundation
 
-class Vision {
-    let model: Model
+class VisualObject {
+    var name: String
+    var visualType: String
+    var attributes: [String:String] = [:]
+    var color: String = "black"
+    var x, y, w, h, d : Double
+    var attended = false
+    var attendedTime = 0.0
+    var creationTime = 0.0
+    var visloc: Chunk? = nil
+    var visual: Chunk? = nil
+    init(name: String, visualType: String, x: Double, y: Double, w: Double, h: Double, d: Double) {
+        self.name = name
+        self.visualType = visualType
+        self.x = x + w/2
+        self.y = y + h/2
+        self.w = w
+        self.h = h
+        self.d = d
+    }
     
-    class VisualObject {
-        var name: String
-        var visualType: String
-        var value: String
-        var x, y, w, h, d : Double
-        var attended = false
-        var attendedTime = 0.0
-        var creationTime = 0.0
-        var visloc: Chunk? = nil
+    static func == (left: VisualObject, right: VisualObject) -> Bool {
+        return left.visualType == right.visualType && left.x == right.x && left.y == right.y && left.attributes == right.attributes && left.color == right.color
+    }
+    func getVisualLocation(model: Model) -> Chunk {
         
-        init(name: String, visualType: String, value: String, x: Double, y: Double, w: Double, h: Double, d: Double) {
-            self.name = name
-            self.visualType = visualType
-            self.value = value
-            self.x = x + w/2
-            self.y = y + h/2
-            self.w = w
-            self.h = h
-            self.d = d
+        if visloc != nil {
+            return visloc!
+        } else {
+            let vislocChunk = model.generateNewChunk(string: "visloc")
+            vislocChunk.setSlot(slot: "isa", value: "visual-location")
+            vislocChunk.setSlot(slot: "kind", value: visualType)
+            vislocChunk.setSlot(slot: "screenx", value: x)
+            vislocChunk.setSlot(slot: "screeny", value: y)
+            vislocChunk.setSlot(slot: "width", value: w)
+            vislocChunk.setSlot(slot: "height", value: h)
+            vislocChunk.setSlot(slot: "distance", value: d)
+            vislocChunk.setSlot(slot: "color", value: color)
+            visloc = vislocChunk
+            return vislocChunk
         }
     }
     
-    
+    func getVisual(model: Model) -> Chunk {
+        if visual == nil {
+            let visChunk = model.generateNewChunk(string: "visual")
+            visChunk.setSlot(slot: "isa", value: visualType)
+            visChunk.setSlot(slot: "screen-pos", value: visloc!)
+            visChunk.setSlot(slot: "color", value: color)
+            visChunk.setSlot(slot: "width", value: w)
+            visChunk.setSlot(slot: "height", value: h)
+            for (att,val) in attributes {
+                visChunk.setSlot(slot: att, value: val)
+            }
+            visual = visChunk
+        }
+        return visual!
+    }
+}
+
+
+class Vision {
+    let model: Model
     var visualAttentionLatency = 0.085
-    var visualNumFirst = 4.0
+    var visualNumFinsts = 10
+    var visualOnsetSpan = 0.5
     var bufferStuffing = true
-    
-    var visicon: [String:VisualObject] = [:]
-    
+    var visualFinstSpan = 20.0
+    var visualMovementTolerance = 3.0
+    var visicon: [VisualObject] = []
+    var finsts: [VisualObject] = []
+    var currentlyAttended: VisualObject? = nil
+    var visualError = false
+    var visualLocationError = false
     
     init(model: Model) {
         self.model = model
     }
     
-    func getVisualLocation(name: String) -> Chunk? {
-        if let vo = visicon[name] {
-            if vo.visloc != nil {
-                return vo.visloc!
+    func reset() {
+        visicon = []
+        finsts = []
+        visualError = false
+        visualLocationError = false
+        currentlyAttended = nil
+    }
+    
+    
+    
+    
+    func clearVisual() {
+        visicon = []
+        currentlyAttended = nil
+    }
+    
+    // We need functions that:
+    // - Handle a visual-location request
+    // - Build/update the visicon
+    // - Handle a visual request
+    // - Handle status checks
+    // - A function that resets all attended flags
+    // - A function that carries out matching (in particular specials like :attended)
+    
+    /**
+     Update the vision with the object currently in the View.
+     If the object is already in the current visicon, keep it,
+     if it is new, add it. Remove the rest
+     - Parameter items: should be set to the result of the items produced by ACTRWindowView
+     */
+    func updateVisicon(items: [VisualObject]) {
+        var newVisicon : [VisualObject] = []
+        for item in items {
+            let findObject = visicon.filter({$0 == item})
+            if findObject.isEmpty {
+                item.name = model.generateName(string: "visobj")
+                item.creationTime = model.time
+                newVisicon.append(item)
             } else {
-                let vislocChunk = model.generateNewChunk(string: name)
-                vislocChunk.setSlot(slot: "isa", value: "visual-location")
-                vislocChunk.setSlot(slot: "kind", value: vo.visualType)
-                vislocChunk.setSlot(slot: "screenx", value: vo.x)
-                vislocChunk.setSlot(slot: "screeny", value: vo.y)
-                vislocChunk.setSlot(slot: "width", value: vo.w)
-                vislocChunk.setSlot(slot: "height", value: vo.h)
-                vislocChunk.setSlot(slot: "distance", value: vo.d)
-                vo.visloc = vislocChunk
-                return vislocChunk
+                newVisicon += findObject
+                print("Adding object \(findObject) to visicon.")
             }
-        } else {
-            return nil
+        }
+        visicon = newVisicon
+    }
+    
+    /**
+    Check whether there are finsts to be removed
+    */
+    func updateFinsts() {
+        for i in stride(from: finsts.count - 1, to: 0, by: -1) {
+            let finst = finsts[i]
+            if finst.attendedTime < model.time - visualFinstSpan {
+                finst.attended = false
+                finst.attendedTime = 0
+                finsts.remove(at: i)
+            }
         }
     }
     
-    func clearVisual() {
-        visicon = [:]
+    /**
+     Check whether a given visual object matches the request
+     - Parameter request: The visual-location request
+     - Parameter visualObject: The visual object
+     - returns: Whether there is a match
+     */
+    func matchesVisualObject(request: Chunk, visualObject vo: VisualObject) -> Bool {
+        for (slot,value) in request.slotvals {
+            switch (slot, value.description) {
+            case ("isa", _), (":nearest", _): break
+            case (":attended", "nil"): if vo.attended { return false }
+            case (":attended", "t"): if !vo.attended { return false }
+            case (":attended", "new"): if vo.creationTime < model.time - visualOnsetSpan { return false }
+            case ("color", _): if value.description != vo.color { return false }
+            case (_, "lowest"), (_, "highest"): break
+            default:
+                if let numValue = value.number() {
+                    switch slot {
+                    case "screenx": if abs(vo.x - numValue) > visualMovementTolerance { return false }
+                    case "screeny": if abs(vo.y - numValue) > visualMovementTolerance { return false }
+                    case "-screenx": if vo.x == numValue { return false }
+                    case "-screeny": if vo.y == numValue { return false }
+                    case "<screen-x": if vo.x >= numValue { return false }
+                    case ">screen-x": if vo.x <= numValue { return false }
+                    case "<=screen-x": if vo.x > numValue { return false }
+                    case ">=screen-x": if vo.x < numValue { return false }
+                    case "<screen-y": if vo.y >= numValue { return false }
+                    case ">screen-y": if vo.y <= numValue { return false }
+                    case "<=screen-y": if vo.y > numValue { return false }
+                    case ">=screen-y": if vo.y < numValue { return false }
+                    default: print("Error: unknown slot \(slot) in visual location request \(request)")
+                        return false
+                    }
+                } else {
+                    print("Error: trying to match a non-number in visual-location request \(request)")
+                    return false
+                }
+            }
+            
+        }
+        return true
     }
     
     
+    /**
+     Find a visual location that matches the request
+     - Parameter request: A chunk representing the request
+     - returns: A matching visual location, or nil if no match could be found
+     */
+    func findVisualLocation(request: Chunk) -> Chunk? {
+        request.isRequest = false
+        visualLocationError = false
+        var candidates: [VisualObject] = []
+        for obj in visicon {
+            if matchesVisualObject(request: request, visualObject: obj) {
+                candidates.append(obj)
+            }
+        }
+        if candidates.isEmpty {
+            visualLocationError = true
+            return nil
+        }
+        /// TODO: Handle visloc constrains
+        /// Now we do just the default left-to-right
+        var lowestVisloc: VisualObject = candidates[0]
+        for vl in candidates {
+            if vl.x < lowestVisloc.x  || (vl.x == lowestVisloc.x && vl.y < lowestVisloc.y) {
+                lowestVisloc = vl
+            }
+        }
+        return lowestVisloc.getVisualLocation(model: model)
+    }
+    
+    
+    func visualLocationQuery(slot: String, value: String) -> Bool {
+        switch (slot, value) {
+        case ("state", "free"): return true
+        case ("state", "error"): return visualLocationError
+        case ("buffer", "empty"): return model.buffers["visual-location"] == nil
+        default: return false
+        }
+    }
+    
+    func visualQuery(slot: String, value: String) -> Bool {
+        switch (slot, value) {
+        case ("state", "free"): return true
+        case ("state", "error"): return visualError
+        case ("buffer", "empty"): return model.buffers["visual"] == nil
+        default: return false
+        }
+    }
+    
+    func update() -> Double {
+        updateFinsts()
+        if let request = model.buffers["visual-location"], request.isRequest {
+            print("Handling visual-location request")
+            if let result = findVisualLocation(request: request) {
+                model.buffers["visual-location"] = result
+                print("Using \(result) for visual-location")
+                model.addToTrace(string: "Found visual-location \(result.name)")
+            } else {
+                model.buffers["visual-location"] = nil
+                model.addToTrace(string: "No visual-location found")
+            }
+        }
+        if let request = model.buffers["visual"], request.isRequest {
+            print("handling visual request \(request)")
+            model.buffers["visual"] = nil
+            if let requestType = request.slotvals["isa"] {
+                print("Request isa \(requestType.description)")
+                switch requestType.description {
+                case "move-attention":
+                    if let vl = request.slotvals["screen-pos"]?.description {
+                        let vo = visicon.filter({ $0.visloc != nil && $0.visloc!.name == vl } )
+                        if vo.isEmpty {
+                            visualError = true
+                            currentlyAttended = nil
+                            print("Couldn't find visual-location in visicon")
+                            model.addToTrace(string: "Trying to attend to visual-location \(vl) but is it already empty.")
+                        } else {
+                            model.buffers["visual"] = vo[0].getVisual(model: model)
+                            vo[0].attended = true
+                            vo[0].attendedTime = model.time + visualAttentionLatency
+                            currentlyAttended = vo[0]
+                            print("Setting visual to \(vo[0].getVisual(model: model))")
+                            model.addToTrace(string: "Attending visual \(vo[0].getVisual(model: model).name)")
+                            return visualAttentionLatency
+                        }
+                        
+                    } else {
+                        model.addToTrace(string: "Move-attention visual request has no screen-pos slot.")
+                    }
+                case "clear": clearVisual()
+                default: model.addToTrace(string: "Illegal visual action \(requestType.description)")
+                }
+            } else {
+                model.addToTrace(string: "No type given for +visual>")
+            }
+        }
+        return 0.0
+    }
     
 }

@@ -13,10 +13,12 @@ class Model {
     var dm = Declarative()
     var procedural = Procedural()
     lazy var temporal = Temporal(model: self)
+    lazy var visual = Vision(model: self)
     var buffers: [String:Chunk] = [:]
     var chunkIdCounter = 0
     var running = false
     var isValid = false
+    var imaginalActionTime = 0.2
     var trace: String {
         didSet {
             NotificationCenter.default.post(name: Notification.Name(rawValue: "TraceChanged"), object: nil)
@@ -114,7 +116,7 @@ class Model {
     Run the model until a production has a +action> or no productions match. If the model stops because of an action, waitingForAction is made true, which in turn posts
      an "Action" notification
     */
-    func run(maxTime: Double) {
+    func run(maxTime: Double, step: Bool = false) {
         let startTime = time
         running = true
         waitingForAction = false
@@ -149,11 +151,13 @@ class Model {
             //        for (buffer,chunk) in buffers {
             //            println("Buffer \(buffer) has chunk\n\(chunk)")
             //        }
+            var moduleLatency = 0.0
             if let retrievalQuery = buffers["retrieval"] {
                 if retrievalQuery.isRequest {
                     retrievalQuery.isRequest = false
                     let (latency, retrieveResult) = dm.retrieve(chunk: retrievalQuery)
-                    time += latency
+                    moduleLatency = max(moduleLatency, latency)
+//                    time += latency
                     if retrieveResult != nil {
                         addToTrace(string: "Retrieving \(retrieveResult!.name)")
                         buffers["retrieval"] = retrieveResult!
@@ -168,7 +172,8 @@ class Model {
                 if retrievalQuery.isRequest {
                     retrievalQuery.isRequest = false
                     let (latency, retrieveResult) = dm.partialRetrieve(chunk: retrievalQuery, mismatchFunction: mismatchFunction)
-                    time += latency
+                    moduleLatency = max(moduleLatency, latency)
+                    //                    time += latency
                     if retrieveResult != nil {
                         addToTrace(string: "Partial retrieving \(retrieveResult!.name)")
                         buffers["partial"] = retrieveResult!
@@ -176,6 +181,12 @@ class Model {
                         addToTrace(string: "Partial retrieval failure")
                         buffers["partial"] = nil
                     }
+                }
+            }
+            moduleLatency = max(moduleLatency, visual.update())
+            if let imaginalQuery = buffers["imaginal"] {
+                if imaginalQuery.isRequest {
+                    moduleLatency = max(moduleLatency, imaginalActionTime)
                 }
             }
             if let actionQuery = buffers["action"] {
@@ -190,14 +201,15 @@ class Model {
                     temporalQuery.isRequest = false
                 }
             }
-            
+            time += moduleLatency
+            if step { return }
         }
         
     }
     
-    func run() {
+    func run(step: Bool = false) {
         if isValid {
-            run(maxTime: 10000)
+            run(maxTime: 10000, step: step)
         }
     }
     
@@ -209,6 +221,7 @@ class Model {
         dm.chunks = [:]
         procedural.productions = [:]
         buffers = [:]
+        visual.reset()
         let parser = Parser(model: self, text: modelText)
         do {
             try parser.parseModel()
@@ -245,10 +258,15 @@ class Model {
     - returns: the new chunk
     */
     func generateNewChunk(string s1: String = "chunk") -> Chunk {
-        let name = s1 + "\(chunkIdCounter)"
-        chunkIdCounter += 1
+        let name = generateName(string: s1)
         let chunk = Chunk(s: name, m: self)
         return chunk
+    }
+    
+    func generateName(string s1: String = "name") -> String {
+        let name = s1 + "\(chunkIdCounter)"
+        chunkIdCounter += 1
+        return name
     }
     
     func stringToValue(_ s: String) -> Value {

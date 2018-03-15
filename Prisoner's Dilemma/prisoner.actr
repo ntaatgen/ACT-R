@@ -47,7 +47,7 @@
      coop =coop-payoff
    =retrieval>
      isa decision
-     > payoffA =coop-payoff
+     <= payoffA =coop-payoff
 ==>
    =goal>
      state decide
@@ -64,7 +64,7 @@
     coop =coop-payoff
   =retrieval>
     isa decision
-  <= payoffA =coop-payoff
+  > payoffA =coop-payoff
 ==>
   =goal>
     state decide

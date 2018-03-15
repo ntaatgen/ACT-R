@@ -36,6 +36,10 @@ class MainViewController: UIViewController {
                 if let vm = segue.destination as? DMViewController {
                     vm.model = self.model
                 }
+            case "subitize":
+                if let vm = segue.destination as? SubitizeViewController {
+                    vm.model = self.model
+                }
             default : break
             }
         }

@@ -10,6 +10,10 @@ import UIKit
 
 class ModelViewController: UIViewController {
 
+    
+    
+    
+    
     var keyboardShowing = false
     var model: Prisoner!
     @IBOutlet weak var modelText: UITextView!
@@ -44,6 +48,10 @@ class ModelViewController: UIViewController {
 
     }
     
+    @IBAction func loadSubitize(_ sender: UIButton) {
+        model.loadModel(fileName: "subitize")
+        self.modelText.text = model.modelText
+    }
     
     @IBAction func loadCount() {
         model.loadModel(fileName: "count")
