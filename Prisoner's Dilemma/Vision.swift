@@ -40,8 +40,8 @@ class VisualObject {
             let vislocChunk = model.generateNewChunk(string: "visloc")
             vislocChunk.setSlot(slot: "isa", value: "visual-location")
             vislocChunk.setSlot(slot: "kind", value: visualType)
-            vislocChunk.setSlot(slot: "screenx", value: x)
-            vislocChunk.setSlot(slot: "screeny", value: y)
+            vislocChunk.setSlot(slot: "screen-x", value: x)
+            vislocChunk.setSlot(slot: "screen-y", value: y)
             vislocChunk.setSlot(slot: "width", value: w)
             vislocChunk.setSlot(slot: "height", value: h)
             vislocChunk.setSlot(slot: "distance", value: d)
@@ -165,10 +165,10 @@ class Vision {
             default:
                 if let numValue = value.number() {
                     switch slot {
-                    case "screenx": if abs(vo.x - numValue) > visualMovementTolerance { return false }
-                    case "screeny": if abs(vo.y - numValue) > visualMovementTolerance { return false }
-                    case "-screenx": if vo.x == numValue { return false }
-                    case "-screeny": if vo.y == numValue { return false }
+                    case "screen-x": if abs(vo.x - numValue) > visualMovementTolerance { return false }
+                    case "screen-y": if abs(vo.y - numValue) > visualMovementTolerance { return false }
+                    case "-screen-x": if vo.x == numValue { return false }
+                    case "-screen-y": if vo.y == numValue { return false }
                     case "<screen-x": if vo.x >= numValue { return false }
                     case ">screen-x": if vo.x <= numValue { return false }
                     case "<=screen-x": if vo.x > numValue { return false }
@@ -190,6 +190,10 @@ class Vision {
         return true
     }
     
+    func visualObjectDistance(_ obj1: VisualObject, _ obj2: VisualObject) -> Double {
+        return pow(obj1.x - obj2.x,2) + pow(obj1.y - obj2.y,2)  /// Omit sqrt because we are not really interested in the actual distance
+    }
+    
     
     /**
      Find a visual location that matches the request
@@ -209,15 +213,45 @@ class Vision {
             visualLocationError = true
             return nil
         }
-        /// TODO: Handle visloc constrains
-        /// Now we do just the default left-to-right
-        var lowestVisloc: VisualObject = candidates[0]
-        for vl in candidates {
-            if vl.x < lowestVisloc.x  || (vl.x == lowestVisloc.x && vl.y < lowestVisloc.y) {
-                lowestVisloc = vl
+        // If we are looking for nearest remove all candidates that are not nearest
+        if request.slotvals[":nearest"] != nil && currentlyAttended != nil {
+            var shortestDistance = visualObjectDistance(currentlyAttended!, candidates[0])
+            for vl in candidates {
+                shortestDistance = min(shortestDistance, visualObjectDistance(currentlyAttended!, vl))
+            }
+            candidates = candidates.filter({ visualObjectDistance(currentlyAttended!, $0) <= shortestDistance })
+        }
+        var slotWithHighestOrLowest: String? = nil
+        var lowest = false
+        for (slot, value) in request.slotvals {
+            if value.description == "lowest" {
+                slotWithHighestOrLowest = slot
+                lowest = true
+                break
+            } else if value.description == "highest" {
+                slotWithHighestOrLowest = slot
+                break
             }
         }
-        return lowestVisloc.getVisualLocation(model: model)
+        if slotWithHighestOrLowest == nil {
+            slotWithHighestOrLowest = "screen-x"
+            lowest = true
+        }
+        var lhVL: VisualObject = candidates[0]
+        for vl in candidates {
+            switch (slotWithHighestOrLowest!, lowest) {
+            case ("screen-x", true): if vl.x < lhVL.x  || (vl.x == lhVL.x && vl.y < lhVL.y) { lhVL = vl }
+            case ("screen-y", true): if vl.y < lhVL.y  || (vl.y == lhVL.y && vl.x < lhVL.x) { lhVL = vl }
+            case ("screen-x", false): if vl.x > lhVL.x  || (vl.x == lhVL.x && vl.y > lhVL.y) { lhVL = vl }
+            case ("screen-y", false): if vl.y > lhVL.y  || (vl.y == lhVL.y && vl.x > lhVL.x) { lhVL = vl }
+            case ("width", true): if vl.w < lhVL.w || ( vl.w == lhVL.w && vl.h < lhVL.h) { lhVL = vl }
+            case ("height", true): if vl.h < lhVL.h || ( vl.h == lhVL.h && vl.w < lhVL.w) { lhVL = vl }
+            case ("width", false): if vl.w > lhVL.w || ( vl.w == lhVL.w && vl.h > lhVL.h) { lhVL = vl }
+            case ("height", false): if vl.h > lhVL.h || ( vl.h == lhVL.h && vl.w > lhVL.w) { lhVL = vl }
+            default: break
+            }
+        }
+        return lhVL.getVisualLocation(model: model)
     }
     
     

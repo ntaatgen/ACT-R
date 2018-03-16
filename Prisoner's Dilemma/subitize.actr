@@ -14,6 +14,8 @@
  (sub1 isa subitize state start)
 )
 
+(set-all-baselevels -100 10) ;; time offset and number of references
+
 (goal-focus sub1)
 
 (p start-subitize
@@ -23,6 +25,7 @@
   ==>
     +visual-location>
       isa visual-location
+      screen-y highest
       :attended nil
   =goal>
 	state search
@@ -71,6 +74,7 @@
 	+visual-location>
 		isa visual-location
 		:attended nil
+        :nearest t
 	=goal>
 		state search
 )	

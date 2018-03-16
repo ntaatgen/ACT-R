@@ -40,7 +40,7 @@ class SubitizeViewController: UIViewController {
     }
     
     
-    @IBAction func reset() {
+    func reset() {
         model!.loadModel(fileName: "subitize")
         model!.reset()
         populateFrame(n: 2 + 8.randomNumber())

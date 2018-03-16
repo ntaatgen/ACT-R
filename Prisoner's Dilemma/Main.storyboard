@@ -529,13 +529,6 @@
                                     <action selector="run" destination="lff-tI-1lg" eventType="touchUpInside" id="Yo8-bK-a19"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bAi-RG-ywa">
-                                <rect key="frame" x="74" y="692" width="39" height="30"/>
-                                <state key="normal" title="Reset"/>
-                                <connections>
-                                    <action selector="reset" destination="lff-tI-1lg" eventType="touchUpInside" id="Xl5-mC-j0j"/>
-                                </connections>
-                            </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="BHX-GQ-YPp">
                                 <rect key="frame" x="364" y="109" width="319.5" height="575"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -546,7 +539,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="1NZ-4k-d4M" firstAttribute="top" secondItem="zqW-pI-RcJ" secondAttribute="bottom" constant="89" id="80H-em-aqx"/>
-                            <constraint firstItem="bAi-RG-ywa" firstAttribute="top" secondItem="1NZ-4k-d4M" secondAttribute="bottom" constant="8" id="JL0-fe-xeI"/>
                             <constraint firstItem="BHX-GQ-YPp" firstAttribute="bottom" secondItem="1NZ-4k-d4M" secondAttribute="bottom" id="MqL-64-RZP"/>
                             <constraint firstItem="BHX-GQ-YPp" firstAttribute="leading" secondItem="1NZ-4k-d4M" secondAttribute="trailing" constant="24" id="ObO-YP-uJp"/>
                             <constraint firstItem="eMq-hS-L2e" firstAttribute="top" secondItem="1NZ-4k-d4M" secondAttribute="bottom" constant="8" id="QGa-v0-LOr"/>
@@ -554,7 +546,6 @@
                             <constraint firstItem="BHX-GQ-YPp" firstAttribute="top" secondItem="1NZ-4k-d4M" secondAttribute="top" id="Scv-je-Sjh"/>
                             <constraint firstItem="bkx-Bt-934" firstAttribute="top" secondItem="1NZ-4k-d4M" secondAttribute="bottom" constant="84" id="V0L-lg-8yp"/>
                             <constraint firstItem="eMq-hS-L2e" firstAttribute="leading" secondItem="1NZ-4k-d4M" secondAttribute="leading" id="ZYF-8A-r4h"/>
-                            <constraint firstItem="bAi-RG-ywa" firstAttribute="leading" secondItem="eMq-hS-L2e" secondAttribute="trailing" constant="24" id="hEI-Si-ABg"/>
                             <constraint firstItem="1NZ-4k-d4M" firstAttribute="leading" secondItem="CD8-xI-cTC" secondAttribute="leading" constant="20" symbolic="YES" id="hJs-Yu-Val"/>
                             <constraint firstItem="BHX-GQ-YPp" firstAttribute="width" secondItem="1NZ-4k-d4M" secondAttribute="width" id="rOr-3W-WZm"/>
                         </constraints>
@@ -584,7 +575,7 @@
                                 <rect key="frame" x="16" y="20" width="280" height="572"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="chunk" textLabel="cvj-ef-opB" detailTextLabel="HvD-Zm-mXJ" style="IBUITableViewCellStyleSubtitle" id="atP-4g-DFI">
+                                    <tableViewCell contentMode="scaleToFill" misplaced="YES" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="chunk" textLabel="cvj-ef-opB" detailTextLabel="HvD-Zm-mXJ" style="IBUITableViewCellStyleSubtitle" id="atP-4g-DFI">
                                         <rect key="frame" x="0.0" y="22" width="280" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="atP-4g-DFI" id="4ue-5F-NLo">

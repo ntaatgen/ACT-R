@@ -260,7 +260,11 @@ init(model: Model, text: String) {
 
     
     fileprivate func parseSlotAction() throws -> SlotAction {
-        let slot = t.token!
+        var slot = t.token!
+        if slot == "-" || slot == ">" || slot == "<" || slot == ">=" || slot == "<=" {
+            try nextTokenCheckEOF()
+            slot += t.token!
+        }
         try nextTokenCheckEOF()
         let value = t.token!
         try nextTokenCheckEOF()
