@@ -156,6 +156,7 @@ class Vision {
     func matchesVisualObject(request: Chunk, visualObject vo: VisualObject) -> Bool {
         for (slot,value) in request.slotvals {
             switch (slot, value.description) {
+            case ("kind", _): if vo.visualType != value.description { return false }
             case ("isa", _), (":nearest", _): break
             case (":attended", "nil"): if vo.attended { return false }
             case (":attended", "t"): if !vo.attended { return false }

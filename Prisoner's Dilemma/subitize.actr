@@ -26,6 +26,7 @@
     +visual-location>
       isa visual-location
       screen-y highest
+      kind text
       :attended nil
   =goal>
 	state search
