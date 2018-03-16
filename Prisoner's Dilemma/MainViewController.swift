@@ -14,7 +14,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         model.loadModel(fileName: "prisoner2")
-
+        model.loadedModel = "prisoner"
 
         // Do any additional setup after loading the view.
     }

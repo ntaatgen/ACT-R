@@ -25,7 +25,7 @@ class PDViewController: UIViewController {
         var modelreward: Double
         var playerreward: Double
         // Only do something if there is a model and that model is waiting for the player to take an action
-        if (model != nil && model!.waitingForAction) && model!.actionChunk() {
+        if (model != nil && model!.loadedModel == "prisoner" && model!.waitingForAction) && model!.actionChunk() {
             switch sender.currentTitle! {
                 case "Cooperate":
                     print("Player did coop")
@@ -81,6 +81,7 @@ class PDViewController: UIViewController {
     }
     
     @IBAction func run() {
+
         if model != nil && !model!.running {
             model?.clearTrace()
             model?.run()
@@ -90,6 +91,11 @@ class PDViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if model!.loadedModel != "prisoner" {
+            model!.loadedModel = "prisoner"
+            model!.loadModel(fileName: "prisoner2")
+            model!.reset()
+        }
         print("Setting listener for Action")
         NotificationCenter.default.addObserver(self, selector: #selector(PDViewController.receiveAction), name: NSNotification.Name(rawValue: "Action"), object: nil)
         if model != nil {

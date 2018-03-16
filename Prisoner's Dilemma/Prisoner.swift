@@ -11,7 +11,7 @@ import Foundation
 class Prisoner: Model {
     var playerScore:Double = 0
     var modelScore:Double = 0
-    
+    var loadedModel: String? = nil
     /**
     Reset the prisoner's model: reset scores then do standard model init
     */
