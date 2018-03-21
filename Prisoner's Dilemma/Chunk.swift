@@ -160,8 +160,7 @@ Set the baselevel of a chunk
         let possibleNumVal = NumberFormatter().number(from: value)?.doubleValue
         if possibleNumVal != nil {
             slotvals[slot] = Value.Number(possibleNumVal!)
-        }
-        if let chunk = model.dm.chunks[value] {
+        } else if let chunk = model.dm.chunks[value] {
             slotvals[slot] = Value.symbol(chunk)
         } else {
             slotvals[slot] = Value.Text(value)
