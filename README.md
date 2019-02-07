@@ -6,6 +6,17 @@ model, and the newer Stevens & Taatgen (2015) model.
 
 The ACT-R core files can be used for your own models and your own application.
 
+<h3>What is implemented?</h3>
+The implementation is limited to a subset of the buffers. It implements =goal>, =imaginal>, =retrieval>, =temporal> as you might expect it. It implements =visual-location> and =visual>, but instead of defining a visicon in your code, you have to create a part of the UI that ACT-R is allowed to see (see subitizing example for details). It has a =partial> buffer for partial matching separate from regular retrieval.
+
+In addition to the buffers above, an =action> buffer is implemented that can be used to pass information between the model and the App. Typically you run the model until it reaches an +action> action, after which control is passed back to the App (i.e., swift). The Swift code can read out the action, take appropriate actions, may put information back into the action buffer, after which model execution proceeds (or waits until an external event, for example user input).
+
+The following ACT-R parameters are implemented: :ga, :rt, :ans,  :lf, :mp, :mas, :egs, :bll and :ol.
+
+Baselevel learning is always on, you can change the decay with :bll, but you cannot switch it off. 
+
+The following ACT-R commands are implemented: add-dm, spp, sgp, p, goal-focus, set-all-baselevels, and set-fixed-baselevels. set-fixed-baselevels can gives chunks a baselevel activation that does not decay, which can be useful to represent long-term knowledge.
+
 <h3>The Model class</h3>
 The Model class is the main class to use to build a model. You can either subclass it and add some model-specific functions in the subclass, or just use it as it is. Typically you create an instance of Model or its subclass, load in an ACT-R model from a textfile, and then run the model until it takes an action.
 
