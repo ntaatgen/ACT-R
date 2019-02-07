@@ -33,7 +33,7 @@ init(model: Model, text: String) {
     }
     
     static let bufferNames = ["goal","imaginal","retrieval","action","temporal","partial","visual-location","visual"]
-    static let numericParameters = [":ga",":rt",":ans",":lf",":mp",":mas"]
+    static let numericParameters = [":ga",":rt",":ans",":lf",":mp",":mas",":egs, :bll"]
     static let boolParameters = [":ol"]
     
     func readToken(token: String) throws {
@@ -176,6 +176,8 @@ init(model: Model, text: String) {
                 m.dm.misMatchPenalty = numValue!
             case ":mas":
                 m.dm.maximumAssociativeStrength = numValue!
+            case ":egs":
+                m.procedural.utilityNoise = numValue!
             case ":ol":
                 m.dm.optimizedLearning = value == "t"
             case ":bll":
