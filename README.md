@@ -17,6 +17,8 @@ Baselevel learning is always on, you can change the decay with :bll, but you can
 
 The following ACT-R commands are implemented: add-dm, spp, sgp, p, goal-focus, set-all-baselevels, and set-fixed-baselevels. set-fixed-baselevels can gives chunks a baselevel activation that does not decay, which can be useful to represent long-term knowledge.
 
+The current implementation supports declarative learning (adding new chunks, and baselevel learning), but not procedural learning (utility learning and production compilation).
+
 <h3>The Model class</h3>
 The Model class is the main class to use to build a model. You can either subclass it and add some model-specific functions in the subclass, or just use it as it is. Typically you create an instance of Model or its subclass, load in an ACT-R model from a textfile, and then run the model until it takes an action.
 
