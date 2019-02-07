@@ -14,7 +14,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         model.loadModel(fileName: "prisoner2")
-
+        model.loadedModel = "prisoner"
 
         // Do any additional setup after loading the view.
     }
@@ -34,6 +34,10 @@ class MainViewController: UIViewController {
                 }
             case "viewDM":
                 if let vm = segue.destination as? DMViewController {
+                    vm.model = self.model
+                }
+            case "subitize":
+                if let vm = segue.destination as? SubitizeViewController {
                     vm.model = self.model
                 }
             default : break

@@ -32,7 +32,7 @@ init(model: Model, text: String) {
         case unexpectedEOF
     }
     
-    static let bufferNames = ["goal","imaginal","retrieval","action","temporal"]
+    static let bufferNames = ["goal","imaginal","retrieval","action","temporal","partial","visual-location","visual"]
     static let numericParameters = [":ga",":rt",":ans",":lf",":mp",":mas"]
     static let boolParameters = [":ol"]
     
@@ -260,7 +260,11 @@ init(model: Model, text: String) {
 
     
     fileprivate func parseSlotAction() throws -> SlotAction {
-        let slot = t.token!
+        var slot = t.token!
+        if slot == "-" || slot == ">" || slot == "<" || slot == ">=" || slot == "<=" {
+            try nextTokenCheckEOF()
+            slot += t.token!
+        }
         try nextTokenCheckEOF()
         let value = t.token!
         try nextTokenCheckEOF()

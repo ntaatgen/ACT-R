@@ -10,11 +10,15 @@ import UIKit
 
 class ModelViewController: UIViewController {
 
+    
+    
+    
+    
     var keyboardShowing = false
     var model: Prisoner!
     @IBOutlet weak var modelText: UITextView!
     @IBOutlet weak var traceText: UITextView!
-    
+
     
     @IBAction func run() {
         if !model!.running {
@@ -34,6 +38,7 @@ class ModelViewController: UIViewController {
 
         model.loadModel(fileName: "prisoner")
         self.modelText.text = model.modelText
+        model.loadedModel = "prisoner"
         
     }
     
@@ -41,18 +46,29 @@ class ModelViewController: UIViewController {
 
         model.loadModel(fileName: "prisoner2")
         self.modelText.text = model.modelText
-
+        model.loadedModel = "prisoner"
+        model.reset()
     }
     
+    @IBAction func loadSubitize(_ sender: UIButton) {
+        model.loadModel(fileName: "subitize")
+        self.modelText.text = model.modelText
+        model.loadedModel = "subitize"
+        model.reset()
+    }
     
     @IBAction func loadCount() {
         model.loadModel(fileName: "count")
         self.modelText.text = model.modelText
+        model.loadedModel = "count"
+        model.reset()
     }
     
     @IBAction func loadTime(_ sender: UIButton) {
         model.loadModel(fileName: "time")
         self.modelText.text = model.modelText
+        model.loadedModel = "time"
+        model.reset()
     }
     
     @objc func updateTrace() {

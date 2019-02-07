@@ -1,0 +1,98 @@
+;; The subitize model!
+
+(add-dm
+ (cf9 isa number id nine next ten)
+ (cf8 isa number id eight next nine)
+ (cf7 isa number id seven next eight)
+ (cf6 isa number id six next seven)
+ (cf5 isa number id five next six)
+ (cf4 isa number id four next five)
+ (cf3 isa number id three next four)
+ (cf2 isa number id two next three)
+ (cf1 isa number id one next two)
+ (cf0 isa number id zero next one)
+ (sub1 isa subitize state start)
+)
+
+(set-all-baselevels -100 10) ;; time offset and number of references
+
+(goal-focus sub1)
+
+(p start-subitize
+  =goal>
+    isa subitize
+	state start
+  ==>
+    +visual-location>
+      isa visual-location
+      screen-y highest
+      kind text
+      :attended nil
+  =goal>
+	state search
+	count zero
+      )
+	
+(p attend
+    =goal>
+    	isa subitize
+    	state search
+    	count =count
+    =visual-location>
+    	isa visual-location
+    ?visual>
+        state free
+==>
+	+visual>
+		isa move-attention
+		screen-pos =visual-location
+    +retrieval>
+    	isa number
+    	id =count
+  	=goal>
+  		state encode
+    )
+
+(p encode
+	=goal>
+		isa subitize
+		state encode
+	=retrieval>
+		isa number
+		next =next
+	=visual>
+		isa text
+==>
+	=goal>
+		state again
+		count =next)
+		
+(p find-again
+	=goal>
+		isa subitize
+		state again
+==>
+	+visual-location>
+		isa visual-location
+		:attended nil
+        :nearest t
+	=goal>
+		state search
+)	
+
+(p respond
+	=goal>
+		isa subitize
+		state search
+		count =count
+	?visual-location>
+		state error
+==>
+	+action>
+		isa action
+		action say
+		number =count
+	-goal>
+)
+
+

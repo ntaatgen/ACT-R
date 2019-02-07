@@ -33,7 +33,12 @@
 		B828691E1AD45BC800964ACC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B82869061AD45BC800964ACC /* Main.storyboard */; };
 		B828691F1AD45BC800964ACC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B82869071AD45BC800964ACC /* Images.xcassets */; };
 		B8377D5C1C11E72D007BDA3E /* Prisoner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8377D5B1C11E72D007BDA3E /* Prisoner.swift */; };
+		B84C2FB52056BC73008FD722 /* SubitizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84C2FB42056BC73008FD722 /* SubitizeViewController.swift */; };
+		B853555F2057BC7D00A3E833 /* ACTRWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B853555E2057BC7D00A3E833 /* ACTRWindowView.swift */; };
 		B85DFBE22023518F009DCFE4 /* Temporal.swift in Sources */ = {isa = PBXBuildFile; fileRef = B85DFBDF20235073009DCFE4 /* Temporal.swift */; };
+		B87B55CA205ACDEA0024BDD9 /* FocusRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87B55C9205ACDEA0024BDD9 /* FocusRing.swift */; };
+		B881A36320581D0F00C831CF /* subitize.actr in Resources */ = {isa = PBXBuildFile; fileRef = B881A36220581D0F00C831CF /* subitize.actr */; };
+		B88F7BB7204D73EF003A0BDB /* Vision.swift in Sources */ = {isa = PBXBuildFile; fileRef = B88F7BB6204D73EF003A0BDB /* Vision.swift */; };
 		B8E38EBB1B56E29700F82A3D /* DMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B82869041AD45BC800964ACC /* DMViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -79,7 +84,12 @@
 		B82869061AD45BC800964ACC /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B82869071AD45BC800964ACC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		B8377D5B1C11E72D007BDA3E /* Prisoner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Prisoner.swift; sourceTree = "<group>"; };
+		B84C2FB42056BC73008FD722 /* SubitizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubitizeViewController.swift; sourceTree = "<group>"; };
+		B853555E2057BC7D00A3E833 /* ACTRWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACTRWindowView.swift; sourceTree = "<group>"; };
 		B85DFBDF20235073009DCFE4 /* Temporal.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Temporal.swift; sourceTree = "<group>"; };
+		B87B55C9205ACDEA0024BDD9 /* FocusRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusRing.swift; sourceTree = "<group>"; };
+		B881A36220581D0F00C831CF /* subitize.actr */ = {isa = PBXFileReference; lastKnownFileType = text; path = subitize.actr; sourceTree = "<group>"; };
+		B88F7BB6204D73EF003A0BDB /* Vision.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vision.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +134,7 @@
 				B8E38EBD1B56E3B500F82A3D /* Models */,
 				B8E38EBC1B56E39C00F82A3D /* Core ACT-R */,
 				B8377D5B1C11E72D007BDA3E /* Prisoner.swift */,
+				B84C2FB42056BC73008FD722 /* SubitizeViewController.swift */,
 				B82869021AD45BC800964ACC /* ModelViewController.swift */,
 				B82869031AD45BC800964ACC /* PDViewController.swift */,
 				B82869041AD45BC800964ACC /* DMViewController.swift */,
@@ -165,7 +176,10 @@
 		B8E38EBC1B56E39C00F82A3D /* Core ACT-R */ = {
 			isa = PBXGroup;
 			children = (
+				B853555E2057BC7D00A3E833 /* ACTRWindowView.swift */,
+				B87B55C9205ACDEA0024BDD9 /* FocusRing.swift */,
 				B82868F41AD45BC800964ACC /* Chunk.swift */,
+				B88F7BB6204D73EF003A0BDB /* Vision.swift */,
 				B82868F51AD45BC800964ACC /* Production.swift */,
 				B82868F61AD45BC800964ACC /* Procedural.swift */,
 				B82868F71AD45BC800964ACC /* Parser.swift */,
@@ -188,6 +202,7 @@
 			children = (
 				B82868F01AD45BC800964ACC /* time.actr */,
 				B82868F11AD45BC800964ACC /* count.actr */,
+				B881A36220581D0F00C831CF /* subitize.actr */,
 				B82868F21AD45BC800964ACC /* prisoner.actr */,
 				B82868F31AD45BC800964ACC /* prisoner2.actr */,
 			);
@@ -282,6 +297,7 @@
 			files = (
 				B82869091AD45BC800964ACC /* count.actr in Resources */,
 				B828690B1AD45BC800964ACC /* prisoner2.actr in Resources */,
+				B881A36320581D0F00C831CF /* subitize.actr in Resources */,
 				B828691F1AD45BC800964ACC /* Images.xcassets in Resources */,
 				B82868DB1AD45B4E00964ACC /* LaunchScreen.xib in Resources */,
 				B828691E1AD45BC800964ACC /* Main.storyboard in Resources */,
@@ -314,14 +330,18 @@
 				B828691A1AD45BC800964ACC /* ModelViewController.swift in Sources */,
 				B82869141AD45BC800964ACC /* Tokenizer.swift in Sources */,
 				B85DFBE22023518F009DCFE4 /* Temporal.swift in Sources */,
+				B87B55CA205ACDEA0024BDD9 /* FocusRing.swift in Sources */,
 				B828690E1AD45BC800964ACC /* Procedural.swift in Sources */,
 				B82868D11AD45B4E00964ACC /* AppDelegate.swift in Sources */,
 				B82869101AD45BC800964ACC /* Declarative.swift in Sources */,
 				B828690F1AD45BC800964ACC /* Parser.swift in Sources */,
 				B82869161AD45BC800964ACC /* SlotCondition.swift in Sources */,
+				B88F7BB7204D73EF003A0BDB /* Vision.swift in Sources */,
 				B8E38EBB1B56E29700F82A3D /* DMViewController.swift in Sources */,
+				B853555F2057BC7D00A3E833 /* ACTRWindowView.swift in Sources */,
 				B82869121AD45BC800964ACC /* Support.swift in Sources */,
 				B828690C1AD45BC800964ACC /* Chunk.swift in Sources */,
+				B84C2FB52056BC73008FD722 /* SubitizeViewController.swift in Sources */,
 				B828690D1AD45BC800964ACC /* Production.swift in Sources */,
 				B82869191AD45BC800964ACC /* BufferAction.swift in Sources */,
 			);

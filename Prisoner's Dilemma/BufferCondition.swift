@@ -51,9 +51,19 @@ class BufferCondition: CustomStringConvertible {
         } else if (prefix == "?") {
             switch buffer {
             case "?retrieval":
-//                print("Testing \(self)")
-            for condition in slotConditions {
-                if !model.dm.retrievalState(slot: condition.slot, value: condition.value.text()!) { return false }
+                //                print("Testing \(self)")
+                for condition in slotConditions {
+                    if !model.dm.retrievalState(slot: condition.slot, value: condition.value.description) { return false }
+                }
+                return true
+            case "?visual-location":
+                for condition in slotConditions {
+                    if !model.visual.visualLocationQuery(slot: condition.slot, value: condition.value.description) { return false }
+                }
+                return true
+            case "?visual":
+                for condition in slotConditions {
+                    if !model.visual.visualQuery(slot: condition.slot, value: condition.value.description) { return false }
                 }
                 return true
             default: return false
