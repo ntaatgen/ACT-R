@@ -226,6 +226,56 @@ class Declarative  {
         }
     }
     
-    // TODO: Also combine partial matching with blending
+    func blendedPartialRetrieve(chunk: Chunk, mismatchFunction: (_ x: Value, _ y: Value) -> Double? ) -> (Double, Chunk?) {
+        retrieveError = false
+        let bestMatch = chunk.copy()
+        var currentReturn: [String:Double] = [:]
+        var totalpChunk = 0.0
+        chunkloop: for (_,ch1) in chunks {
+            var mismatch = 0.0
+            for (slot,value) in chunk.slotvals {
+                if let val1 = ch1.slotvals[slot] {
+                    if !val1.isEqual(value: value) {
+                        let slotmismatch = mismatchFunction(val1, value)
+                        if slotmismatch != nil {
+                            mismatch += slotmismatch! * misMatchPenalty
+                        } else
+                        {
+                            continue chunkloop
+                        }
+                    }
+                } else { continue chunkloop }
+            }
+            // The chunk does match. Now blend the remaining slots
+            let activation = ch1.baseLevelActivation() + ch1.spreadingActivation() + mismatch
+            let pChunk = exp(activation / activationNoise!)
+            totalpChunk += pChunk
+            for (slot, value) in ch1.slotvals {
+                if chunk.slotvals[slot] == nil { // the slot is not in the request
+                    switch value {
+                    case .Number(let num):
+                        if let val1 = currentReturn[slot] {
+                            currentReturn[slot] = val1 + num * pChunk
+                        } else {
+                            currentReturn[slot] = num * pChunk
+                        }
+                    default: break
+                    }
+                }
+            }
+        }
+        for (slot, value) in currentReturn {
+            bestMatch.setSlot(slot: slot, value: value / totalpChunk)
+        }
+        if totalpChunk > 0.0 {
+            return (latency(activation: retrievalThreshold) , bestMatch)
+        } else {
+            retrieveError = true
+            return (latency(activation: retrievalThreshold), nil)
+        }
+        
+    }
+    
+
     
 }
