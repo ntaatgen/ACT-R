@@ -66,6 +66,17 @@ class BufferCondition: CustomStringConvertible {
                     if !model.visual.visualQuery(slot: condition.slot, value: condition.value.description) { return false }
                 }
                 return true
+            case "?imaginal":
+                for condition in slotConditions {
+                    switch (condition.slot, condition.value.text()!) {
+                    case ("state", "free"):  break
+                    case ("state", "busy"):  return false
+                    case ("buffer", "empty"): if model.buffers["imaginal"] != nil { return false }
+                    case ("buffer", "full"): if model.buffers["imaginal"] == nil { return false }
+                    default: return false
+                    }
+                }
+                return true
             default: return false
             }
         }
