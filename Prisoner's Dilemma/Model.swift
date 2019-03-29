@@ -270,7 +270,7 @@ class Model {
     }
     
     func stringToValue(_ s: String) -> Value {
-        let possibleNumVal = NumberFormatter().number(from: s)?.doubleValue
+        let possibleNumVal = Double(s) //NumberFormatter().number(from: s)?.doubleValue
         if possibleNumVal != nil {
             return Value.Number(possibleNumVal!)
         }

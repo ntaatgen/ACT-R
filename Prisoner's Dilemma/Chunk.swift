@@ -157,7 +157,7 @@ Set the baselevel of a chunk
      */
     func setSlot(slot: String, value: String) {
         if slotvals[slot] == nil { printOrder.append(slot) }
-        let possibleNumVal = NumberFormatter().number(from: value)?.doubleValue
+        let possibleNumVal = Double(value) // NumberFormatter().number(from: value)?.doubleValue
         if possibleNumVal != nil {
             slotvals[slot] = Value.Number(possibleNumVal!)
         } else if let chunk = model.dm.chunks[value] {

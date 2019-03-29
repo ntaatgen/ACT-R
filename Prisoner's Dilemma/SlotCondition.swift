@@ -44,8 +44,8 @@ init(op: String?, slot: String, value: Value, model: Model) {
     
     func opTest(op: String?, val1: String, val2: String) -> Bool {
       //  println("Testing \(op) on \(val1) and \(val2)")
-        let numval1 = NumberFormatter().number(from: val1)?.doubleValue
-        let numval2 = NumberFormatter().number(from: val2)?.doubleValue
+        let numval1 = Double(val1) //NumberFormatter().number(from: val1)?.doubleValue
+        let numval2 = Double(val2) //NumberFormatter().number(from: val2)?.doubleValue
         if numval1 != nil && numval2 != nil {
             return opTest(op: op, val1: numval1!, val2: numval2!)
         }

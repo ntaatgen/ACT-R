@@ -72,7 +72,7 @@ init(model: Model, text: String) {
                         try nextTokenCheckEOF()
                         try readToken(token: ":u")
                         try checkEOF()
-                        if let value = NumberFormatter().number(from: t.token!)?.doubleValue {
+                        if let value = Double(t.token!) { // NumberFormatter().number(from: t.token!)?.doubleValue {
                             prod.u = value
                         } else {
                             throw ParserError.notANumber(s: t.token!)
@@ -101,9 +101,9 @@ init(model: Model, text: String) {
                 try readToken(token: ")")
             case "set-all-baselevels":
                 try nextTokenCheckEOF()
-                if let timeDiff = NumberFormatter().number(from: t.token!)?.doubleValue {
+                if let timeDiff = Double(t.token!) { // NumberFormatter().number(from: t.token!)?.doubleValue {
                     try nextTokenCheckEOF()
-                    if let number = NumberFormatter().number(from: t.token!)?.int32Value {
+                    if let number = Int(t.token!) { // NumberFormatter().number(from: t.token!)?.int32Value {
                         for (_,chunk) in m.dm.chunks {
                             chunk.setBaseLevel(timeDiff: timeDiff, references: Int(number))
                         }
@@ -113,7 +113,7 @@ init(model: Model, text: String) {
                 try readToken(token: ")")
             case "set-fixed-baselevels":
                 try nextTokenCheckEOF()
-                if let activation = NumberFormatter().number(from: t.token!)?.doubleValue {
+                if let activation = Double(t.token!) { // NumberFormatter().number(from: t.token!)?.doubleValue {
                     for (_, chunk) in m.dm.chunks {
                         if chunk.fixedActivation == nil {
                             chunk.fixedActivation = activation
@@ -140,7 +140,7 @@ init(model: Model, text: String) {
             let valuestring = t.token!
             if valuestring == ")" { throw ParserError.unExpected(what: ")", but: "Symbol or Value")}
             try nextTokenCheckEOF()
-                if let number = NumberFormatter().number(from: valuestring)?.doubleValue   {
+            if let number = Double(valuestring) { // NumberFormatter().number(from: valuestring)?.doubleValue   {
                     if slot != ":activation" {
                         chunk.setSlot(slot: slot, value: number)
                     } else {
@@ -159,7 +159,7 @@ init(model: Model, text: String) {
             let parameterName = t.token!
             try nextTokenCheckEOF()
             let value = t.token!
-            let numValue = NumberFormatter().number(from: value)?.doubleValue
+            let numValue = Double(value) // NumberFormatter().number(from: value)?.doubleValue
             try nextTokenCheckEOF()
             if Parser.numericParameters.contains(parameterName) && numValue == nil { throw ParserError.notANumber(s: value)}
             if Parser.boolParameters.contains(parameterName) && value != "nil" && value != "t" { throw ParserError.unExpected(what: value, but: "t or nil")}
