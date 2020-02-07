@@ -58,7 +58,7 @@ class PDViewController: UIViewController {
             default:  modelreward = 0.0
              playerreward = 0.0
             }
-            UIView.transition(with: modelImage, duration: 0.75, options: UIViewAnimationOptions.transitionFlipFromLeft, animations: { self.modelImage.image = newImage }, completion: nil)
+            UIView.transition(with: modelImage, duration: 0.75, options: UIView.AnimationOptions.transitionFlipFromLeft, animations: { self.modelImage.image = newImage }, completion: nil)
             //modelImage.image
             timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(PDViewController.flipCardBack(_:)), userInfo: nil, repeats: false)
             model!.playerScore += playerreward
@@ -76,7 +76,7 @@ class PDViewController: UIViewController {
     }
     
     @objc func flipCardBack(_ x: Timer) {
-        UIView.transition(with: modelImage, duration: 0.75, options: UIViewAnimationOptions.transitionFlipFromRight, animations: { self.modelImage.image = UIImage(named: "Decision.jpg")! }, completion: nil)
+        UIView.transition(with: modelImage, duration: 0.75, options: UIView.AnimationOptions.transitionFlipFromRight, animations: { self.modelImage.image = UIImage(named: "Decision.jpg")! }, completion: nil)
         timer = nil
     }
     

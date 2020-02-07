@@ -79,8 +79,8 @@ class ModelViewController: UIViewController {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self, selector: #selector(ModelViewController.updateTrace), name: NSNotification.Name(rawValue: "TraceChanged"), object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(ModelViewController.keyboardShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ModelViewController.keyboardHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ModelViewController.keyboardShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ModelViewController.keyboardHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         updateTrace()
         modelText.text = model.modelText
         
@@ -99,7 +99,7 @@ class ModelViewController: UIViewController {
         self.keyboardShowing = true
         
         let d = n.userInfo!
-        var r = (d[UIKeyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
+        var r = (d[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue).cgRectValue
         r = self.modelText.convert(r, from:nil)
         self.modelText.contentInset.bottom = r.size.height
         self.modelText.scrollIndicatorInsets.bottom = r.size.height

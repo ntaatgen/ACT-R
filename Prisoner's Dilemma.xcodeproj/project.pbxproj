@@ -261,12 +261,12 @@
 					B82868CA1AD45B4E00964ACC = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = YD3HPRU5U8;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 1130;
 					};
 					B82868DF1AD45B4E00964ACC = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = YD3HPRU5U8;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 1130;
 						TestTargetID = B82868CA1AD45B4E00964ACC;
 					};
 				};
@@ -276,6 +276,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -486,7 +487,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "nl.rug.ai.taatgen.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -500,7 +501,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "nl.rug.ai.taatgen.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -522,7 +523,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "nl.rug.ai.taatgen.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Prisoner's Dilemma.app/Prisoner's Dilemma";
 			};
 			name = Debug;
@@ -541,7 +542,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "nl.rug.ai.taatgen.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Prisoner's Dilemma.app/Prisoner's Dilemma";
 			};
 			name = Release;
