@@ -8,8 +8,7 @@
 
 import Foundation
 
-struct SlotCondition: CustomStringConvertible {
-    let model: Model
+struct SlotCondition: CustomStringConvertible, Codable {
     let slot: String
     let value: Value
     let op: String?
@@ -21,8 +20,7 @@ struct SlotCondition: CustomStringConvertible {
         }
     }
     
-init(op: String?, slot: String, value: Value, model: Model) {
-    self.model = model
+init(op: String?, slot: String, value: Value) {
     self.value = value
     self.slot = slot
     self.op = op

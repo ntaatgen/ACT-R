@@ -10,7 +10,7 @@ import UIKit
 
 class DMViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate   {
 
-    var model: Prisoner?
+    var model: Model?
     var chunkList: [(String,String,Double)] = []
     
     @IBOutlet weak var chunkTable: UITableView!

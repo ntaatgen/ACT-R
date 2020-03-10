@@ -8,13 +8,17 @@
 
 import Foundation
 
-class Production: CustomStringConvertible {
+class Production: CustomStringConvertible, Codable {
     let name: String
-    let model: Model
+    var model: Model? = nil
     var conditions: [BufferCondition] = []
     var actions: [BufferAction] = []
     var u: Double
     var reward: Double? = nil // if it has no value the production has no reward
+
+    enum CodingKeys: String, CodingKey {
+         case name, conditions, actions, u, reward
+    }
     
     var description: String {
         get {
@@ -49,8 +53,8 @@ class Production: CustomStringConvertible {
     - returns: If the production can be instantiated with the current buffers, otherwise nil
     */
     func instantiate() -> Instantiation? {
-        let utility = u + actrNoise(noise: model.procedural.utilityNoise)
-        let inst = Instantiation(prod: self, time: model.time, u: utility)
+        let utility = u + actrNoise(noise: model!.procedural.utilityNoise)
+        let inst = Instantiation(prod: self, time: model!.time, u: utility)
         for bc in conditions {
             if !bc.test(instantiation: inst) {
                 return nil
@@ -72,7 +76,7 @@ class Production: CustomStringConvertible {
                         found = true
                     }
                 }
-                if !found { model.buffers[bc.buffer] = nil }
+                if !found { model!.buffers[bc.buffer] = nil }
             }
         }
         for ac in actions {

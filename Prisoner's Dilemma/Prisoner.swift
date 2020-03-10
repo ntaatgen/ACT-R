@@ -8,17 +8,16 @@
 
 import Foundation
 
-class Prisoner: Model {
+class Prisoner {
     var playerScore:Double = 0
     var modelScore:Double = 0
     var loadedModel: String? = nil
     /**
     Reset the prisoner's model: reset scores then do standard model init
     */
-    override func reset() {
+    func reset() {
         self.playerScore = 0
         self.modelScore = 0
-        super.reset()
     }
     
 }

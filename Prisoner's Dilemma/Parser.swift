@@ -236,7 +236,7 @@ init(model: Model, text: String) {
         try nextTokenCheckEOF()
         let value = t.token!
         try nextTokenCheckEOF()
-        return SlotCondition(op: op, slot: slot, value: m.stringToValue(value), model: m)
+        return SlotCondition(op: op, slot: slot, value: m.stringToValue(value))
     }
     
     

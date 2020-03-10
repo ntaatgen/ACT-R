@@ -9,13 +9,10 @@
 import UIKit
 
 class ModelViewController: UIViewController {
-
-    
-    
-    
     
     var keyboardShowing = false
-    var model: Prisoner!
+    var model: Model!
+    var prisoner: Prisoner!
     @IBOutlet weak var modelText: UITextView!
     @IBOutlet weak var traceText: UITextView!
 
@@ -24,6 +21,11 @@ class ModelViewController: UIViewController {
         if !model!.running {
         model.clearTrace()
         model.run()
+        }
+        if prisoner.loadedModel == "prisoner" {
+            print("writing model")
+            writeModel(filename: "prisoner.json", model: model)
+            print("Writing done")
         }
     }
     
@@ -38,36 +40,36 @@ class ModelViewController: UIViewController {
 
         model.loadModel(fileName: "prisoner")
         self.modelText.text = model.modelText
-        model.loadedModel = "prisoner"
+        prisoner.loadedModel = "prisoner"
         
     }
     
     @IBAction func loadComplex() {
-
+        
         model.loadModel(fileName: "prisoner2")
         self.modelText.text = model.modelText
-        model.loadedModel = "prisoner"
-        model.reset()
+        model.reset()        
+        prisoner.loadedModel = "prisoner"
     }
     
     @IBAction func loadSubitize(_ sender: UIButton) {
         model.loadModel(fileName: "subitize")
         self.modelText.text = model.modelText
-        model.loadedModel = "subitize"
+        prisoner.loadedModel = "subitize"
         model.reset()
     }
     
     @IBAction func loadCount() {
         model.loadModel(fileName: "count")
         self.modelText.text = model.modelText
-        model.loadedModel = "count"
+        prisoner.loadedModel = "count"
         model.reset()
     }
     
     @IBAction func loadTime(_ sender: UIButton) {
         model.loadModel(fileName: "time")
         self.modelText.text = model.modelText
-        model.loadedModel = "time"
+        prisoner.loadedModel = "time"
         model.reset()
     }
     

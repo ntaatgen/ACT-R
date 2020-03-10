@@ -9,7 +9,8 @@
 import UIKit
 
 class PDViewController: UIViewController {
-    var model: Prisoner?
+    var model: Model?
+    var prisoner: Prisoner?
     var timer: Timer? = nil
     
     @IBOutlet weak var dialog: UILabel!
@@ -25,7 +26,7 @@ class PDViewController: UIViewController {
         var modelreward: Double
         var playerreward: Double
         // Only do something if there is a model and that model is waiting for the player to take an action
-        if (model != nil && model!.loadedModel == "prisoner" && model!.waitingForAction) && model!.actionChunk() {
+        if (model != nil && prisoner!.loadedModel == "prisoner" && model!.waitingForAction) && model!.actionChunk() {
             switch sender.currentTitle! {
                 case "Cooperate":
                     print("Player did coop")
@@ -61,10 +62,10 @@ class PDViewController: UIViewController {
             UIView.transition(with: modelImage, duration: 0.75, options: UIView.AnimationOptions.transitionFlipFromLeft, animations: { self.modelImage.image = newImage }, completion: nil)
             //modelImage.image
             timer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(PDViewController.flipCardBack(_:)), userInfo: nil, repeats: false)
-            model!.playerScore += playerreward
-            model!.modelScore += modelreward
+            prisoner!.playerScore += playerreward
+            prisoner!.modelScore += modelreward
             dialog.text = "You get \(playerreward) and I get \(modelreward)\n"
-            dialog.text = dialog.text! + "Your score is \(model!.playerScore) and mine is \(model!.modelScore)\n"
+            dialog.text = dialog.text! + "Your score is \(prisoner!.playerScore) and mine is \(prisoner!.modelScore)\n"
             
             model!.modifyLastAction(slot: "payoffA", value: String(modelreward))
             model!.modifyLastAction(slot: "payoffB", value: String(playerreward))
@@ -91,8 +92,8 @@ class PDViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if model!.loadedModel != "prisoner" {
-            model!.loadedModel = "prisoner"
+        if prisoner!.loadedModel != "prisoner" {
+            prisoner!.loadedModel = "prisoner"
             model!.loadModel(fileName: "prisoner2")
             model!.reset()
         }

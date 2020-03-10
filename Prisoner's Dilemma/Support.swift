@@ -25,14 +25,94 @@ func isVariable(value v: Value) -> Bool {
     else { return false }
 }
 
+// Loading and saving models
+
+func writeModel(filename: String, model: Model) {
+    do {
+        let fileURL = try FileManager.default
+            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            .appendingPathComponent(filename)
+
+        try JSONEncoder().encode(model)
+            .write(to: fileURL)
+    } catch {
+        print(error)
+    }
+}
+
+func readModel(filename: String) -> Model? {
+    do {
+        let fileURL = try FileManager.default
+            .url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            .appendingPathComponent(filename)
+
+        let data = try Data(contentsOf: fileURL)
+        let model = try JSONDecoder().decode(Model.self, from: data)
+        for (_,chunk) in model.dm.chunks {
+            chunk.model = model
+        }
+        for (_, proc) in model.procedural.productions {
+            proc.model = model
+            for cond in proc.conditions {
+                cond.model = model
+            }
+            for act in proc.actions {
+                act.model = model
+            }
+        }
+        return model
+    } catch {
+        return nil
+    }
+}
+
 
 // Chunk values can be a symbol, a number or nil
 
-enum Value: CustomStringConvertible {
-    case symbol(Chunk)
+enum Value: CustomStringConvertible, Codable {
+   case symbol(Chunk)
     case Number(Double)
     case Text(String)
     case Empty
+    
+    private enum CodingKeys: String, CodingKey {
+        case symbol
+        case Number
+        case Text
+        case Empty
+    }
+    
+       init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        if let value = try? values.decode(Double.self, forKey: .Number) {
+            self = .Number(value)
+            return
+        }
+        if let value = try? values.decode(String.self, forKey: .Text) {
+            self = .Text(value)
+            return
+        }
+        if let value = try? values.decode(Chunk.self, forKey: .symbol) {
+            self = .symbol(value)
+            return
+        }
+        self = .Empty
+       }
+       
+       func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .symbol(let chunk):
+            try container.encode(chunk, forKey: .symbol)
+        case .Number(let num):
+            try container.encode(num, forKey: .Number)
+        case .Text(let str):
+            try container.encode(str, forKey: .Text)
+        case .Empty:
+            try container.encodeNil(forKey: .Empty)
+        }
+       }
+       
     
     func number() -> Double? {
         switch self {

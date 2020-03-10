@@ -9,12 +9,28 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    var model = Prisoner()
-
+    var model = Model()
+    var prisoner = Prisoner()
     override func viewDidLoad() {
         super.viewDidLoad()
-        model.loadModel(fileName: "prisoner2")
-        model.loadedModel = "prisoner"
+        if let m = readModel(filename: "prisoner.json") {
+            model = m
+            let goal = Chunk(s: "goal", m: model)
+            goal.setSlot(slot: "isa", value: "decision")
+            goal.setSlot(slot: "state", value: "start")
+            model.buffers["goal"] = goal
+            for (_,chunk) in model.dm.chunks {
+                print("\(chunk)")
+            }
+            print("")
+            for (_,prod) in model.procedural.productions {
+                print("\(prod)")
+            }
+            model.isValid = true
+        } else {
+            model.loadModel(fileName: "prisoner2")
+        }
+       prisoner.loadedModel = "prisoner"
 
         // Do any additional setup after loading the view.
     }
@@ -27,10 +43,12 @@ class MainViewController: UIViewController {
                 print("Doing the segue")
                 if let vm = segue.destination as? ModelViewController {
                     vm.model = self.model
+                    vm.prisoner = self.prisoner
                 }
             case "viewPD":
                 if let vm = segue.destination as? PDViewController {
                     vm.model = self.model
+                    vm.prisoner = self.prisoner
                 }
             case "viewDM":
                 if let vm = segue.destination as? DMViewController {
@@ -39,6 +57,7 @@ class MainViewController: UIViewController {
             case "subitize":
                 if let vm = segue.destination as? SubitizeViewController {
                     vm.model = self.model
+                    vm.prisoner = self.prisoner
                 }
             default : break
             }

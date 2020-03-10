@@ -8,8 +8,8 @@
 
 import Foundation
 
-class BufferCondition: CustomStringConvertible {
-    let model: Model
+class BufferCondition: CustomStringConvertible, Codable {
+    var model: Model?
     let prefix: String
     let buffer: String
     var slotConditions: [SlotCondition] = []
@@ -26,6 +26,10 @@ class BufferCondition: CustomStringConvertible {
         }
     }
     
+    enum CodingKeys: String, CodingKey {
+         case prefix, buffer, slotConditions
+    }
+    
     init(prefix: String, buffer: String, model: Model) {
         self.prefix = prefix
         self.buffer = buffer
@@ -37,7 +41,7 @@ class BufferCondition: CustomStringConvertible {
     func test(instantiation inst: Instantiation) -> Bool {
         // It may be necessary to put something in here for specials
         if (prefix == "=") {
-            let bufferChunk = model.buffers[buffer]
+            let bufferChunk = model!.buffers[buffer]
        //     println("Testing condition \(self) on buffer \(bufferChunk)")
             if bufferChunk == nil { return false }
             for condition in slotConditions {
@@ -53,17 +57,17 @@ class BufferCondition: CustomStringConvertible {
             case "?retrieval":
                 //                print("Testing \(self)")
                 for condition in slotConditions {
-                    if !model.dm.retrievalState(slot: condition.slot, value: condition.value.description) { return false }
+                    if !model!.dm.retrievalState(slot: condition.slot, value: condition.value.description) { return false }
                 }
                 return true
             case "?visual-location":
                 for condition in slotConditions {
-                    if !model.visual.visualLocationQuery(slot: condition.slot, value: condition.value.description) { return false }
+                    if !model!.visual.visualLocationQuery(slot: condition.slot, value: condition.value.description) { return false }
                 }
                 return true
             case "?visual":
                 for condition in slotConditions {
-                    if !model.visual.visualQuery(slot: condition.slot, value: condition.value.description) { return false }
+                    if !model!.visual.visualQuery(slot: condition.slot, value: condition.value.description) { return false }
                 }
                 return true
             case "?imaginal":
@@ -71,8 +75,8 @@ class BufferCondition: CustomStringConvertible {
                     switch (condition.slot, condition.value.text()!) {
                     case ("state", "free"):  break
                     case ("state", "busy"):  return false
-                    case ("buffer", "empty"): if model.buffers["imaginal"] != nil { return false }
-                    case ("buffer", "full"): if model.buffers["imaginal"] == nil { return false }
+                    case ("buffer", "empty"): if model!.buffers["imaginal"] != nil { return false }
+                    case ("buffer", "full"): if model!.buffers["imaginal"] == nil { return false }
                     default: return false
                     }
                 }

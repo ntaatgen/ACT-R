@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Model {
+class Model: Codable {
     var time: Double = 0
     var dm = Declarative()
     var procedural = Procedural()
@@ -34,6 +34,35 @@ class Model {
     }
     var modelText: String = ""
 
+    enum CodingKeys: String, CodingKey {
+        case dm
+        case time
+        case chunkIdCounter
+        case procedural
+        case imaginalActionTime
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        if let value = try? values.decode(Double.self, forKey: .time) {
+            self.time = value
+        }
+        if let value = try? values.decode(Double.self, forKey: .imaginalActionTime) {
+            self.imaginalActionTime = value
+        }
+        if let value = try? values.decode(Declarative.self, forKey: .dm) {
+            self.dm = value
+        } 
+        if let value = try? values.decode(Int.self, forKey: .chunkIdCounter) {
+            self.chunkIdCounter = value
+        }
+        if let value = try? values.decode(Procedural.self, forKey: .procedural) {
+            self.procedural = value
+        } 
+        self.trace = ""
+    }
+    
+    
     /**
     Inspect a slot value of the last action
      - parameter slot: The name of the slot
@@ -128,8 +157,9 @@ class Model {
             temporal.updateTimer()
             var inst: Instantiation?
             for (_,p) in procedural.productions {
+                print("Trying \(p.name)")
                 if let result = p.instantiate() {
-//                    print("Matching \(result.p.name) with utility \(result.u)")
+                    print("Matching \(result.p.name) with utility \(result.u)")
                     if inst == nil {
                         inst = result
                     } else if result.u > inst!.u {
@@ -208,6 +238,7 @@ class Model {
     }
     
     func run(step: Bool = false) {
+        print("Running model")
         if isValid {
             run(maxTime: 10000, step: step)
         }
@@ -221,7 +252,6 @@ class Model {
         dm.chunks = [:]
         procedural.productions = [:]
         buffers = [:]
-        visual.reset()
         let parser = Parser(model: self, text: modelText)
         do {
             try parser.parseModel()
@@ -246,6 +276,19 @@ class Model {
         } catch {
             print("\nUnknown error")
         }
+        visual.reset()
+        clearTrace()
+        running = false
+        waitingForAction = false
+        print("resetting model")
+    }
+    
+    /**
+     Reset the model, but do not clear memory or reload the model file
+     */
+    func softReset() {
+        buffers = [:]
+        visual.reset()
         clearTrace()
         running = false
         waitingForAction = false

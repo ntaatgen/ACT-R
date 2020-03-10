@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Declarative  {
+class Declarative: Codable  {
     /// Baselevel decay parameter, d in the equations, or bll in ACT-R
     var baseLevelDecay: Double? = 0.5
     /// Is optimized learning on or off (ol in ACT-R)
@@ -31,6 +31,35 @@ class Declarative  {
     var retrieveBusy = false
     var retrieveError = false
     var retrievaltoDM = false
+    
+    enum CodingKeys: String, CodingKey {
+        case chunks
+        case baseLevelDecay
+        case optimizedLearning
+        case maximumAssociativeStrength
+        case goalActivation
+        case retrievalThreshold
+        case activationNoise
+        case misMatchPenalty
+        case latencyFactor
+    }
+    
+    required init(from decoder: Decoder) throws {
+         let values = try decoder.container(keyedBy: CodingKeys.self)
+        self.chunks = try values.decode([String:Chunk].self, forKey: .chunks)
+        self.baseLevelDecay = try values.decodeIfPresent(Double.self, forKey: .baseLevelDecay)
+        self.optimizedLearning = try values.decode(Bool.self, forKey: .optimizedLearning)
+        self.maximumAssociativeStrength = try values.decode(Double.self, forKey: .maximumAssociativeStrength)
+        self.goalActivation = try values.decode(Double.self, forKey: .goalActivation)
+        self.retrievalThreshold = try values.decode(Double.self, forKey: .retrievalThreshold)
+        self.activationNoise = try values.decodeIfPresent(Double.self, forKey: .activationNoise)
+        self.misMatchPenalty = try values.decode(Double.self, forKey: .misMatchPenalty)
+        self.latencyFactor = try values.decode(Double.self, forKey: .latencyFactor)
+    }
+    
+    required init() {
+        return
+    }
     
     /**
         Is er there a duplicate of a chunk in dm?

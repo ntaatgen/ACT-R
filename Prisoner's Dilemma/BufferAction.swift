@@ -8,8 +8,8 @@
 
 import Foundation
 
-class BufferAction: CustomStringConvertible {
-    let model: Model
+class BufferAction: CustomStringConvertible, Codable {
+    var model: Model?
     let prefix: String
     let buffer: String
     var slotActions: [SlotAction] = []
@@ -24,6 +24,10 @@ class BufferAction: CustomStringConvertible {
         }
     }
    
+    enum CodingKeys: String, CodingKey {
+         case prefix, buffer, slotActions
+    }
+    
     init(prefix: String, buffer: String, model: Model) {
         self.prefix = prefix
         self.buffer = buffer
@@ -33,13 +37,13 @@ class BufferAction: CustomStringConvertible {
     func addAction(slotAction sa: SlotAction) { slotActions.append(sa) }
     
     func storeAndClear (_ inst: Instantiation) {
-        let bufferChunk = model.buffers[buffer]
-        if bufferChunk != nil && !(!model.dm.retrievaltoDM && (buffer == "retrieval" || buffer == "partial")) {
-            let newChunk = model.dm.addToDMOrStrengthen(chunk: bufferChunk!)
+        let bufferChunk = model!.buffers[buffer]
+        if bufferChunk != nil && !(!model!.dm.retrievaltoDM && (buffer == "retrieval" || buffer == "partial")) {
+            let newChunk = model!.dm.addToDMOrStrengthen(chunk: bufferChunk!)
             if newChunk !== bufferChunk! {
                 inst.replace(s1: bufferChunk!.name, s2: newChunk)
             }
-            model.buffers[buffer] = nil  // clear the buffer
+            model!.buffers[buffer] = nil  // clear the buffer
         }
     }
     
@@ -48,12 +52,12 @@ class BufferAction: CustomStringConvertible {
         switch prefix {
             case "+":
                 storeAndClear(inst)
-                let newChunk = model.generateNewChunk(string: buffer)
+                let newChunk = model!.generateNewChunk(string: buffer)
                 newChunk.isRequest = true
-                model.buffers[buffer] = newChunk
+                model!.buffers[buffer] = newChunk
                 fallthrough
             case "=":   // ordinary buffer contents change without action
-                let bufferChunk = model.buffers[buffer]
+                let bufferChunk = model!.buffers[buffer]
                 if bufferChunk != nil {
                     for slot in slotActions {
                         slot.fire(instantiation: inst, bufferChunk: bufferChunk!)

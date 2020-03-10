@@ -12,7 +12,8 @@ class SubitizeViewController: UIViewController {
 
     
     @IBOutlet weak var modelFrame: ACTRWindowView!
-    var model: Prisoner?
+    var model: Model?
+    var prisoner: Prisoner?
 
     @IBAction func run() {
         reset()
@@ -41,9 +42,9 @@ class SubitizeViewController: UIViewController {
     
     
     func reset() {
-        if model!.loadedModel! != "subitize" {
+        if prisoner!.loadedModel! != "subitize" {
             model!.loadModel(fileName: "subitize")
-            model!.loadedModel = "subitize"
+            prisoner!.loadedModel = "subitize"
         }
         model!.reset()
         populateFrame(n: 2 + 8.randomNumber())
