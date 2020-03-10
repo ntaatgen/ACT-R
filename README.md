@@ -74,7 +74,7 @@ fixedActivation: if this has a non-nil value, it means that the chunk has a fixe
 <h3>Saving models</h3>
 There are many cases in which you want to save the state of the model, instead of starting from scratch each time you open the application. For this purpose there are two functions that will load and save your model.
 
-
+<p><p>
 writeModel(filename: String, model: Model) will write your model to a (JSON) file that is stored in the application support directory of your App. You can pick any filename you want.
 
 readModel(filename: String) -> Model? will read the given filename, and return a model with all of memory and parameters reinstated, or nil if the file does not exist.
