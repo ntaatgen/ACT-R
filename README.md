@@ -81,3 +81,4 @@ readModel(filename: String) -> Model? will read the given filename, and return a
 
 One thing to keep in mind is that a reloaded model will start with empty buffers. So the first thing you probably need to do is to create a goal chunk, and put that in the goal buffer ( model.buffers["goal"] = newgoalchunk )
 
+Another thing to keep in mind is that you cannot reset the model, because there is no record of its initial state. If you try to reset, the App will probably crash. Instead there is a function called softReset(), which clears the buffers, resets the trace and resets the visual module.
