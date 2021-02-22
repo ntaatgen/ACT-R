@@ -9,6 +9,8 @@ The ACT-R core files can be used for your own models and your own application.
 <h3>What is implemented?</h3>
 The implementation is limited to a subset of the buffers. It implements =goal>, =imaginal>, =retrieval>, =temporal> as you might expect it. It implements =visual-location> and =visual>, but instead of defining a visicon in your code, you have to create a part of the UI that ACT-R is allowed to see (see subitizing example for details). It has a =partial> buffer for partial matching separate from regular retrieval.
 
+The Declarative Memory class also has implementations for blended retieval and partial blended retrieval. These are not yet hooked up to the production system yet, but you can call the functions separately, or modify the ACT-R code so that it uses those function instead of regular retrieval.
+
 In addition to the buffers above, an =action> buffer is implemented that can be used to pass information between the model and the App. Typically you run the model until it reaches an +action> action, after which control is passed back to the App (i.e., swift). The Swift code can read out the action, take appropriate actions, may put information back into the action buffer, after which model execution proceeds (or waits until an external event, for example user input).
 
 The following ACT-R parameters are implemented: :ga, :rt, :ans,  :lf, :mp, :mas, :egs, :bll and :ol.
